@@ -1,0 +1,11 @@
+[16-Jan-2017 10:14:38 UTC] PHP Parse error:  syntax error, unexpected 'endforeach' (T_ENDFOREACH) in /home/mylawyeradvice/public_html/sales/storage/framework/views/91888611bda0d6505b1fb8fb3bd72f76065b69b7.php on line 99
+[16-Jan-2017 10:16:42 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/mylawyeradvice/public_html/sales/storage/framework/views/91888611bda0d6505b1fb8fb3bd72f76065b69b7.php on line 107
+[23-May-2017 06:19:13 Etc/GMT] PHP Parse error:  syntax error, unexpected ')' in /home/denybeny/public_html/countrystate.info/avcc/app/Http/helpers.php on line 49
+[23-May-2017 06:19:16 Etc/GMT] PHP Parse error:  syntax error, unexpected ')' in /home/denybeny/public_html/countrystate.info/avcc/app/Http/helpers.php on line 49
+[23-May-2017 06:19:19 Etc/GMT] PHP Parse error:  syntax error, unexpected ')' in /home/denybeny/public_html/countrystate.info/avcc/app/Http/helpers.php on line 49
+[23-May-2017 06:23:09 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/denybeny/public_html/countrystate.info/avcc/storage/framework/views/0d2b6da612a19cb65d1796ca5d155e55b42767e3.php on line 62
+[23-May-2017 06:23:43 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/denybeny/public_html/countrystate.info/avcc/storage/framework/views/0d2b6da612a19cb65d1796ca5d155e55b42767e3.php on line 62
+[23-May-2017 06:24:00 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/denybeny/public_html/countrystate.info/avcc/storage/framework/views/0d2b6da612a19cb65d1796ca5d155e55b42767e3.php on line 62
+[23-May-2017 06:25:52 UTC] PHP Parse error:  syntax error, unexpected '<' in /home/denybeny/public_html/countrystate.info/avcc/storage/framework/views/0d2b6da612a19cb65d1796ca5d155e55b42767e3.php on line 62
+[23-May-2017 06:27:10 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF) in /home/denybeny/public_html/countrystate.info/avcc/storage/framework/views/0d2b6da612a19cb65d1796ca5d155e55b42767e3.php on line 62
+[23-May-2017 06:27:46 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/denybeny/public_html/countrystate.info/avcc/storage/framework/views/0d2b6da612a19cb65d1796ca5d155e55b42767e3.php on line 65

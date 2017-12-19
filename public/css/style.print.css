@@ -1,0 +1,34 @@
+@media print
+{
+	.pageheader {
+		display:none;
+	}
+	header,form,hr {display:none;}
+	.leftpanel {
+		display:none;
+	}
+	.mainwrapper:before{
+		border:none;
+	}
+	.mainpanel{
+		margin-left:0;
+	}
+	.mainwrapper{
+		top:0px;
+	}
+	.no-print{
+		display: none;
+	}
+	input[type="checkbox"]{
+		display: none;
+	}
+	.dataTables_length,.dataTables_info,.dataTables_paginate{
+		display: none;
+	}
+	.onlyprint{
+		display: block;
+	}
+	.center-print{
+		text-align: center;
+	}
+}
