@@ -251,26 +251,11 @@ $('.input-group.date').datepicker({
 					</div>
 				</div>
 			</div>
-			<h5 style="text-decoration: underline;font-weight: bold;margin-bottom: 20px;"><span>Tentage &amp; Catering</span></h5>
 			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-					    <label>Estimated cost of Food:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="est_cof" id="est_cof">
-					</div>
-				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
 					    <label>Estimated cost of Tentage:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="est_tentage" id="est_tentage">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-					    <label>Estimated cost of Catering:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="est_catering" id="est_catering">
+					    <input type="number" class="form-control" placeholder="Enter amount" name="cost_tentage" id="est_tentage">
 					</div>
 				</div>
 				<div class="col-sm-6">

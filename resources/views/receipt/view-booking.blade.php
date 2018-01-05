@@ -1,34 +1,71 @@
-<?php
-//Get Reverse Charges
-if($receipt[0]->reverse_charges == '1'){
-	$reverse_charges = ($servicetax_total+$receipt[0]->others_amount*$global_st/100)+($vat_total+$receipt[0]->others_amount*$global_vat/100);
-//	$global_st = 0;
-//	$global_vat = 0;
-//	$cgst = 0;
-//	$sgst = 0;
-}
-else{
-	$reverse_charges = 0;
-}
-$cgst = $servicetax_total+$receipt[0]->others_amount*$global_st/100;
-$sgst = $vat_total+$receipt[0]->others_amount*$global_vat/100;
-// Get Total
-$tax = 0;
-$others_tax = 0;
-$security = 0;
-if($receipt[0]->with_tax == '1'){
-	$others_tax = $receipt[0]->others_amount*$global_st/100+$receipt[0]->others_amount*$global_vat/100;
-	$tax = $servicetax_total+$vat_total;
-}
-if($receipt[0]->with_security == '1'){
-	$security = $security_charges;
-}
-$total = $sub_total+$receipt[0]->misc_amount+$receipt[0]->others_amount+$tax+$others_tax+$security;
-
-//$cgst = $servicetax_total+$receipt[0]->others_amount*$global_st/100;
-//$sgst = $vat_total+$receipt[0]->others_amount*$global_vat/100;
-
-?>
+ <div class="table-responsive">
+  <table class="table mb30">
+    <thead>
+      <tr>
+        <th class="facility-th" colspan="4">Booking Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="facility-td"><b>Receipt No/Date:</b></td>
+        <td class="facility-td">{{ $receipt_data[0]->receipt_no.'/'.date_dfy($receipt_data[0]->created_at) }}</td>
+        <td class="facility-td"><b>Booking No/Date:</b></td>
+        <td class="facility-td">@if(!empty($receipt[0]->booking_no)) {{ $receipt[0]->booking_no.'/'}} @endif
+        {{ date_dfy($receipt[0]->updated_at)}}</td>
+      </tr>
+      <tr>
+      	@if($receipt_data[0]->receipt_type == '5')
+      	<td class="facility-td"><b>Party Name:</b></td>
+      	<td class="facility-td">{{ $receipt_data[0]->party_name }}</td>
+      	@elseif($receipt_data[0]->receipt_type == '6')
+      	<td class="facility-td"><b>Bank Name:</b></td>
+      	<td class="facility-td">{{ $receipt_data[0]->party_name }}</td>
+      	@else
+      	<td class="facility-td"><b>Membership No/Party Name:</b></td>
+        <td class="facility-td">{{ $receipt_data[0]->membership_no.'/'.$receipt_data[0]->party_name }}</td>
+      	@endif
+      	
+      	@if($receipt_data[0]->receipt_type == '6')
+      	<td class="facility-td"><b>Bank GSTIN:</b></td>
+      	@else
+      	<td class="facility-td"><b>Party GSTIN:</b></td>
+      	@endif
+        <td class="facility-td">{{$receipt_data[0]->party_gstin}}</td>
+      </tr>
+      <tr>
+        <td class="facility-td"><b>Reverse Charges:</b></td>
+        <td class="facility-td">@if($receipt_data[0]->reverse_charges == '1') Yes @else No @endif</td>
+        <td class="facility-td"><b>Function Date:</b></td>
+        <td class="facility-td">{{ date_dfy($receipt_data[0]->function_date) }}</td>
+      </tr>
+      <tr>
+        <td class="facility-td"><b>Phone:</b></td>
+        <td class="facility-td">{{ $receipt_data[0]->phone }}</td>
+        <td class="facility-td"><b>Mobile:</b></td>
+        <td class="facility-td">{{ $receipt_data[0]->mobile }}</td>
+      </tr>
+      <tr>
+        <td class="facility-td"><b>Address:</b></td>
+        <td class="facility-td">{{ $receipt_data[0]->address }}</td>
+        <td class="facility-td"><b>Payment Mode:</b></td>
+        @if($receipt_data[0]->payment_mode == 'Cheque' || $receipt_data[0]->payment_mode == 'DD')
+        <td class="facility-td">{{ $receipt_data[0]->payment_mode.'/'.$receipt_data[0]->cheque_no.'/'.date_dfy($receipt_data[0]->cheque_date).'/'.$receipt_data[0]->cheque_drawn }}</td>
+        @else
+        <td class="facility-td">{{ $receipt_data[0]->payment_mode }}</td>
+        @endif
+      </tr>
+      
+      <tr>
+      	<td class="facility-td"><b>Contractor Name:</b></td>
+        <td class="facility-td"></td>
+      @if(!empty($receipt[0]->comments))
+      	<td class="facility-td"><b>Comments:</b></td>
+        <td class="facility-td">{{ $receipt[0]->comments }}</td>
+      @endif
+      </tr>
+    </tbody>
+  </table>
+</div>
 <table class="table table-bordered">
 	<tr>
 		<th rowspan="2">S.NO</th>
@@ -50,32 +87,25 @@ $total = $sub_total+$receipt[0]->misc_amount+$receipt[0]->others_amount+$tax+$ot
 		<th>Rate (%)</th>
 		<th>Amount</th>
 	</tr>
-	@foreach ($booking_facility as $key=>$value)
-	<?php
-	$amount_before_tax = $value->booking_rate*$value->noofdays*$value->quantity;
-	$st_amount = percent_amount(facility_cgst($value->facility_id),$amount_before_tax);
-	$vat_amount = percent_amount(facility_sgst($value->facility_id),$amount_before_tax);
-	?>
+	
 	<tr>
-		<td>{{++$key}}</td>
-		<td>{{ $value->facility_name }}</td>
-		<td>{{ $value->sac_code }}</td>
-		<td>{{ date_dmy($value->from_date) }}</td>
-		<td>{{ date_dmy($value->to_date) }}</td>
-		<td>{{ $value->quantity }}</td>
-		<td>{{ $value->noofdays }}</td>
-		<td>{{ slash_decimal($value->booking_rate) }}</td>
-		<td>{{ $amount_before_tax }}</td>
-		<td>{{slash_decimal(facility_cgst($value->facility_id))}}</td>
-		<td>{{$st_amount}}</td>
-		<td>{{slash_decimal(facility_sgst($value->facility_id))}}</td>
-		<td>{{$vat_amount}}</td>
-		<td>{{ $amount_before_tax+$st_amount+$vat_amount }}</td>
+		<td>1</td>
+		<td>2</td>
+		<td>3</td>
+		<td>4</td>
+		<td>5</td>
+		<td>6</td>
+		<td>7</td>
+		<td>8</td>
+		<td>9</td>
+		<td>10</td>
+		<td>11</td>
+		<td>12</td>
+		<td>13</td>
+		<td>14</td>
 	</tr>
-	@endforeach
-	@if($safai_charges>0)
 	<tr>
-		<td>{{$key+1}}</td>
+		<td>15</td>
 		<td>Safai &amp; General</td>
 		<td>00440035</td>
 		<td>-</td>
@@ -83,17 +113,15 @@ $total = $sub_total+$receipt[0]->misc_amount+$receipt[0]->others_amount+$tax+$ot
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
-		<td>{{slash_decimal($safai_charges)}}</td>
-		<td>{{slash_decimal($global_st)}}</td>
-		<td>{{ percent_amount($global_st,$safai_charges) }}</td>
-		<td>{{slash_decimal($global_vat)}}</td>
-		<td>{{ percent_amount($global_vat,$safai_charges) }}</td>
-		<td>{{slash_decimal($safai_charges+percent_amount($global_st,$safai_charges)+percent_amount($global_vat,$safai_charges))}}</td>
+		<td>16</td>
+		<td>17</td>
+		<td>18</td>
+		<td>19</td>
+		<td>20</td>
+		<td>21</td>
 	</tr>
-	@endif
-	@if($generator_charges>0)
 	<tr>
-		<td>{{$key+2}}</td>
+		<td>22</td>
 		<td>Generator</td>
 		<td>00440035</td>
 		<td>-</td>
@@ -101,17 +129,15 @@ $total = $sub_total+$receipt[0]->misc_amount+$receipt[0]->others_amount+$tax+$ot
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
-		<td class="abt">{{slash_decimal($generator_charges)}}</td>
+		<td class="abt">23</td>
 		<td>{{ slash_decimal($global_st) }}</td>
-		<td class="cgst_amount">{{ percent_amount($global_st,$generator_charges) }}</td>
+		<td class="cgst_amount">11</td>
 		<td>{{ slash_decimal($global_vat) }}</td>
-		<td class="sgst_amount">{{ percent_amount($global_vat,$generator_charges) }}</td>
-		<td>{{slash_decimal($generator_charges+percent_amount($global_st,$generator_charges)+percent_amount($global_vat,$generator_charges))}}</td>
+		<td class="sgst_amount">11</td>
+		<td>1</td>
 	</tr>
-	@endif
-	@if($ac_charges>0)
 	<tr>
-		<td>{{$key+3}}</td>
+		<td>1</td>
 		<td>AC</td>
 		<td>00440035</td>
 		<td>-</td>
@@ -119,81 +145,67 @@ $total = $sub_total+$receipt[0]->misc_amount+$receipt[0]->others_amount+$tax+$ot
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
-		<td class="abt">{{slash_decimal($ac_charges)}}</td>
-		<td>{{ slash_decimal($global_st) }}</td>
-		<td class="cgst_amount">{{ percent_amount($global_st,$ac_charges) }}</td>
+		<td class="abt">22</td>
+		<td>{{slash_decimal($global_st) }}</td>
+		<td class="cgst_amount"> </td>
 		<td>{{ slash_decimal($global_vat) }}</td>
-		<td class="sgst_amount">{{ percent_amount($global_vat,$ac_charges) }}</td>
-		<td>{{slash_decimal($ac_charges+percent_amount($global_st,$ac_charges)+percent_amount($global_vat,$ac_charges))}}</td>
+		<td class="sgst_amount"></td>
+		<td></td>
 	</tr>
-	@endif
-	@if($receipt[0]->misc != '')
       <tr>
-        <td>{{ $key+4 }}</td>
-        <td>{{$receipt[0]->misc}}</td>
+        <td></td>
+        <td></td>
         <td>00440035</td>
         <td>-</td>
         <td>-</td>
 		<td>-</td>
         <td>-</td>
         <td>-</td>
-        <td class="abt">{{slash_decimal($receipt[0]->misc_amount)}}</td>
+        <td class="abt"></td>
         <td>-</td>
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
-		<td>{{slash_decimal($receipt[0]->misc_amount)}}</td>
+		<td></td>
       </tr>
-    @endif
-    @if($receipt[0]->others != '')
       <tr>
-        <td>{{ $key+5 }}</td>
-        <td>{{$receipt[0]->others}}</td>
+        <td></td>
+        <td></td>
         <td>00440035</td>
         <td>-</td>
         <td>-</td>
 		<td>-</td>
         <td>-</td>
         <td>-</td>
-        <td class="abt">{{slash_decimal($receipt[0]->others_amount)}}</td>
-        <td>{{ slash_decimal($global_st) }}</td>
-		<td class="cgst_amount">{{ percent_amount($global_st,$receipt[0]->others_amount) }}</td>
-		<td>{{ slash_decimal($global_vat) }}</td>
-		<td class="sgst_amount">{{ percent_amount($global_vat,$receipt[0]->others_amount) }}</td>
-		<td>{{ $receipt[0]->others_amount+percent_amount($global_st,$receipt[0]->others_amount)+percent_amount($global_vat,$receipt[0]->others_amount) }}</td>
+        
       </tr>
-    @endif
 	<tr>
         <td style="border-right: none" colspan="13" class="right-align">Total Amount Before Tax:</td>
-        <td class="left-align subTotal total-abt">{{$sub_total+$receipt[0]->misc_amount+$receipt[0]->others_amount}}</td>
+        <td class="left-align subTotal total-abt"></td>
 	</tr>
-	@if($receipt[0]->reverse_charges == '0')
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">CGST:</td>
-        <td style="border-top: none" class="left-align subTotal total-cgst_amount">{{$cgst}}</td>
+        <td style="border-top: none" class="left-align subTotal total-cgst_amount"></td>
 	</tr>
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">SGST:</td>
-        <td style="border-top: none" class="left-align subTotal total-sgst_amount">{{$sgst}}</td>
+        <td style="border-top: none" class="left-align subTotal total-sgst_amount"></td>
 	</tr>
 	<!--<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">Total Tax:</td>
-        <td style="border-top: none" class="left-align subTotal">{{$cgst+$sgst}}</td>
+        <td style="border-top: none" class="left-align subTotal"></td>
 	</tr>-->
-	@endif
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">Reverse Charges:</td>
-        <td style="border-top: none" class="left-align subTotal">{{$reverse_charges}}</td>
+        <td style="border-top: none" class="left-align subTotal"></td>
 	</tr>
-	@if($receipt[0]->with_security == '1')
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">Security:</td>
-        <td style="border-top: none" class="left-align subTotal">{{slash_decimal($security_charges)}}</td>
+        <td style="border-top: none" class="left-align subTotal"></td>
 	</tr>
-	@endif
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">Total Amount:</td>
-        <td style="border-top: none" class="left-align subTotal">{{round($total)}}</td>
+        <td style="border-top: none" class="left-align subTotal"></td>
 	</tr>
 </table>
 <p style="color: red">Note: Return Cheque Penalty, Insufficient Fund - Rs. 500 /- , Other Reason - Rs. 250/-</p>

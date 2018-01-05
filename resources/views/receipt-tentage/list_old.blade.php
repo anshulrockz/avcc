@@ -63,16 +63,16 @@
 	          	<td>{{ date_dfy($value->created_at) }}</td>
 	            <td>{{ $value->payment_mode}}</td>
 	            <td>{{ $value->contractor_name }}</td>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <td><span class="label label-success">Active</span></td>
 	            <?php }?>
-	            <?php if($value->receipt_status == '2'){ ?>
+	            <?php if($value->status == '2'){ ?>
 	            <td><span class="label label-warning">Cancelled</span></td>
 	            <?php }?>
 	            <?php if(Auth::user()->user_group == '1'){ ?>
 	            <td>
 	            <a href="{{ url('/receipt/view-old/'.$value->id) }}" data-toggle="tooltip" title="View" class="btn btn-info" data-original-title="View"><i class="fa fa-eye"></i></a>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <a onclick="return confirm('Are you sure you want to Cancel?');" href="{{ url('/receipt/cancel/'.$value->id) }}" data-toggle="tooltip" title="Cancel" class="btn btn-danger" data-original-title="Cancel"><i class="fa fa-times"></i></a>
 	            <?php }?>
 	            </td>

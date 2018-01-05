@@ -1,66 +1,71 @@
-<?php
-if(empty($rebate)){
-	$rebate = new StdClass;
-	$rebate->safai = 0;
-	$rebate->catering = 0;
-	$rebate->tentage = 0;
-	$rebate->electricity = 0;
-}
-$reverse_charges = 0;
-$total_cgst = 0;
-$total_sgst = 0;
-$total_before_tax = 0;
-if($receipt[0]->est_cof>0){
-	$est_cof = $receipt[0]->est_cof-$rebate->safai-percent_amount($rebate->catering,$receipt[0]->est_cof);
-	$safai_est_cof = $rebate->safai;
-	$rebate_est_cof = percent_amount($rebate->catering,$receipt[0]->est_cof);
-	
-	$cgst_est_cof = percent_amount($global_st,$est_cof+$safai_est_cof+$rebate_est_cof);
-	$sgst_est_cof = percent_amount($global_vat,$est_cof+$safai_est_cof+$rebate_est_cof);
-	$total_est_cof = $est_cof+$safai_est_cof+$rebate_est_cof+$cgst_est_cof+$sgst_est_cof;
-
-	$total_cgst = $total_cgst+$cgst_est_cof;
-	$total_sgst = $total_sgst+$sgst_est_cof;
-	$total_before_tax = $total_before_tax+$est_cof+$safai_est_cof+$rebate_est_cof;
-}
-
-if($receipt[0]->est_tentage>0){
-	$est_tentage = $receipt[0]->est_tentage-$rebate->tentage-$rebate->electricity;
-	$electricity_est_tentage = $rebate->electricity;
-	$rebate_est_tentage = $rebate->tentage;
-	
-	$cgst_est_tentage = percent_amount($global_st,$est_tentage+$electricity_est_tentage+$rebate_est_tentage);
-	$sgst_est_tentage = percent_amount($global_vat,$est_tentage+$electricity_est_tentage+$rebate_est_tentage);
-	$total_est_tentage = $est_tentage+$electricity_est_tentage+$rebate_est_tentage+$cgst_est_tentage+$sgst_est_tentage;
-
-	$total_cgst = $total_cgst+$cgst_est_tentage;
-	$total_sgst = $total_sgst+$sgst_est_tentage;
-	$total_before_tax = $total_before_tax+$est_tentage+$electricity_est_tentage+$rebate_est_tentage;
-}
-
-if($receipt[0]->est_catering>0){
-	$est_catering = $receipt[0]->est_catering-percent_amount($rebate->catering,$receipt[0]->est_catering);
-	$rebate_est_catering = percent_amount($rebate->catering,$receipt[0]->est_catering);
-	
-	$cgst_est_catering = percent_amount($global_st,$est_catering+$rebate_est_catering);
-	$sgst_est_catering = percent_amount($global_vat,$est_catering+$rebate_est_catering);
-	$total_est_catering = $est_catering+$rebate_est_catering+$cgst_est_catering+$sgst_est_catering;
-	
-	$total_cgst = $total_cgst+$cgst_est_catering;
-	$total_sgst = $total_sgst+$sgst_est_catering;
-	$total_before_tax = $total_before_tax+$est_catering+$rebate_est_catering;
-}
-
-if($receipt[0]->security_deposit>0){
-	$security_deposit = $receipt[0]->security_deposit;
-	$total_before_tax = $total_before_tax+$security_deposit;
-}
-
-if($receipt[0]->reverse_charges == '1'){
-	$reverse_charges = $total_cgst+$total_sgst;
-}
-
-?>
+ <div class="table-responsive">
+  <table class="table mb30">
+    <thead>
+      <tr>
+        <th class="facility-th" colspan="4">Booking Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="facility-td"><b>Receipt No/Date:</b></td>
+        <td class="facility-td"><?php echo $receipt_data[0]->receipt_no.'/'.date_dfy($receipt_data[0]->created_at); ?></td>
+        <td class="facility-td"><b>Booking No/Date:</b></td>
+        <td class="facility-td">@if(!empty($receipt[0]->booking_no)) {{ $receipt[0]->booking_no.'/'}} @endif
+        {{ date_dfy($receipt[0]->updated_at)}}</td>
+      </tr>
+      <tr>
+      	@if($receipt_data[0]->receipt_type == '5')
+      	<td class="facility-td"><b>Party Name:</b></td>
+      	<td class="facility-td"><?php echo $receipt_data[0]->party_name; ?></td>
+      	@elseif($receipt_data[0]->receipt_type == '6')
+      	<td class="facility-td"><b>Bank Name:</b></td>
+      	<td class="facility-td"><?php echo $receipt_data[0]->party_name; ?></td>
+      	@else
+      	<td class="facility-td"><b>Membership No/Party Name:</b></td>
+        <td class="facility-td"><?php echo $receipt_data[0]->membership_no.'/'.$receipt_data[0]->party_name; ?></td>
+      	@endif
+      	
+      	@if($receipt_data[0]->receipt_type == '6')
+      	<td class="facility-td"><b>Bank GSTIN:</b></td>
+      	@else
+      	<td class="facility-td"><b>Party GSTIN:</b></td>
+      	@endif
+        <td class="facility-td">{{$receipt_data[0]->party_gstin}}</td>
+      </tr>
+      <tr>
+        <td class="facility-td"><b>Reverse Charges:</b></td>
+        <td class="facility-td">@if($receipt_data[0]->reverse_charges == '1') Yes @else No @endif</td>
+        <td class="facility-td"><b>Function Date:</b></td>
+        <td class="facility-td"><?php echo date_dfy($receipt_data[0]->function_date); ?></td>
+      </tr>
+      <tr>
+        <td class="facility-td"><b>Phone:</b></td>
+        <td class="facility-td"><?php echo $receipt_data[0]->phone; ?></td>
+        <td class="facility-td"><b>Mobile:</b></td>
+        <td class="facility-td"><?php echo $receipt_data[0]->mobile; ?></td>
+      </tr>
+      <tr>
+        <td class="facility-td"><b>Address:</b></td>
+        <td class="facility-td"><?php echo $receipt_data[0]->address; ?></td>
+        <td class="facility-td"><b>Payment Mode:</b></td>
+        @if($receipt_data[0]->payment_mode == 'Cheque' || $receipt_data[0]->payment_mode == 'DD')
+        <td class="facility-td"><?php echo $receipt_data[0]->payment_mode.'/'.$receipt_data[0]->cheque_no.'/'.date_dfy($receipt_data[0]->cheque_date).'/'.$receipt_data[0]->cheque_drawn; ?></td>
+        @else
+        <td class="facility-td"><?php echo $receipt_data[0]->payment_mode; ?></td>
+        @endif
+      </tr>
+      
+      <tr>
+        <td class="facility-td"><b>Contractor Name:</b></td>
+        <td class="facility-td"><?php echo $contractor->getContractorName($receipt_data[0]->contractor_id); ?></td>
+      @if(!empty($receipt[0]->comments))
+      	<td class="facility-td"><b>Comments:</b></td>
+        <td class="facility-td">{{ $receipt[0]->comments }}</td>
+      @endif
+      </tr>
+    </tbody>
+  </table>
+</div>
 <div class="table-responsive">
   <table class="table table-bordered">
 	<tbody>
@@ -80,77 +85,42 @@ if($receipt[0]->reverse_charges == '1'){
 			<th>Amount</th>
 		</tr>
 		<?php $i = 0;?>
-		@if($receipt[0]->est_cof>0)
 		<tr>
-			<td><?php echo $i = $i+1; ?></td>
-			<td>Estimated cost of food</td>
-			<td>00440035</td>
-			<td>{{slash_decimal($est_cof+$safai_est_cof+$rebate_est_cof)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{$cgst_est_cof}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{$sgst_est_cof}}</td>
-			<td>{{$total_est_cof}}</td>
-		</tr>
-		@endif
-		@if($receipt[0]->est_tentage>0)
-		<tr>
-			<td><?php echo $i = $i+1; ?></td>
+			<td><?php 	echo $i = $i+1;
+						$amount = $receipt_data[0]->tentage_cost;
+						$amount_tax_st = percent_amount($amount,$global_st);
+						$amount_tax_vat = percent_amount($amount,$global_vat);
+						$reverse_charges = $amount_tax_st+$amount_tax_vat;
+				?>
+			</td>
 			<td>Estimated cost of tentage</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($est_tentage+$electricity_est_tentage+$rebate_est_tentage)}}</td>
+			<td>{{slash_decimal($amount)}}</td>
 			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{$cgst_est_tentage}}</td>
+			<td>{{slash_decimal($amount_tax_st)}}</td>
 			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{$sgst_est_tentage}}</td>
-			<td>{{$total_est_tentage}}</td>
+			<td>{{slash_decimal($amount_tax_vat)}}</td>
+			<td>{{slash_decimal($amount+$amount_tax_st+$amount_tax_vat)}}</td>
 		</tr>
-		@endif
-		@if($receipt[0]->est_catering>0)
-		<tr>
-			<td><?php echo $i = $i+1; ?></td>
-			<td>Estimated cost of catering</td>
-			<td>00440035</td>
-			<td>{{slash_decimal($est_catering+$rebate_est_catering)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{$cgst_est_catering}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{$sgst_est_catering}}</td>
-			<td>{{$total_est_catering}}</td>
-		</tr>
-		@endif
-		@if($receipt[0]->security_deposit>0)
-		<tr>
-			<td><?php echo $i = $i+1; ?></td>
-			<td>Security Deposit</td>
-			<td>00440035</td>
-			<td>{{slash_decimal($receipt[0]->security_deposit)}}</td>
-			<td>-</td>
-			<td>-</td>
-			<td>-</td>
-			<td>-</td>
-			<td>{{slash_decimal($security_deposit)}}</td>
-		</tr>
-		@endif
 		<tr>
 	        <td style="border-right: none" colspan="8" class="right-align">Total Amount Before Tax:</td>
-	        <td>{{$total_before_tax}}</td>
+	        <td>{{round($amount)}}</td>
 		</tr>
 			<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">CGST:</td>
-	        <td style="border-top: none;">{{$total_cgst}}</td>
+	        <td style="border-top: none;">{{round($amount_tax_st)}}</td>
 		</tr>
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">SGST:</td>
-	        <td style="border-top: none;">{{$total_sgst}}</td>
+	        <td style="border-top: none;">{{round($amount_tax_vat)}}</td>
 		</tr>
 			<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Reverse Charges:</td>
-	        <td style="border-top: none;">{{$reverse_charges}}</td>
+	        <td style="border-top: none;">@if($receipt_data[0]->reverse_charges == '1'){{round($reverse_charges)}}@else 0 @endif</td>
 		</tr>
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Total Amount:</td>
-	        <td style="border-top: none;">{{$total_before_tax+$total_cgst+$total_sgst}}</td>
+	        <td style="border-top: none;">{{round($amount+$amount_tax_st+$amount_tax_vat)}}</td>
 		</tr>
 	</tbody>
   </table>

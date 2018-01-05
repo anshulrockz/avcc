@@ -14,19 +14,15 @@ class Receiptrebate extends Model
     {
 		$this->date = Carbon::now('Asia/Kolkata');
     }
+    
     public function receipt_list()
 	{
-		return DB::table('receipt')
-		->select('receipt.*','receipt_rebate.rebate_no')
-		->where([
-			['receipt.status','1'],
-			['receipt.receipt_type','8'],
-			])
-		->leftJoin('receipt_rebate','receipt_rebate.parent_id','receipt.id')
-		->groupBy('receipt.id')
-		->orderBy('receipt.id','DESC')
+		return DB::table('receipt_rebate')
+		->leftJoin('receipt','receipt_rebate.parent_id', '=','receipt.id')
+		->orderBy('receipt_rebate.id','DESC')
 		->get();
 	}
+	
 	public function receipt_view($id)
 	{
 		return DB::table('receipt')
@@ -68,7 +64,7 @@ class Receiptrebate extends Model
 			}
 			
 			$parent_id = DB::table('receipt')->insertGetId(
-			    ['receipt_type' => '8','booking_id' => $booking_id,'booking_no' => $booking_no,'booking_date' => $booking_date,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'address' => $address,'membership_no' => $membership_no,'function_date' => $function_date,'contractor_id' => $contractor_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id]
+			    ['receipt_type' => '8','booking_id' => $booking_id,'booking_no' => $booking_no,'booking_date' => $booking_date,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'address' => $address,'membership_no' => $membership_no,'function_date' => $function_date,'contractor_id' => $contractor_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
 			);
 			
 			$receipt_id = DB::table('receipt_rebate')->insertGetId(

@@ -23,12 +23,15 @@ class ReceiptrentController extends Controller
 		$count = $receipt->count();
 		$global_st = $this->receipt->global_st();
 		$global_vat = $this->receipt->global_vat();
-		return view('receipt-rent/list',['receipt'=>$receipt,'count'=>$count,'global_st'=>$global_st,'global_vat'=>$global_vat]);
+		$tax_check = $this->receiptrent;
+		return view('receipt-rent/list',['receipt'=>$receipt,'count'=>$count,'global_st'=>$global_st,'global_vat'=>$global_vat,'tax_check'=> $tax_check]);
     }
+    
     public function add()
     {
 		return view('receipt-rent/add');
     }
+    
     public function save(Request $request)
     {
 		$party_name = $request->input('party_name');
@@ -61,7 +64,6 @@ class ReceiptrentController extends Controller
 		}
 		
 		$result = $this->receiptrent->receipt_add($party_name,$party_gstin,$reverse_charges,$phone,$mobile,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$rent_premises,$rent_store,$rent_atm,$tds,$with_tax);
-		
 		if($result){
 			return redirect()->action(
 			    'ReceiptController@view', ['id' => $result]

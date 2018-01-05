@@ -18,7 +18,7 @@
 				$('input[name=is_tax_checked]').val('1');
 			}
 			else{
-				$('input[name=is_tax_checked]').val('0');			
+				$('input[name=is_tax_checked]').val('0');
 			}
 		}
 		var subTotal = $('.subTotal').text();
@@ -69,7 +69,6 @@
 		<div class="pageicon pull-left">
             <i style="padding: 10px 0 0 0;" class="fa fa-book"></i>
         </div>
-		<?php if($is_receiptcreated == 0){ ?>
 		<div class="pull-right">
 			<a href="javascript:" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary"><i class="fa fa-edit"></i> Create Receipt</a>
 			<div class="modal fade paymentModal" id="paymentModal" tabindex="-1" role="dialog">
@@ -80,8 +79,8 @@
 		                      <h4 class="modal-title">Select Payment Mode</h4>
 		                  </div>
 		                  <form class="form-vertical" method="post" action="{{ url('booking/changestatus/'.$booking[0]->id) }}">
-		                  {{ csrf_field() }}
-		                  <div class="modal-body">
+		                  	{{ csrf_field() }}
+		                  	<div class="modal-body">
 		                  	  <div class="form-group">
 							    <label>Payment Mode:</label>
 							    <select class="form-control" name="payment_mode" id="payment_mode" required="" onchange="paymentMode(this.value);">
@@ -107,17 +106,16 @@
 							      <label>Drawn On:</label>
 							      <input type="text" class="form-control" placeholder="Enter Drawn on" name="cheque_drawn" id="cheque_drawn">
 							  </div>
-		                  </div>
-		                  <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					        <button type="submit" class="btn btn-primary">Submit</button>
-					      </div>
+			                </div>
+			            	<div class="modal-footer">
+						    	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						        <button type="submit" class="btn btn-primary">Submit</button>
+						    </div>
 					      </form>
 		              </div>
 		            </div>
 		        </div>
 		</div>
-		<?php }?>
         <div class="media-body">
     	<h4>View Booking</h4>
         <ul class="breadcrumb">

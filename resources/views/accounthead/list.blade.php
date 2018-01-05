@@ -22,7 +22,6 @@
     <div class="row">
 	    <div class="col-md-12">
 	    @include('flashmessage')
-		<?php if($count>0){ ?>
 		  <table class="table table-bordered" id="dataTable">
 		    <thead>
 		      <tr>
@@ -31,7 +30,6 @@
 		        <th>Op.Balance Date</th>
 		        <?php if(Auth::user()->user_group == '1'){ ?>
 		        <th>Action</th>
-		        <?php }?>
 		      </tr>
 		    </thead>
 		    <tbody>

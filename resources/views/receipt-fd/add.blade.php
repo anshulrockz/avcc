@@ -137,7 +137,7 @@ $('.input-group.date').datepicker({
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-					    <label>Payment Mode:</label>
+					    <label>*Payment Mode:</label>
 					    <select class="form-control" name="payment_mode" id="payment_mode" required="" onchange="paymentMode(this.value);">
 					    	<option value="Cash">Cash</option>
 					    	<option value="Cheque">Cheque</option>
@@ -166,6 +166,14 @@ $('.input-group.date').datepicker({
 					<div class="form-group" id="chequeDrawn_section" style="display: none">
 					    <label>Drawn On:</label>
 					    <input type="text" class="form-control" placeholder="Enter Drawn on" name="cheque_drawn" id="cheque_drawn">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+					    <label>Comments:</label>
+					    <textarea class="form-control" placeholder="Enter comments" name="comments" id="comments"></textarea>
 					</div>
 				</div>
 			</div>

@@ -41,7 +41,7 @@
             <li><a href="{{url('')}}"><i class="glyphicon glyphicon-home"></i></a></li>
             <li><a href="{{ url('/receipt') }}">Receipt</a></li>
             <li>View</li>
-            <li>{{$receipt[0]->id}}</li>
+            <li>{{$receipt[0]->receipt_no}}</li>
         </ul>
     	</div>
     </div>
@@ -54,81 +54,7 @@
 	    	<h5 class="center-underline">SECTOR 37, NOIDA</h5>
 	    	<h5 class="center">TEL: 2430288, 4273446 </h5>
 	    	<h5 class="center">GSTIN: 09AAAAA3742LIZQ, Email ID: avcc1993@gmail.com </h5>
-		  <div class="table-responsive">
-	          <table class="table mb30">
-	            <thead>
-	              <tr>
-	                <th class="facility-th" colspan="4">Booking Entry</th>
-	              </tr>
-	            </thead>
-	            <tbody>
-	              <tr>
-	                <td class="facility-td"><b>Receipt No/Date:</b></td>
-	                @if($receipt[0]->receipt_type == '8')
-	                <td class="facility-td"><?php echo $receipt_rebate->rebate_no.'/'.date_dfy($receipt[0]->created_at); ?></td>
-	                @else
-	                <td class="facility-td"><?php echo $receipt[0]->id.'/'.date_dfy($receipt[0]->created_at); ?></td>
-	                @endif
-	                <td class="facility-td"><b>Booking No/Date:</b></td>
-	                <?php if(!empty($receipt[0]->booking_no)){ ?>
-	                <td class="facility-td"><?php echo $receipt[0]->booking_no.'/'.date_dfy($receipt[0]->booking_date); ?></td>
-	                <?php }?>
-	              </tr>
-	              <tr>
-	              	@if($receipt[0]->receipt_type == '5')
-	              	<td class="facility-td"><b>Party Name:</b></td>
-	              	<td class="facility-td"><?php echo $receipt[0]->party_name; ?></td>
-	              	@elseif($receipt[0]->receipt_type == '6')
-	              	<td class="facility-td"><b>Bank Name:</b></td>
-	              	<td class="facility-td"><?php echo $receipt[0]->party_name; ?></td>
-	              	@else
-	              	<td class="facility-td"><b>Membership No/Party Name:</b></td>
-	                <td class="facility-td"><?php echo $receipt[0]->membership_no.'/'.$receipt[0]->party_name; ?></td>
-	              	@endif
-	              	
-	              	@if($receipt[0]->receipt_type == '6')
-	              	<td class="facility-td"><b>Bank GSTIN:</b></td>
-	              	@else
-	              	<td class="facility-td"><b>Party GSTIN:</b></td>
-	              	@endif
-	                <td class="facility-td">{{$receipt[0]->party_gstin}}</td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Reverse Charges:</b></td>
-	                <td class="facility-td">@if($receipt[0]->reverse_charges == '1') Yes @else No @endif</td>
-	                <td class="facility-td"><b>Function Date:</b></td>
-	                <td class="facility-td"><?php echo date_dfy($receipt[0]->function_date); ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Phone:</b></td>
-	                <td class="facility-td"><?php echo $receipt[0]->phone; ?></td>
-	                <td class="facility-td"><b>Mobile:</b></td>
-	                <td class="facility-td"><?php echo $receipt[0]->mobile; ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Address:</b></td>
-	                <td class="facility-td"><?php echo $receipt[0]->address; ?></td>
-	                <td class="facility-td"><b>Payment Mode:</b></td>
-	                @if($receipt[0]->payment_mode == 'Cheque' || $receipt[0]->payment_mode == 'DD')
-	                <td class="facility-td"><?php echo $receipt[0]->payment_mode.'/'.$receipt[0]->cheque_no.'/'.date_dfy($receipt[0]->cheque_date).'/'.$receipt[0]->cheque_drawn; ?></td>
-	                @else
-	                <td class="facility-td"><?php echo $receipt[0]->payment_mode; ?></td>
-	                @endif
-	              </tr>
-	              
-	              <tr>
-	              @if($receipt[0]->receipt_type == '3' || $receipt[0]->receipt_type == '8')
-	                <td class="facility-td"><b>Contractor Name:</b></td>
-	                <td class="facility-td"><?php echo $contractor->getContractorName($receipt[0]->contractor_id); ?></td>
-	              @endif
-	              @if($receipt[0]->receipt_type == '3' || $receipt[0]->receipt_type == '4')
-	                <td class="facility-td"><b>Comments:</b></td>
-	                <td class="facility-td"><?php echo $receipt[0]->comments; ?></td>
-	              @endif
-	              </tr>
-	            </tbody>
-	          </table>
-          </div>
+		 
           <?php if($receipt[0]->receipt_type == '1'){ ?>
           @include('receipt.view-booking')
           <?php }?>
@@ -139,16 +65,25 @@
           @include('receipt.view-tentage')
           <?php }?>
           <?php if($receipt[0]->receipt_type == '4'){ ?>
-          @include('receipt.view-others')
+          @include('receipt.view-catering')
           <?php }?>
           <?php if($receipt[0]->receipt_type == '5'){ ?>
           @include('receipt.view-rent')
           <?php }?>
           <?php if($receipt[0]->receipt_type == '6'){ ?>
-          @include('receipt.view-fd')
+          @include('receipt.view-corpus-fund')
+          <?php }?>
+          <?php if($receipt[0]->receipt_type == '7'){ ?>
+          @include('receipt.view-security')
           <?php }?>
           <?php if($receipt[0]->receipt_type == '8'){ ?>
           @include('receipt.view-rebate')
+          <?php }?>
+          <?php if($receipt[0]->receipt_type == '9'){ ?>
+          @include('receipt.view-fd')
+          <?php }?>
+          <?php if($receipt[0]->receipt_type == '10'){ ?>
+          @include('receipt.view-others')
           <?php }?>
           <div style="float: left; margin-top: 20px; font-weight: bold;">
           	(Signature of the Member)

@@ -114,8 +114,10 @@
                 <li class="parent"><a href="{{ url('/receipt') }}"><i class="fa fa-file-text-o"></i> <span>Receipt</span></a>
                     <ul class="children">
                     	<li><a href="{{ url('/receipt') }}">All Receipts</a></li>
+                    	<li><a href="{{ url('/receipt-booking') }}">Booking Receipts</a></li>
                     	<li><a href="{{ url('/receipt-tentage-old') }}">Old T&C Receipts</a></li>
-                    	<li><a href="{{ url('/receipt-tentage') }}">Tentage &amp; Catering Receipts</a></li>
+                    	<li><a href="{{ url('/receipt-tentage') }}">Tentage Receipts</a></li>
+                    	<li><a href="{{ url('/receipt-catering') }}">Catering Receipts</a></li>
                     	<li><a href="{{ url('/receipt-rent') }}">Rent Receipts</a></li>
                     	<li><a href="{{ url('/receipt-fd') }}">FD Receipts</a></li>
                     	<li><a href="{{ url('/receipt-rebate') }}">Rebate Receipts</a></li>

@@ -48,7 +48,7 @@ class ReceiptothersController extends Controller
 		$security_deposit = $request->input('security_deposit');
 		$corpus_fund = $request->input('corpus_fund');
 		$others = $request->input('misc');
-		$others_withtax = $request->input('with_tax');
+		$withtax = $request->input('with_tax');
 		$comments = $request->input('comments');
 		
 		if(empty($booking_no)){
@@ -64,7 +64,7 @@ class ReceiptothersController extends Controller
 			]);
 		}
 		
-		$result = $this->receiptothers->receipt_add($booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$security_deposit,$corpus_fund,$others,$others_withtax,$comments);
+		$result = $this->receiptothers->receipt_add($booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$security_deposit,$corpus_fund,$others,$withtax,$comments);
 		if($result){
 			return redirect()->action(
 			    'ReceiptController@view', ['id' => $result]

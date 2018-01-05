@@ -115,6 +115,7 @@ class BookingController extends Controller
 		$is_receiptcreated = $this->booking->is_receiptcreated($id);
 		$global_st = $this->booking->global_st();
 		$global_vat = $this->booking->global_vat();
+		
 		return view('booking/view',['booking'=>$booking,'booking_facility'=>$booking_facility,'total_bookingamount'=>$total_bookingamount,'safai_charges'=>$safai_charges,'generator_charges'=>$generator_charges,'security_charges'=>$security_charges,'sub_total'=>$sub_total,'servicetax_total'=>$servicetax_total,'vat_total'=>$vat_total,'is_receiptcreated'=>$is_receiptcreated,'global_st'=>$global_st,'global_vat'=>$global_vat]);
     }
     public function create_receipt($id)

@@ -58,29 +58,25 @@
 		    <tbody>
 		      @foreach ($receipt as $value)
 		      @php
-		      $service_tax = $value->others_amount*$global_st/100;
-      		  $vat = $value->others_amount*$global_vat/100;
+		      $service_tax = $value->misc*$global_st/100;
+      		  $vat = $value->misc*$global_vat/100;
       		  @endphp
 	          <tr>
 	          	<td>{{ $value->party_name }}</td>
-	          	<td>{{ $value->security_deposit }}</td>
+	          	<td>{{ $value->security }}</td>
 	            <td>{{ $value->corpus_fund }}</td>
-	            @if($value->others_withtax == '1')
-	            <td>{{ in_decimal(round($service_tax)+round($vat)+$value->others_amount) }}</td>
-	            @else
-	            <td>{{ $value->others_amount }}</td>
-	            @endif
+	            <td>{{ $value->misc}}</td>
 	            <td>{{ $value->comments }}</td>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <td><span class="label label-success">Active</span></td>
 	            <?php }?>
-	            <?php if($value->receipt_status == '2'){ ?>
+	            <?php if($value->status == '2'){ ?>
 	            <td><span class="label label-warning">Cancelled</span></td>
 	            <?php }?>
 	            <?php if(Auth::user()->user_group == '1'){ ?>
 	            <td>
 	            <a href="{{ url('/receipt/view/'.$value->id) }}" data-toggle="tooltip" title="View" class="btn btn-info" data-original-title="View"><i class="fa fa-eye"></i></a>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <a onclick="return confirm('Are you sure you want to Cancel?');" href="{{ url('/receipt/cancel/'.$value->id) }}" data-toggle="tooltip" title="Cancel" class="btn btn-danger" data-original-title="Cancel"><i class="fa fa-times"></i></a>
 	            <?php }?>
 	            </td>

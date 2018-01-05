@@ -14,10 +14,12 @@ class Receipt extends Model
     {
 		$this->date = Carbon::now('Asia/Kolkata');
     }
+    
     public function receipt_list()
 	{
 		return DB::table('receipt')->where('status','1')->orderBy('id', 'desc')->get();
 	}
+	
     public function receipt_add($booking_no,$party_name,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$contractor,$est_cof,$vat_supplier,$est_catering,$vat_caterer,$st_caterer,$est_tentage,$vat_tent,$st_tent)
     {
 		$user_id = Auth::id();
@@ -37,7 +39,7 @@ class Receipt extends Model
 					    ['booking_no', $booking_no]])
 		                ->get();
 					foreach ($data as $value){
-						$booking_id = $value->id;
+						$booking_no = $value->id;
 						$booking_date = $value->booking_date;
 						$party_name = $value->party_name;
 						$function_date = $value->function_date;
@@ -66,7 +68,7 @@ class Receipt extends Model
 						$others_amount = $value->others_amount;
 					}
 					$receipt_id = DB::table('receipt')->insertGetId(
-					    ['booking_id' => $booking_id,'receipt_type' => '3','booking_no' => $booking_no,'booking_date' => $booking_date,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'contractor_id' => $contractor,'est_cof' => $est_cof,'vat_supplier' => $vat_supplier,'est_catering' => $est_catering,'vat_caterer' => $vat_caterer,'st_caterer' => $st_caterer,'est_tentage' => $est_tentage,'vat_tent' => $vat_tent,'st_tent' => $st_tent,'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'function_type' => $function_type,'bill_no' => $bill_no,'bill_date' => $bill_date,'party_name' => $party_name,'membership_no' => $membership_no,'phone' => $phone,'mobile' => $mobile,'address' => $address,'noofpersons' => $noofpersons,'service_tax' => $totalst,'vat' => $totalvat,'total_amount' => $totalbill,'cancel_booking' => $cancel_booking,'cancel_date' => $cancel_date,'cancel_percentage' => $cancel_percentage,'cancel_amount' => $cancel_amount,'booking_status' => $booking_status,'tax_status' => $tax_status,'misc' => $misc,'misc_amount' => $misc_amount,'others' => $misc,'others_amount' => $others_amount,'created_at' => $this->date,'created_by' => $user_id]
+					    ['booking_no' => $booking_no,'receipt_type' => '3','booking_no' => $booking_no,'booking_date' => $booking_date,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'contractor_id' => $contractor,'est_cof' => $est_cof,'vat_supplier' => $vat_supplier,'est_catering' => $est_catering,'vat_caterer' => $vat_caterer,'st_caterer' => $st_caterer,'est_tentage' => $est_tentage,'vat_tent' => $vat_tent,'st_tent' => $st_tent,'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'function_type' => $function_type,'bill_no' => $bill_no,'bill_date' => $bill_date,'party_name' => $party_name,'membership_no' => $membership_no,'phone' => $phone,'mobile' => $mobile,'address' => $address,'noofpersons' => $noofpersons,'service_tax' => $totalst,'vat' => $totalvat,'total_amount' => $totalbill,'cancel_booking' => $cancel_booking,'cancel_date' => $cancel_date,'cancel_percentage' => $cancel_percentage,'cancel_amount' => $cancel_amount,'booking_status' => $booking_status,'tax_status' => $tax_status,'misc' => $misc,'misc_amount' => $misc_amount,'others' => $misc,'others_amount' => $others_amount,'created_at' => $this->date,'created_by' => $user_id]
 					);
 				}
 				else{
@@ -81,22 +83,104 @@ class Receipt extends Model
 			return FALSE;
 		}
     }
-	public function receipt_edit($id)
+    
+	public function receipt($id)
 	{
 		return DB::table('receipt')
-			->select('receipt.*','member.name as member_name','membertype.name as member_type')
+			->select('receipt_type')
+			->where('id',$id)
+			->where('status',1)
+			->get();
+	}
+	
+	public function receipt_booking($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_tentage.*','member.name as member_name','membertype.name as member_type')
 			->where('receipt.id',$id)
+            ->leftJoin('receipt_tentage', 'receipt_tentage.parent_id', '=', 'receipt.id')
             ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
             ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
             ->get();
 	}
+	
+	public function receipt_tentage($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_tentage.*','member.name as member_name','membertype.name as member_type')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_tentage', 'receipt_tentage.parent_id', '=', 'receipt.id')
+            ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
+            ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
+            ->get();
+	}
+	
+	public function receipt_catering($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_catering.*','member.name as member_name','membertype.name as member_type')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_catering', 'receipt_catering.parent_id', '=', 'receipt.id')
+            ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
+            ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
+            ->get();
+	}
+	
+	public function receipt_rent($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_rent.*')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_rent', 'receipt_rent.parent_id', '=', 'receipt.id')
+            ->get();
+	}
+	
+	public function receipt_rebate($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_rebate.*','member.name as member_name','membertype.name as member_type')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_rebate', 'receipt_rebate.parent_id', '=', 'receipt.id')
+            ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
+            ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
+            ->get();
+	}
+	
+	public function receipt_fd($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_fd.*')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_fd', 'receipt_fd.parent_id', '=', 'receipt.id')
+            ->get();
+	}
+	
+	public function receipt_others($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_others.*','receipt_security.security','receipt_corpus_fund.corpus_fund','member.name as member_name','membertype.name as member_type')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_others', 'receipt_others.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_security', 'receipt_security.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_corpus_fund', 'receipt_corpus_fund.parent_id', '=', 'receipt.id')
+            ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
+            ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
+            ->get();
+	}
+	
+	public function with_tax($id)
+	{
+		return DB::table('receipt_tax')->where('parent_id',$id)->count();
+	}
+	
 	public function receipt_cancel($id)
 	{
 		$user_id = Auth::id();
 		return DB::table('receipt')
             ->where('id', $id)
-            ->update(['receipt_status' => '2','updated_at' => $this->date,'updated_by' => $user_id]);
+            ->update(['status' => '2','updated_at' => $this->date,'updated_by' => $user_id]);
 	}
+	
     public function receipttype_name($id)
 	{
 		return DB::table('receipt')
@@ -105,35 +189,37 @@ class Receipt extends Model
             ->leftJoin('receipttype', 'receipt.receipttype_id', '=', 'receipttype.id')
             ->get();
 	}
+	
 	public function receipt_facility($id)
 	{
 		$booking = DB::table('receipt')
-			->select('booking_id')
+			->select('booking_no')
 			->where('id',$id)
             ->get();
         foreach ($booking as $value){
-			$booking_id = $value->booking_id;
+			$booking_no = $value->booking_no;
 		}
-		return DB::table('receiptfacility')
-			->select('receiptfacility.*','facility.name as facility_name','facility.sac_code')
-			->where([['receiptfacility.booking_id',$booking_id],['receiptfacility.status','1']])
-            ->leftJoin('facility', 'receiptfacility.facility_id', '=', 'facility.id')
+		return DB::table('facility')
+			->select('facility.*','facility.name as facility_name','facility.sac_code')
+			->where([['facility.booking_no',$booking_no],['facility.status','1']])
+            ->leftJoin('facility', 'facility.facility_id', '=', 'facility.id')
             ->get();
 	}
+	
 	public function total_receiptamount($id)
 	{
 		$booking = DB::table('receipt')
-			->select('booking_id')
+			->select('booking_no')
 			->where('id',$id)
             ->get();
         foreach ($booking as $value){
-			$booking_id = $value->booking_id;
+			$booking_no = $value->booking_no;
 		}
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(booking_rate) as total'))
                 ->where([
 			    ['status', '1'],
-			    ['booking_id', $booking_id]])
+			    ['booking_no', $booking_no]])
                 ->get();
 		foreach ($data as $value){
 			$total_amount = $value->total;
@@ -142,7 +228,7 @@ class Receipt extends Model
 	}
 	public function sub_total($id)
 	{
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(total_amount) as total'))
                 ->where([
 			    ['status', '1'],
@@ -155,7 +241,7 @@ class Receipt extends Model
 	}
 	public function servicetax_total($id)
 	{
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(servicetax_total) as total'))
                 ->where([
 			    ['status', '1'],
@@ -168,7 +254,7 @@ class Receipt extends Model
 	}
 	public function vat_total($id)
 	{
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(vat_total) as total'))
                 ->where([
 			    ['status', '1'],
@@ -182,17 +268,17 @@ class Receipt extends Model
 	public function safai_charges($id)
 	{
 		$booking = DB::table('receipt')
-			->select('booking_id')
+			->select('booking_no')
 			->where('id',$id)
             ->get();
         foreach ($booking as $value){
-			$booking_id = $value->booking_id;
+			$booking_no = $value->booking_no;
 		}
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(safai_general) as total'))
                 ->where([
 			    ['status', '1'],
-			    ['booking_id', $booking_id]])
+			    ['booking_no', $booking_no]])
                 ->get();
 		foreach ($data as $value){
 			$total_amount = $value->total;
@@ -202,17 +288,17 @@ class Receipt extends Model
 	public function generator_charges($id)
 	{
 		$booking = DB::table('receipt')
-			->select('booking_id')
+			->select('booking_no')
 			->where('id',$id)
             ->get();
         foreach ($booking as $value){
-			$booking_id = $value->booking_id;
+			$booking_no = $value->booking_no;
 		}
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(generator_charges) as total'))
                 ->where([
 			    ['status', '1'],
-			    ['booking_id', $booking_id]])
+			    ['booking_no', $booking_no]])
                 ->get();
 		foreach ($data as $value){
 			$total_amount = $value->total;
@@ -222,17 +308,17 @@ class Receipt extends Model
 	public function ac_charges($id)
 	{
 		$booking = DB::table('receipt')
-			->select('booking_id')
+			->select('booking_no')
 			->where('id',$id)
             ->get();
         foreach ($booking as $value){
-			$booking_id = $value->booking_id;
+			$booking_no = $value->booking_no;
 		}
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(ac_charges) as total'))
                 ->where([
 			    ['status', '1'],
-			    ['booking_id', $booking_id]])
+			    ['booking_no', $booking_no]])
                 ->get();
 		foreach ($data as $value){
 			$total_amount = $value->total;
@@ -242,17 +328,17 @@ class Receipt extends Model
 	public function security_charges($id)
 	{
 		$booking = DB::table('receipt')
-			->select('booking_id')
+			->select('booking_no')
 			->where('id',$id)
             ->get();
         foreach ($booking as $value){
-			$booking_id = $value->booking_id;
+			$booking_no = $value->booking_no;
 		}
-		$data = DB::table('receiptfacility')
+		$data = DB::table('facility')
                 ->select(DB::raw('SUM(security_total) as total'))
                 ->where([
 			    ['status', '1'],
-			    ['booking_id', $booking_id]])
+			    ['booking_no', $booking_no]])
                 ->get();
 		foreach ($data as $value){
 			$total_amount = $value->total;
@@ -307,26 +393,26 @@ class Receipt extends Model
 	public function getRebate($booking_no)
 	{
 		$receipt = DB::table('receipt')
-		->select('booking_id')
+		->select('booking_no')
 		->where([
 			['booking_no',$booking_no],
 			['receipt_type','1'],
-			['receipt_status','1'],
+			['status','1'],
 			['status','1'],
 			])
 		->first();
 
 		if(!empty($receipt)){
-			$booking_id = $receipt->booking_id;
-			return DB::table('receiptfacility')
-			->select(DB::raw('SUM(receiptfacility.rebate_safai) as safai'),DB::raw('SUM(receiptfacility.rebate_electricity) as electricity'),DB::raw('SUM(receiptfacility.rebate_catering) as catering'),DB::raw('SUM(receiptfacility.rebate_tentage) as tentage'))
+			$booking_no = $receipt->booking_no;
+			return DB::table('facility')
+			->select(DB::raw('SUM(facility.rebate_safai) as safai'),DB::raw('SUM(facility.rebate_electricity) as electricity'),DB::raw('SUM(facility.rebate_catering) as catering'),DB::raw('SUM(facility.rebate_tentage) as tentage'))
 			->where([
-				['receipt.booking_id',$booking_id],
+				['receipt.booking_no',$booking_no],
 				['receipt.receipt_type','1'],
-				['receipt.receipt_status','1'],
+				['receipt.status','1'],
 				['receipt.status','1'],
 				])
-			->leftJoin('receipt', 'receipt.id', '=', 'receiptfacility.receipt_id')
+			->leftJoin('receipt', 'receipt.id', '=', 'facility.receipt_id')
 			->groupBy('receipt.id')
 			->first();
 		}
@@ -345,7 +431,7 @@ class Receipt extends Model
 			['booking_status','2'],
 			['booking.status','1']
 			])
-            ->leftJoin('bookingfacility', 'bookingfacility.booking_id', '=', 'booking.id')
+            ->leftJoin('bookingfacility', 'bookingfacility.booking_no', '=', 'booking.id')
             ->groupBy('booking.id')
             ->get();
 		}
@@ -357,7 +443,7 @@ class Receipt extends Model
 			['booking_status','1'],
 			['booking.status','1']
 			])
-            ->leftJoin('bookingfacility', 'bookingfacility.booking_id', '=', 'booking.id')
+            ->leftJoin('bookingfacility', 'bookingfacility.booking_no', '=', 'booking.id')
             ->groupBy('booking.id')
             ->get();
 		}

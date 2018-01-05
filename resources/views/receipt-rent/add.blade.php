@@ -45,7 +45,7 @@ $('.input-group.date').datepicker({
     	<h4>Create receipt</h4>
         <ul class="breadcrumb">
             <li><a href="{{ url('/') }}"><i class="glyphicon glyphicon-home"></i></a></li>
-            <li><a href="{{ url('/receipt') }}">Receipt</a></li>
+            <li><a href="{{ url('/receipt-rent') }}">Rent Receipt</a></li>
             <li>Rent</li>
         </ul>
     	</div>

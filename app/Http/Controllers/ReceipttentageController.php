@@ -50,20 +50,10 @@ class ReceipttentageController extends Controller
 		$cheque_drawn = $request->input('cheque_drawn');
 		$function_date = $request->input('function_date');
 		$function_time = $request->input('function_time');
-		
 		$contractor = $request->input('contractor');
-		$est_cof = $request->input('est_cof');
-		$est_catering = $request->input('est_catering');
-		$est_tentage = $request->input('est_tentage');
+		$cost_tentage = $request->input('cost_tentage');
 		$security_deposit = $request->input('security_deposit');
 		$comments = $request->input('comments');
-		
-		$this->validate($request,[
-			'payment_mode'=>'required',
-			'contractor'=>'required',
-			'contractor'=>'required',
-			'function_time'=>'required',
-		]);
 		
 		if(empty($booking_no)){
 			$this->validate($request,[
@@ -71,17 +61,22 @@ class ReceipttentageController extends Controller
 				'contractor'=>'required',
 				'function_date'=>'required',
 				'function_time'=>'required',
-			]);	
+			]);
 		}
 		else{
 			$this->validate($request,[
 				'payment_mode'=>'required',
 				'contractor'=>'required',
-				'function_time'=>'required',
 			]);
 		}
+		if(!empty($function_date)){
+			$function_date = date_format(date_create($function_date),"Y-m-d");
+		}
+		if(!empty($cheque_date)){
+			$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
+		}
+		$result = $this->receipt->receipt_add($booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$function_time,$contractor,$cost_tentage,$security_deposit,$comments);
 		
-		$result = $this->receipt->receipt_add($booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$function_time,$contractor,$est_cof,$est_catering,$est_tentage,$security_deposit,$comments);
 		if($result){
 			return redirect()->action(
 			    'ReceiptController@view', ['id' => $result]

@@ -59,26 +59,26 @@
 		      @php
 		      $tds = $value->tds;
 		      $bank_name= $value->party_name;
-		      $principal_amount = $value->fd_principal_amt;
-		      $interest = $value->fd_interest;
+		      $principal_amount = $value->principal_amount;
+		      $interest = $value->interest;
 		      $total_before_tax = $principal_amount+$interest;
 		      $tds_amount = $total_before_tax*$tds/100;
       		  @endphp
 	          <tr>
 	          	<td>{{ $value->party_name }}</td>
-	          	<td>{{ $value->fd_principal_amt }}</td>
-	            <td>{{ $value->fd_interest }}</td>
-	            <td>{{ $tds_amount }}</td>
-	            <?php if($value->receipt_status == '1'){ ?>
+	          	<td>{{ $value->principal_amount }}</td>
+	            <td>{{ $value->interest }}</td>
+	            <td>{{ $value->tds }}</td>
+	            <?php if($value->status == '1'){ ?>
 	            <td><span class="label label-success">Active</span></td>
 	            <?php }?>
-	            <?php if($value->receipt_status == '2'){ ?>
+	            <?php if($value->status == '2'){ ?>
 	            <td><span class="label label-warning">Cancelled</span></td>
 	            <?php }?>
 	            <?php if(Auth::user()->user_group == '1'){ ?>
 	            <td>
 	            <a href="{{ url('/receipt/view/'.$value->id) }}" data-toggle="tooltip" title="View" class="btn btn-info" data-original-title="View"><i class="fa fa-eye"></i></a>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <a onclick="return confirm('Are you sure you want to Cancel?');" href="{{ url('/receipt/cancel/'.$value->id) }}" data-toggle="tooltip" title="Cancel" class="btn btn-danger" data-original-title="Cancel"><i class="fa fa-times"></i></a>
 	            <?php }?>
 	            </td>

@@ -102,7 +102,7 @@ $('.input-group.date').datepicker({
 							    <input type="number" class="form-control popup_input" placeholder="Enter cancel amount" name="cancel_amount" id="cancel_amount">
 							  </div>-->
 							  <?php if($value->booking_status == '1'){ ?>
-							  <div><b>Note:</b> The associated Receipt ID: {{$value->receipt_id}} will be auto cancelled with Booking ID: {{$value->id}}</div>
+							  <div><b>Note:</b> The associated Receipt ID: {{$value->id}} will be auto cancelled with Booking ID: {{$value->id}}</div>
 							  <?php }?>
 		                  </div>
 		                  <div class="modal-footer">

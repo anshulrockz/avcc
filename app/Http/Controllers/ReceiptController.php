@@ -94,7 +94,47 @@ class ReceiptController extends Controller
 			return redirect()->back();
 		}
     }
+    
     public function view($id)
+    {
+    	
+		$global_st = $this->receipt->global_st();
+		$global_vat = $this->receipt->global_vat();
+		$receipt = $this->receipt->receipt_tentage($id);
+		$with_tax = $this->receipt->with_tax($id);
+		
+		if($receipt[0]->receipt_type == '1'){
+			$receipt = $this->receipt->receipt_booking($id);
+		}
+		
+		if($receipt[0]->receipt_type == '3'){
+			$receipt = $this->receipt->receipt_tentage($id);
+		}
+		
+		if($receipt[0]->receipt_type == '4'){
+			$receipt = $this->receipt->receipt_catering($id);
+		}
+		
+		if($receipt[0]->receipt_type == '5'){
+			$receipt = $this->receipt->receipt_rent($id);
+		}
+		
+		if($receipt[0]->receipt_type == '9'){
+			$receipt = $this->receipt->receipt_fd($id);
+		}
+		
+		if($receipt[0]->receipt_type == '8'){
+			$receipt = $this->receipt->receipt_rebate($id);
+		}
+		
+		if($receipt[0]->receipt_type == '10'){
+			$receipt = $this->receipt->receipt_others($id);
+		}
+		
+		return view('receipt/view',['receipt'=>$receipt,'receipt_data'=>$receipt,'others_withtax'=>$with_tax,'contractor'=>$this->contractor,'global_st'=>$global_st,'global_vat'=>$global_vat]);
+    }
+	
+	public function view_old($id)
     {
 		$receipt = $this->receipt->receipt_edit($id);
 		$receipt_facility = $this->receipt->receipt_facility($id);

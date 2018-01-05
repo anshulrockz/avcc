@@ -17,16 +17,14 @@ class Booking extends Model
     public function booking_list()
 	{
 		return DB::table('booking')
-			->select('booking.*','receipt.id as receipt_id')
 			->where([
 			['booking.status','1'],
 			['booking.booking_status','!=','3']
 			])
-            ->leftJoin('receipt', 'receipt.booking_id', '=', 'booking.id')
             ->orderBy('booking.id', 'desc')
-            ->groupBy('booking.id')
             ->get();
 	}
+	
     public function booking_add($booking_no,$booking_date,$party_name,$party_gstin,$reverse_charges,$function_date,$from_time,$to_time,$function_type,$bill_no,$bill_date,$membership_no,$is_sponsor,$phone,$mobile,$address,$noofpersons,$misc,$misc_amount,$others,$others_amount,$facility,$quantity,$noofdays,$from_date,$to_date,$booking_rate,$generator_charges,$ac_charges,$safai_general,$security_charges,$rebate_safai,$rebate_tentage,$rebate_catering,$rebate_electricity,$servicetaxPercentage,$servicetaxAmount,$vatPercentage,$vatAmount,$totalAmount)
     {
 		$user_id = Auth::id();
@@ -582,6 +580,7 @@ class Booking extends Model
 			return '0.00';
 		}
 	}
+	
 	public function change_status($id,$with_tax,$with_security,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn)
     {
 		$user_id = Auth::id();
@@ -624,8 +623,14 @@ class Booking extends Model
 					
 				}
 				$receipt_id = DB::table('receipt')->insertGetId(
-				    ['booking_id' => $id,'receipt_type' => '1','booking_no' => $booking_no,'booking_date' => $booking_date,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'function_type' => $function_type,'bill_no' => $bill_no,'bill_date' => $bill_date,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'membership_no' => $membership_no,'phone' => $phone,'mobile' => $mobile,'address' => $address,'noofpersons' => $noofpersons,'cancel_date' => $cancel_date,'cancel_percentage' => $cancel_percentage,'cancel_amount' => $cancel_amount,'with_tax' => $with_tax,'with_security' => $with_security,'misc' => $misc,'misc_amount' => $misc_amount,'others' => $others,'others_amount' => $others_amount,'created_at' => $this->date,'created_by' => $user_id]
+				    ['receipt_type' => '1','booking_no' => $booking_no,'membership_no' => $membership_no,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'function_type' => $function_type,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'membership_no' => $membership_no,'phone' => $phone,'mobile' => $mobile,'address' => $address,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
 				);
+				DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
+				
+				$receipt_id = DB::table('receipt_booking')->insertGetId(
+				    ['booking_date', 'bill_no', 'bill_date', 'noofpersons', 'booking_status', 'cancel_date', 'cancel_percentage', 'cancel_amount', 'cancel_against', 'with_tax', 'with_security', 'misc', 'misc_amount', 'others', 'others_amount', 'is_sponsor']
+				);
+				
 				$receiptfacility_data = DB::table('bookingfacility')
 					->where([['booking_id',$id],['status','1']])
 		            ->get();
@@ -658,7 +663,7 @@ class Booking extends Model
 						$vat_total = $vat_amount*$quantity*$noofdays;
 						$total_amount = $value->total_amount;
 						
-						DB::table('receiptfacility')->insert(
+						DB::table('receipt_bookingfacility')->insert(
 							['receipt_id' => $receipt_id,'booking_id' => $booking_id,'booking_no' => $booking_no,'facility_id' => $facility_id,'quantity' => $quantity,'noofdays' => $noofdays,'from_date' => $from_date,'to_date' => $to_date,'booking_rate' => $booking_rate,'generator_charges' => $generator_charges,'generator_total' => $generator_total,'ac_charges' => $ac_charges,'ac_total' => $ac_total,'safai_general' => $safai_general,'safai_total' => $safai_total,'security_charges' => $security_charges,'security_total' => $security_total,'rebate_safai' => $rebate_safai,'rebate_tentage' => $rebate_tentage,'rebate_catering' => $rebate_catering,'rebate_electricity' => $rebate_electricity,'servicetax_percentage' => $servicetax_percentage,'servicetax_amount' => $servicetax_amount,'servicetax_total' => $servicetax_total,'vat_percentage' => $vat_percentage,'vat_amount' => $vat_amount,'vat_total' => $vat_total,'total_amount' => $total_amount,'created_at' => $this->date,'created_by' => $user_id,'status' => '1']
 						);
 					}

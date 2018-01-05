@@ -43,21 +43,16 @@ class ReceiptfdController extends Controller
 		$fd_principal_amt = $request->input('fd_principal_amt');
 		$fd_interest = $request->input('fd_interest');
 		$tds = $request->input('tds');
+		$comments = $request->input('comments');
 		
-		if(empty($booking_no)){
-			$this->validate($request,[
-				'payment_mode'=>'required',
-				'party_name'=>'required',
-				'fd_principal_amt'=>'required',
-			]);	
-		}
-		else{
-			$this->validate($request,[
-				'payment_mode'=>'required'
-			]);
-		}
+		$this->validate($request,[
+			'payment_mode'=>'required',
+			'party_name'=>'required',
+			'fd_principal_amt'=>'required',
+		]);	
 		
-		$result = $this->receiptfd->receipt_add($party_name,$party_gstin,$phone,$mobile,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$fd_principal_amt,$fd_interest,$tds);
+		
+		$result = $this->receiptfd->receipt_add($party_name,$party_gstin,$phone,$mobile,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$fd_principal_amt,$fd_interest,$tds,$comments);
 		
 		if($result){
 			return redirect()->action(

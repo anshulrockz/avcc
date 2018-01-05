@@ -60,9 +60,10 @@
 		    <tbody>
 		      @foreach ($receipt as $value)
 		      @php
+		      $with_tax = $tax_check::tax_check($value->parent_id);
 		      $cgst_percentage = 0;
 			  $sgst_percentage = 0;
-			  if($receipt[0]->with_tax >0){
+			  if($with_tax >0){
 				$cgst_percentage = $global_st;
 				$sgst_percentage = $global_vat;
 			  }
@@ -84,16 +85,16 @@
 	            <td>{{ $tds_amount }}</td>
 	            <td>{{ $total_cgst }}</td>
 	            <td>{{ $total_sgst }}</td>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <td><span class="label label-success">Active</span></td>
 	            <?php }?>
-	            <?php if($value->receipt_status == '2'){ ?>
+	            <?php if($value->status == '2'){ ?>
 	            <td><span class="label label-warning">Cancelled</span></td>
 	            <?php }?>
 	            <?php if(Auth::user()->user_group == '1'){ ?>
 	            <td>
 	            <a href="{{ url('/receipt/view/'.$value->id) }}" data-toggle="tooltip" title="View" class="btn btn-info" data-original-title="View"><i class="fa fa-eye"></i></a>
-	            <?php if($value->receipt_status == '1'){ ?>
+	            <?php if($value->status == '1'){ ?>
 	            <a onclick="return confirm('Are you sure you want to Cancel?');" href="{{ url('/receipt/cancel/'.$value->id) }}" data-toggle="tooltip" title="Cancel" class="btn btn-danger" data-original-title="Cancel"><i class="fa fa-times"></i></a>
 	            <?php }?>
 	            </td>

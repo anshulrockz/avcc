@@ -147,6 +147,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/receipt/view-old/{id}','ReceiptController@viewOld');
 	//Receipt - Cancel
 	Route::get('/receipt/cancel/{id}','ReceiptController@cancel');
+	
+	//Receipt Booking
+	Route::get('/receipt-booking','ReceiptController@index');
+	
 	//Receipt Tentage
 	Route::get('/receipt-tentage','ReceipttentageController@index');
 	//Old Tentage Receipt - List
@@ -154,6 +158,14 @@ Route::group(['middleware' => 'auth'], function () {
 	//Receipt Tentage - create
 	Route::get('/receipt-tentage/add','ReceipttentageController@add');
 	Route::post('/receipt-tentage/save','ReceipttentageController@save');
+	
+	//Receipt Catering
+	Route::get('/receipt-catering','ReceiptcateringController@index');
+	//Old catering Receipt - List
+	Route::get('/receipt-catering-old','ReceiptcateringController@old');
+	//Receipt catering - create
+	Route::get('/receipt-catering/add','ReceiptcateringController@add');
+	Route::post('/receipt-catering/save','ReceiptcateringController@save');
 	
 	//Receipt Rebate
 	Route::get('/receipt-rebate','ReceiptrebateController@index');
