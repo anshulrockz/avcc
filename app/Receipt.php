@@ -96,12 +96,22 @@ class Receipt extends Model
 	public function receipt_booking($id)
 	{
 		return DB::table('receipt')
-			->select('receipt.*','receipt_tentage.*','member.name as member_name','membertype.name as member_type')
+			->select('receipt.*','receipt_booking.*','receipt_bookingfacility.*','member.name as member_name','membertype.name as member_type')
 			->where('receipt.id',$id)
-            ->leftJoin('receipt_tentage', 'receipt_tentage.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_booking', 'receipt_booking.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_bookingfacility', 'receipt_bookingfacility.parent_id', '=', 'receipt.id')
             ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
             ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
             ->get();
+	}
+	
+	public function facility($id)
+	{
+		return DB::table('receipt_bookingfacility')
+			->select('receipt_bookingfacility.*','facility.name','facility.sac_code')
+			->where('parent_id',$id)
+			->leftJoin('facility', 'receipt_bookingfacility.facility_id','=','facility.id')
+			->get();
 	}
 	
 	public function receipt_tentage($id)

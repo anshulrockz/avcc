@@ -10,7 +10,7 @@
 		<ul class="breadcrumb">
 		    <li><a href="{{ url('/') }}"><i class="glyphicon glyphicon-home"></i></a></li>
 		    <li>Receipt</li>
-		    <li>Catering</li>
+		    <li>Catering </li>
 		</ul>
 		</div>
 	</div>
@@ -62,7 +62,7 @@
 	          	<td>{{ $value->id }}</td>
 	          	<td>{{ date_dfy($value->created_at) }}</td>
 	            <td>{{ $value->payment_mode}}</td>
-	            <td>{{ $value->contractor_name }}</td>
+	            <td>{{ $value->contractor_name }} @if($value->contractor_name==NULL) None @endif</td>
 	            <?php if($value->status == '1'){ ?>
 	            <td><span class="label label-success">Active</span></td>
 	            <?php }?>

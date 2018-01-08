@@ -103,7 +103,7 @@ $('.input-group.date').datepicker({
         <ul class="breadcrumb">
             <li><a href="{{ url('/') }}"><i class="glyphicon glyphicon-home"></i></a></li>
             <li><a href="{{ url('/receipt') }}">Receipt</a></li>
-            <li>Catering</li>
+            <li>Tentage &amp; Catering</li>
         </ul>
     	</div>
     </div>
@@ -133,7 +133,7 @@ $('.input-group.date').datepicker({
 		    </ul>
 		 </div>
 		@endif
-		<form method="post" action="{{ url('receipt-catering/save') }}">
+		<form method="post" action="{{ url('receipt-tentage/save') }}">
 			{{ csrf_field() }}
 			<div class="row">
 				<div class="col-sm-6">
@@ -252,16 +252,10 @@ $('.input-group.date').datepicker({
 				</div>
 			</div>
 			<div class="row">
-				<!--<div class="col-sm-6">
-					<div class="form-group">
-					    <label>Estimated cost of Food:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="est_cof" id="est_cof">
-					</div>
-				</div>-->
 				<div class="col-sm-6">
 					<div class="form-group">
-					    <label>Estimated cost of Catering:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="est_catering" id="est_catering">
+					    <label>Estimated cost of Tentage:</label>
+					    <input type="number" class="form-control" placeholder="Enter amount" name="cost_tentage" id="est_tentage">
 					</div>
 				</div>
 				<div class="col-sm-6">

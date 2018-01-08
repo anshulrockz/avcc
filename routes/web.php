@@ -149,7 +149,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/receipt/cancel/{id}','ReceiptController@cancel');
 	
 	//Receipt Booking
-	Route::get('/receipt-booking','ReceiptController@index');
+	Route::get('/receipt-booking','ReceiptbookingController@index');
 	
 	//Receipt Tentage
 	Route::get('/receipt-tentage','ReceipttentageController@index');

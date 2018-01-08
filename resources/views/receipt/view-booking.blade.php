@@ -11,7 +11,7 @@
         <td class="facility-td">{{ $receipt_data[0]->receipt_no.'/'.date_dfy($receipt_data[0]->created_at) }}</td>
         <td class="facility-td"><b>Booking No/Date:</b></td>
         <td class="facility-td">@if(!empty($receipt[0]->booking_no)) {{ $receipt[0]->booking_no.'/'}} @endif
-        {{ date_dfy($receipt[0]->updated_at)}}</td>
+        {{ date_dfy($receipt[0]->created_at)}}</td>
       </tr>
       <tr>
       	@if($receipt_data[0]->receipt_type == '5')
@@ -56,8 +56,6 @@
       </tr>
       
       <tr>
-      	<td class="facility-td"><b>Contractor Name:</b></td>
-        <td class="facility-td"></td>
       @if(!empty($receipt[0]->comments))
       	<td class="facility-td"><b>Comments:</b></td>
         <td class="facility-td">{{ $receipt[0]->comments }}</td>
@@ -87,25 +85,26 @@
 		<th>Rate (%)</th>
 		<th>Amount</th>
 	</tr>
-	
+	@foreach( $facility as $key=>$value )
 	<tr>
-		<td>1</td>
-		<td>2</td>
-		<td>3</td>
-		<td>4</td>
-		<td>5</td>
-		<td>6</td>
-		<td>7</td>
-		<td>8</td>
-		<td>9</td>
-		<td>10</td>
-		<td>11</td>
-		<td>12</td>
-		<td>13</td>
-		<td>14</td>
+		<td>{{ ++$key }}</td>
+		<td>{{ $value->name }}</td>
+		<td>{{ $value->sac_code }}</td>
+		<td>{{ date_dmy($value->from_date) }}</td>
+		<td>{{ date_dmy($value->to_date) }}</td>
+		<td>{{ $value->quantity }}</td>
+		<td>{{ $value->noofdays }}</td>
+		<td>{{ slash_decimal($value->booking_rate) }}</td>
+		<td>{{ slash_decimal($value->quantity*$value->booking_rate*$value->noofdays) }}</td>
+		<td>{{ slash_decimal($global_st) }}</td>
+		<td>{{ slash_decimal($value->quantity*$value->booking_rate*$value->noofdays*$global_st)/100 }}</td>
+		<td>{{ slash_decimal($global_vat)}}</td>
+		<td>{{ slash_decimal($value->quantity*$value->booking_rate*$value->noofdays*$global_st)/100 }}</td>
+		<td>{{ slash_decimal($value->quantity*$value->booking_rate*$value->noofdays)+slash_decimal($value->quantity*$value->booking_rate*$value->noofdays*($global_st+$global_vat))/100 }}</td>
 	</tr>
+	@endforeach
 	<tr>
-		<td>15</td>
+		<td>{{++$key}}</td>
 		<td>Safai &amp; General</td>
 		<td>00440035</td>
 		<td>-</td>
@@ -121,14 +120,14 @@
 		<td>21</td>
 	</tr>
 	<tr>
-		<td>22</td>
+		<td>{{++$key}}</td>
 		<td>Generator</td>
 		<td>00440035</td>
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
-		<td>-</td>
+		<td>{{ $value->generator_charges }}</td>
 		<td class="abt">23</td>
 		<td>{{ slash_decimal($global_st) }}</td>
 		<td class="cgst_amount">11</td>
@@ -137,7 +136,7 @@
 		<td>1</td>
 	</tr>
 	<tr>
-		<td>1</td>
+		<td>{{++$key}}</td>
 		<td>AC</td>
 		<td>00440035</td>
 		<td>-</td>
@@ -145,7 +144,7 @@
 		<td>-</td>
 		<td>-</td>
 		<td>-</td>
-		<td class="abt">22</td>
+		<td class="abt">{{ $value->ac_charges }}</td>
 		<td>{{slash_decimal($global_st) }}</td>
 		<td class="cgst_amount"> </td>
 		<td>{{ slash_decimal($global_vat) }}</td>
@@ -185,11 +184,11 @@
 	</tr>
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">CGST:</td>
-        <td style="border-top: none" class="left-align subTotal total-cgst_amount"></td>
+        <td style="border-top: none" class="left-align subTotal total-cgst_amount">{{ slash_decimal($global_st) }}</td>
 	</tr>
 	<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">SGST:</td>
-        <td style="border-top: none" class="left-align subTotal total-sgst_amount"></td>
+        <td style="border-top: none" class="left-align subTotal total-sgst_amount">{{ slash_decimal($global_vat) }}</td>
 	</tr>
 	<!--<tr>
         <td style="border-top: none;border-right: none" colspan="13" class="right-align">Total Tax:</td>

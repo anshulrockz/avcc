@@ -53,7 +53,6 @@ class ReceiptController extends Controller
 		$cheque_date = $request->input('cheque_date');
 		$cheque_drawn = $request->input('cheque_drawn');
 		$function_date = $request->input('function_date');
-		
 		$contractor = $request->input('contractor');
 		$est_cof = $request->input('est_cof');
 		$vat_supplier = $request->input('vat_supplier');
@@ -97,14 +96,14 @@ class ReceiptController extends Controller
     
     public function view($id)
     {
-    	
-		$global_st = $this->receipt->global_st();
+    	$global_st = $this->receipt->global_st();
 		$global_vat = $this->receipt->global_vat();
 		$receipt = $this->receipt->receipt_tentage($id);
 		$with_tax = $this->receipt->with_tax($id);
 		
 		if($receipt[0]->receipt_type == '1'){
 			$receipt = $this->receipt->receipt_booking($id);
+			$facilities = $this->receipt->facility($id);
 		}
 		
 		if($receipt[0]->receipt_type == '3'){
@@ -130,8 +129,8 @@ class ReceiptController extends Controller
 		if($receipt[0]->receipt_type == '10'){
 			$receipt = $this->receipt->receipt_others($id);
 		}
-		
-		return view('receipt/view',['receipt'=>$receipt,'receipt_data'=>$receipt,'others_withtax'=>$with_tax,'contractor'=>$this->contractor,'global_st'=>$global_st,'global_vat'=>$global_vat]);
+		//dd($facilities);
+		return view('receipt/view',['receipt'=>$receipt,'receipt_data'=>$receipt,'facility'=>$facilities,'others_withtax'=>$with_tax,'contractor'=>$this->contractor,'global_st'=>$global_st,'global_vat'=>$global_vat]);
     }
 	
 	public function view_old($id)

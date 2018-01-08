@@ -14,13 +14,12 @@ class Receiptcatering extends Model
     {
 		$this->date = Carbon::now('Asia/Kolkata');
     }
+    
     public function receipt_list()
 	{
 		return DB::table('receipt_catering')
 		->select('receipt_catering.*', 'receipt.*','contractor.name as contractor_name')
-		->where([
-			['receipt.status','1'],
-			])
+		->where('receipt.status','1')
 		->leftJoin('contractor', 'contractor.id', '=', 'receipt_catering.contractor_id')
 		->leftJoin('receipt', 'receipt.id', '=', 'receipt_catering.parent_id')
 		->groupBy('receipt.id')
@@ -40,7 +39,7 @@ class Receiptcatering extends Model
 					$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
 				}
 				
-				if(empty($booking_no)){
+				if($booking_no !=''){
 					$data = DB::table('booking')
 		                ->where([
 					    ['status', '1'],
