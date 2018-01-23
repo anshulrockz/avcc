@@ -17,9 +17,9 @@ class TDSregister extends Model
     public function tds_list()
 	{
 		return DB::table('receipt')
+			->leftJoin('receipt_rent','receipt_rent.parent_id','receipt.id')
 			->where([
 			['status','1'],
-			['receipt_status','1'],
 			['tds','!=',''],
 			])
             ->orderBy('receipt.id', 'desc')
@@ -32,7 +32,6 @@ class TDSregister extends Model
 		return DB::table('receipt')
 			->where([
 			['status','1'],
-			['receipt_status','1'],
 			['tds','!=',''],
 			])
 			->whereBetween(DB::raw("DATE_FORMAT(created_at,'%Y-%m-%d')"), [$from_date, $to_date])

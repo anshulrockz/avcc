@@ -29,13 +29,15 @@ class Cateringregister extends Model
 	public function receipt_list()
 	{
 		$receipt_details = DB::table('receipt')
-		->select('booking_id',DB::raw('SUM(est_catering) as est_catering'),DB::raw('SUM(st_caterer) as st_caterer'),DB::raw('SUM(vat_caterer) as vat_caterer'))
+		->select('receipt.id as booking_id',	DB::raw('SUM(receipt_catering.catering_cost) as est_catering')
+				)
+		->leftJoin('receipt_catering', 'receipt_catering.parent_id', '=', 'receipt.id')
 		->where([
 		['receipt.status','1'],
-		['receipt.est_catering','>','0']
+		['receipt_catering.catering_cost','>','0']
 		])
-		->groupBy('receipt.booking_id')
-		->orderBy('receipt.booking_id', 'desc')
+		->groupBy('receipt.id')
+		->orderBy('receipt.id', 'desc')
 		->get();
 		return $receipt_details;
 	}

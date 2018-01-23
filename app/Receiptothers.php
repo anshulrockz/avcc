@@ -16,14 +16,15 @@ class Receiptothers extends Model
     }
     public function receipt_list()
 	{
-		return DB::table('receipt_others')
+		return DB::table('receipt')
 		->select('receipt_others.*','receipt_security.*','receipt_corpus_fund.*','receipt_tax.*', 'receipt.*')
-		->leftJoin('receipt', 'receipt.id', '=', 'receipt_others.parent_id')
+		->leftJoin('receipt_others', 'receipt.id', '=', 'receipt_others.parent_id')
 		->leftJoin('receipt_security', 'receipt_security.id', '=', 'receipt_others.parent_id')
 		->leftJoin('receipt_corpus_fund', 'receipt_corpus_fund.parent_id', '=', 'receipt_others.parent_id')
 		->leftJoin('receipt_tax', 'receipt_tax.parent_id', '=', 'receipt_others.parent_id')
 		->where([
-		['receipt.status','1'],
+		['receipt.status','!=','0'],
+		['receipt.receipt_type','10'],
 		])
 		->groupBy('receipt.id')
 		->orderBy('receipt.id', 'desc')
@@ -35,16 +36,13 @@ class Receiptothers extends Model
 		try{
 			$receipt_id = DB::transaction(function () use ($user_id,$booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$security_deposit,$corpus_fund,$others,$withtax,$comments) {
 			
-				if(empty($others_withtax)){
-					$others_withtax = 0;
-				}
+				
 				if(!empty($function_date)){
 					$function_date = date_format(date_create($function_date),"Y-m-d");
 				}
 				if(!empty($cheque_date)){
 					$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
 				}
-				
 				if($booking_no !=''){
 					$data = DB::table('booking')
 		                ->where([
@@ -73,63 +71,38 @@ class Receiptothers extends Model
 						$cancel_amount = $value->cancel_amount;
 					}
 					$receipt_id = DB::table('receipt')->insertGetId(
-					    ['booking_no' => $booking_id,'receipt_type' => '10','payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'function_type' => $function_type,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'membership_no' => $membership_no,'phone' => $phone,'mobile' => $mobile,'address' => $address,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
+					    ['function_type' => $function_type, 'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'receipt_type' => '10','booking_no' => $booking_no,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'membership_no' => $membership_no,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id, 'comments' => $comments]
 					);
-					
-					DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id]);
-					
-					$receipt_security_id = DB::table('receipt_security') ->insertGetId(
-					['parent_id' => $receipt_id, 'security' => $security_deposit, 'comments' => $comments]
-					);
-					
-					$security_deposit_id = DB::table('receipt_others') ->insertGetId(['parent_id' => $receipt_id, 'misc' => $others, 'comments' => $comments]
-					);
-					
-					$receipt_corpus_fund_id = DB::table('receipt_corpus_fund') ->insertGetId(
-					['parent_id' => $receipt_id, 'corpus_fund' => $corpus_fund, 'comments' => $comments]
-					);
-					
-					if(!empty($withtax)){
-						$tax = DB::table('tax')->where('status', 1)->get();
-						foreach($tax as $receipt_tax ){
-							$tax_name = $receipt_tax->name;
-							$tax_percentage = $receipt_tax->percentage;
-							$receipt_tax_id = DB::table('receipt_tax')->insertGetId(['parent_id' => $receipt_id, 'tax_name' => $tax_name,'tax_percentage' => $tax_percentage]);
-						}
-					}
-					
-					//'corpus_fund' => $corpus_fund,'others_amount' => $others,'others_withtax' => $others_withtax,'comments' => $comments,'bill_no' => $bill_no,'bill_date' => $bill_date,'noofpersons' => $noofpersons,'cancel_date' => $cancel_date,'cancel_percentage' => $cancel_percentage,'cancel_amount' => $cancel_amount,
 				}
 				else{
 					$receipt_id = DB::table('receipt')->insertGetId(
-					    ['booking_no' => $booking_no,'receipt_type' => '10','booking_no' => $booking_no,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'function_date' => $function_date,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'membership_no' => $membership_no,'phone' => $phone,'mobile' => $mobile,'address' => $address,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
+					    [ 'function_date' => $function_date,'receipt_type' => '10','booking_no' => $booking_no,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'membership_no' => $membership_no,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id , 'comments' => $comments]
+					);
+				}
+					
+				DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id]);
+				
+				DB::table('receipt_others') ->insert(
+					['parent_id' => $receipt_id, 'misc' => $others]
 					);
 					
-					DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id]);
-					
-					$security_deposit_id = DB::table('receipt_security') ->insertGetId(
-					['parent_id' => $receipt_id, 'security' => $security_deposit, 'comments' => $comments]
+				if($security_deposit>0){
+					DB::table('receipt_security') ->insert(
+					['parent_id' => $receipt_id, 'security' => $security_deposit]
 					);
+				}
 					
-					$security_deposit_id = DB::table('receipt_others') ->insertGetId(
-					['parent_id' => $receipt_id, 'misc' => $others, 'comments' => $comments]
-					);
-					
-					$security_deposit_id = DB::table('receipt_corpus_fund') ->insertGetId(
-					['parent_id' => $receipt_id, 'corpus_fund' => $corpus_fund, 'comments' => $comments]
-					);
-					
-					if(!empty($withtax)){
-						$tax = DB::table('tax')->where('status', 1)->get();
-						foreach($tax as $receipt_tax ){
-							$tax_name = $receipt_tax->name;
-							$tax_percentage = $receipt_tax->percentage;
-							$receipt_tax_id = DB::table('receipt_tax')->insertGetId(
+				if($withtax == 1){
+					$tax = DB::table('tax')->where('status', 1)->get();
+					foreach($tax as $receipt_tax ){
+						$tax_name = $receipt_tax->name;
+						$tax_percentage = $receipt_tax->percentage;
+						DB::table('receipt_tax')->insert(
 							['parent_id' => $receipt_id, 'tax_name' => $tax_name,'tax_percentage' => $tax_percentage]
-							);
-						}
+						);
 					}
 				}
+					
 				return $receipt_id;
 			});
 			return $receipt_id;

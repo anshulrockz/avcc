@@ -44,7 +44,7 @@ $(".search").click(function(){
 					var phone = receiptObj.phone;
 					var mobile = receiptObj.mobile;
 					var address = receiptObj.address;
-					var function_date = dfy_format(receiptObj.function_date);
+					var function_date = receiptObj.function_date;
 					var membership_no = receiptObj.membership_no;
 					var est_catering = receiptObj.est_catering;
 					var est_cof = receiptObj.est_cof;
@@ -275,6 +275,14 @@ $('.input-group.date').datepicker({
 					<div class="form-group">
 					    <label>Electricity:</label>
 					    <input type="number" class="form-control" placeholder="Enter Amount" name="electricity" id="electricity">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+					    <label>Comments:</label>
+					    <textarea  class="form-control" placeholder="Enter Comments" name="comments" id="comments"></textarea>
 					</div>
 				</div>
 			</div>

@@ -16,13 +16,14 @@ class Receipttentage extends Model
     }
     public function receipt_list()
 	{
-		return DB::table('receipt_tentage')
+		return DB::table('receipt')
 		->select('receipt_tentage.*', 'receipt.*', 'contractor.name as contractor_name')
 		->where([
-			['receipt.status','1'],
+			['receipt.status','!=','0'],
+			['receipt.receipt_type','3'],
 			])
+		->leftJoin('receipt_tentage', 'receipt.id', '=', 'receipt_tentage.parent_id')
 		->leftJoin('contractor', 'contractor.id', '=', 'receipt_tentage.contractor_id')
-		->leftJoin('receipt', 'receipt.id', '=', 'receipt_tentage.parent_id')
 		->groupBy('receipt.id')
 		->orderBy('receipt.id','DESC')
 		->get();
@@ -33,13 +34,22 @@ class Receipttentage extends Model
 		$user_id = Auth::id();
 		try{
 			$receipt_id = DB::transaction(function () use ($user_id,$booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$function_time,$contractor,$cost_tentage,$security_deposit,$comments) {
-				
-				if($booking_no !=''){
+				$count = 0;
+				if(!empty($function_date)){
+					$function_date = date_format(date_create($function_date),"Y-m-d");
+				}
+				if(!empty($cheque_date)){
+					$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
+				}
+				if(!empty($booking_no)){
 					$data = DB::table('booking')
 		                ->where([
 					    ['status', '1'],
 					    ['booking_no', $booking_no]])
 		                ->get();
+					$count = $data->count();
+				}
+				if($count>0){
 					foreach ($data as $value){
 						$booking_id = $value->id;
 						$booking_date = $value->booking_date;
@@ -55,34 +65,36 @@ class Receipttentage extends Model
 					}
 					
 					$receipt_id = DB::table('receipt')->insertGetId(
-					    ['function_type' => $function_type, 'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'receipt_type' => '3','booking_no' => $booking_no,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'membership_no' => $membership_no,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
-					);
-					
-					DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
-					
-					$receipt_tentage_id = DB::table('receipt_tentage')->insertGetId(
-					    ['parent_id' => $receipt_id, 'contractor_id' => $contractor,'tentage_cost' => $cost_tentage, 'comments' => $comments]
-					);
-					
-					$receipt_security_id = DB::table('receipt_security')->insertGetId(
-					    ['parent_id' => $receipt_id, 'security' => $security_deposit,'comments' => $comments]
+					    ['function_type' => $function_type, 'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'receipt_type' => '3','booking_no' => $booking_no,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'membership_no' => $membership_no,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id, 'comments' => $comments]
 					);
 				}
 				else{
 					$receipt_id = DB::table('receipt')->insertGetId(
-					    [ 'function_date' => $function_date,'receipt_type' => '3','booking_no' => $booking_no,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'membership_no' => $membership_no,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
-					);
-					
-					DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
-					
-					$receipt_tentage_id = DB::table('receipt_tentage')->insertGetId(
-					    ['parent_id' => $receipt_id, 'contractor_id' => $contractor,'tentage_cost' => $cost_tentage, 'comments' => $comments]
-					);
-					
-					$receipt_security_id = DB::table('receipt_security')->insertGetId(
-					    ['parent_id' => $receipt_id, 'security' => $security_deposit,'comments' => $comments]
+					    [ 'function_date' => $function_date,'receipt_type' => '3','booking_no' => $booking_no,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'membership_no' => $membership_no,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id, 'comments' => $comments]
+						);
+				}
+				
+				DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
+				
+				$receipt_tentage_id = DB::table('receipt_tentage')->insertGetId(
+				    ['parent_id' => $receipt_id, 'contractor_id' => $contractor,'tentage_cost' => $cost_tentage]
+				);
+				
+				DB::table('receipt_security')->insert(
+				    ['parent_id' => $receipt_id, 'security' => $security_deposit]
+				);
+				
+				$tax = DB::table('tax')->where('status', 1)->get();
+				
+				foreach($tax as $receipt_tax ){
+					$tax_name = $receipt_tax->name;
+					$tax_percentage = $receipt_tax->percentage;
+					DB::table('receipt_tax')->insert(
+						['parent_id' => $receipt_id, 'tax_name' => $tax_name,'tax_percentage' => $tax_percentage]
 					);
 				}
+				
+				
 				return $receipt_id;
 			});
 			return $receipt_id;

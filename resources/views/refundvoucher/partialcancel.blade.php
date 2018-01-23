@@ -27,231 +27,214 @@
 		    autoclose: true,
 		    format: "dd-MM-yyyy",
 		    //startDate: today
-		});  
+		});
+		var wrapper = $('.field_wrapper'); //Input field wrapper
+		var x = 1; //Initial field counter is 1
+		$(wrapper).on('click', '.remove_button', function(e){
+			e.preventDefault();
+			$(this).closest("tr").remove();
+			x--;
+		});
+		
+		$('.field_wrapper').on('click', '.quantityDecrement', function(e){
+			e.preventDefault();
+			var value = $(this).closest('tr').find('input.quantityVal').val();
+			value = isNaN(value) ? 0 : value;
+			if(value>1){
+		        value--;
+				$(this).closest('tr').find('input.quantityVal').val(value);
+		    }
+		});
+		
+		$('.field_wrapper').on('click', '.daysDecrement', function(e){
+			e.preventDefault();
+			var value = $(this).closest('tr').find('input.daysVal').val();
+			value = isNaN(value) ? 0 : value;
+			if(value>1){
+		        value--;
+				$(this).closest('tr').find('input.daysVal').val(value);
+		    }
+		});
 	});
 </script>
 <div class="pageheader">
-		<div class="media">
-		<div class="pageicon pull-left">
-            <i style="padding: 10px 0 0 0;" class="fa fa-scissors"></i>
-        </div>
+	<div class="media">
         <div class="media-body">
-    	<h4>Partial Cancellation</h4>
+    	<h4>Refund Voucher</h4>
         <ul class="breadcrumb">
             <li><a href="{{ url('/') }}"><i class="glyphicon glyphicon-home"></i></a></li>
             <li><a href="{{ url('/refund-voucher') }}">Refund Voucher</a></li>
-            <li>Partial Cancellation</li>
+            <li>Create</li>
         </ul>
     	</div>
     </div>
 </div>
 <div class="contentpanel">
-<div id="page-wrapper">  
-	<div class="row">
+<div id="page-wrapper">
+	@if(!isset($_GET['token']))  
+	<div class="row" style="margin-bottom: 20px">
 		<div class="col-md-12">
 			<form class="form-inline" method="get" action="">
 				<div class="form-group" style="margin-right: 0">
-					<input type="number" name="token" class="form-control" placeholder="Enter receipt number" required="">
+					<input type="number" name="token" class="form-control" placeholder="*Receipt No" required="">
 				</div>
 				<button type="submit" class="btn btn-info">Find</button>
 			</form>
 		</div>
-	</div>   
-    <div class="row" style="margin-top: 20px">
+	</div>
+	@else  
+    <div class="row">
 	    <div class="col-md-12">
 	    	@include('flashmessage')
-	    	@if(count($booking)>0 && !empty($booking_no))
-	    	<div class="table-responsive">
-	          <table class="table mb30">
-	            <thead>
-	              <tr>
-	                <th class="facility-th" colspan="4">Booking Entry</th>
-	              </tr>
-	            </thead>
-	            <tbody>
-	              <tr>
-	                <td style="padding-top: 15px" class="facility-td"><b>Booking No:</b></td>
-	                <td style="padding-top: 15px" class="facility-td"><?php echo $booking[0]->booking_no; ?></td>
-	                <td style="padding-top: 15px" class="facility-td"><b>Booking Date:</b></td>
-	                <td style="padding-top: 15px" class="facility-td"><?php echo date_dfy($booking[0]->booking_date); ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Party Name:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->party_name; ?></td>
-	                <td class="facility-td"><b>Function Date:</b></td>
-	                <td class="facility-td"><?php echo date_dfy($booking[0]->function_date); ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Function Time:</b></td>
-	                <td class="facility-td"><?php echo am_pm($booking[0]->from_time).' - '.am_pm($booking[0]->to_time); ?></td>
-	                <td class="facility-td"><b>Function Type:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->function_type; ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Bill No:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->bill_no; ?></td>
-	                <td class="facility-td"><b>Bill Date:</b></td>
-	                <td class="facility-td"><?php echo date_dfy($booking[0]->bill_date); ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Member:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->member_name; ?></td>
-	                <td class="facility-td"><b>Member Type:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->member_type; ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Phone:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->phone; ?></td>
-	                <td class="facility-td"><b>Mobile:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->mobile; ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Address:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->address; ?></td>
-	                <td class="facility-td"><b>No of Persons:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->noofpersons; ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Booking Status:</b></td>
-	                <?php
-	                if($booking[0]->booking_status == '0'){
-						$booking_status = "Pending";
-					}
-	                elseif($booking[0]->booking_status == '1'){
-						$booking_status = "Booked";
-					}
-					else{
-						$booking_status = "Cancelled";
-					}
-	                ?>
-	                <td class="facility-td">{{$booking_status}}</td>
-	              </tr>
-	              <?php if($booking_status == 'Cancelled'){ ?>
-	              <tr>
-	                <td class="facility-td"><b>Cancel Date:</b></td>
-	                <td class="facility-td"><?php echo date_dfy($booking[0]->cancel_date); ?></td>
-	                <td class="facility-td"><b>Cancel (%):</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->cancel_percentage; ?></td>
-	              </tr>
-	              <tr>
-	                <td class="facility-td"><b>Cancel Amount:</b></td>
-	                <td class="facility-td"><?php echo $booking[0]->cancel_amount; ?></td>
-	              </tr>
-				  <?php }?>
-	            </tbody>
-	          </table>
-            </div>
-			<form method="post" action="{{ url('refund-voucher/partialupdate/'.$booking[0]->id) }}">
+	    	<form method="post" action="{{ url('refund-voucher/partialupdate/'.$_GET['token']) }}">
 			{{ csrf_field() }}
-			<div class="table-responsive" style="overflow-x: scroll">
-	          <table class="table mb30">
-	            <thead>
-	              <tr>
-	                <th class="facility-th" colspan="17">Facility Details</th>
-	              </tr>
-	            </thead>
-	            <tbody>
-	              <tr>
-	                <td style="min-width: 100px" class="left-align"><b>Select</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Facility</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Quantity</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>No of Days</b></td>
-	                <td style="min-width: 150px" class="left-align"><b>From Date</b></td>
-	                <td style="min-width: 150px" class="left-align"><b>To Date</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Booking Rate</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Safai &amp; General</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Generator</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>AC</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Security</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Safai (Rebate)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Tentage (Rebate)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Catering (Rebate)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Electricity (Rebate)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>CGST (%)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>CGST (Amt)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>SGST (%)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>SGST (Amt)</b></td>
-	                <td style="min-width: 100px" class="left-align"><b>Total Amount</b></td>
-	              </tr>
-	              @foreach ($bookingfacility as $value)
-	              <tr>
-	                <td class="left-align">
-	                	<input type="checkbox" name="facility_checked[]" value="{{ $value->id }}"/>
-	                	<!--<input type="hidden" name="facility_checked[]" value=""/>-->
-	                	<input type="hidden" name="facility_hidden[]" value="{{ $value->id }}"/>
-	                </td>
-	                <td class="left-align">{{ $value->facility_name }}</td>
-	                <td class="left-align">{{ $value->quantity }}</td>
-	                <td class="left-align">{{ slash_decimal($value->noofdays) }}</td>
-	                <td class="left-align">{{ date_dfy($value->from_date) }}</td>
-	                <td class="left-align">{{ date_dfy($value->to_date) }}</td>
-	                <td class="left-align">{{ $value->booking_rate }}</td>
-	                <td class="left-align">{{ $value->safai_general }}</td>
-	                <td class="left-align">{{ $value->generator_charges }}</td>
-	                <td class="left-align">{{ $value->ac_charges }}</td>
-	                <td class="left-align">{{ $value->security_charges }}</td>
-	                <td class="left-align">{{ $value->rebate_safai }}</td>
-	                <td class="left-align">{{ $value->rebate_tentage }}</td>
-	                <td class="left-align">{{ $value->rebate_catering }}</td>
-	                <td class="left-align">{{ $value->rebate_electricity }}</td>
-	                <td class="left-align">{{ $value->servicetax_percentage }}</td>
-	                <td class="left-align">{{ $value->servicetax_amount }}</td>
-	                <td class="left-align">{{ $value->vat_percentage }}</td>
-	                <td class="left-align">{{ $value->vat_amount }}</td>
-	                <td class="left-align">{{ $value->total_amount }}</td>
-	              </tr>
-	              @endforeach
-	            </tbody>
-	          </table>
-          </div>
-          	<!--<button style="margin-top: 20px" type="submit" class="btn btn-primary">Remove all checked items</button>-->
-          	<a style="margin-top: 20px" href="javascript:" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary"><i class="fa fa-trash-o"></i> Remove all checked items</a>
-          	<div class="modal fade paymentModal" id="paymentModal" tabindex="-1" role="dialog">
-	            <div class="modal-dialog">
-	              <div class="modal-content">
-	                  <div class="modal-header">
-	                      <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-	                      <h4 class="modal-title">Select Payment Mode</h4>
-	                  </div>
-	                  <div class="modal-body">
-	                  	  <div class="form-group">
-						    <label>Payment Mode:</label>
-						    <select class="form-control" name="payment_mode" id="payment_mode" required="" onchange="paymentMode(this.value);">
-						    	<option value="Cash">Cash</option>
-						    	<option value="Cheque">Cheque</option>
-						    	<option value="DD">DD</option>
-						    	<option value="Direct Transfer">Direct Transfer</option>
-						    </select>
-						  </div>
-	                  	  <div class="form-group" id="chequeNo_section" style="display: none">
-							  <label>Cheque/DD No/Direct Txn No:</label>
-							  <input type="text" class="form-control" placeholder="Enter Cheque/DD No" name="cheque_no" id="cheque_no">
-						  </div>
-						  <div class="form-group" id="chequeDate_section" style="display: none">
-						      <label>Dated:</label>
-							  <div class="input-group date">
-								<input type="text" name="cheque_date" id="cheque_date" class="form-control" placeholder="Enter Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							  </div>
-						  </div>
-						  <div class="form-group" id="chequeDrawn_section" style="display: none">
-						      <label>Drawn On:</label>
-						      <input type="text" class="form-control" placeholder="Enter Drawn on" name="cheque_drawn" id="cheque_drawn">
-						  </div>
-						  <input type="hidden" name="receipt_id" value="{{$_GET['token']}}"/>
-	                  </div>
-	                  <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				        <button type="submit" class="btn btn-primary">Submit</button>
-				      </div>
-	              </div>
-	            </div>
-	        </div>
-          	</form>
-			@elseif(isset($_GET['booking_no']))
-			<div>No Results Found!</div>
-			@endif
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+				      <label>Receipt No:</label>
+					  <input type="text" class="form-control" value="{{$_GET['token']}}" disabled>
+				    </div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+					    <label>Voucher No:</label>
+					    <input type="number" class="form-control" name="voucher_id" id="voucher_id" value="{{$voucher_id +1}}" disabled="">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+				      <label>Voucher Date:</label>
+					  <div class="input-group date">
+						<input type="text" name="voucher_date" id="voucher_date" class="form-control" placeholder="Enter Voucher Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					  </div>
+				    </div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+					    <label>Payment Mode:</label>
+					    <select class="form-control" name="payment_mode" id="payment_mode" required="" onchange="paymentMode(this.value);">
+					    	<option value="Cash">Cash</option>
+					    	<option value="Cheque" selected>Cheque</option>
+					    	<option value="DD">DD</option>
+					    	<option value="Direct Transfer">Direct Transfer</option>
+					    </select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" id="chequeNo_section">
+					    <label>Cheque/DD No/Direct Txn No:</label>
+					    <input type="text" class="form-control" placeholder="Enter Cheque/DD No/Direct Txn No:" name="cheque_no" id="cheque_no">
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group" id="chequeDate_section">
+				      <label>Dated:</label>
+					  <div class="input-group date">
+						<input type="text" name="cheque_date" id="cheque_date" class="form-control" placeholder="Enter Date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+					  </div>
+				    </div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" id="chequeDrawn_section">
+					    <label>Drawn On:</label>
+					    <input type="text" class="form-control" placeholder="Enter Drawn on" name="cheque_drawn" id="cheque_drawn">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-responsive mb15">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+					                <td style="min-width: 100px"><b>Facility</b></td>
+					                <td style="min-width: 100px"><b>Price</b></td>
+					                <td style="min-width: 100px"><b>Quantity</b></td>
+					                <td style="min-width: 100px"><b>No of Days</b></td>
+					                <td style="min-width: 100px"><b>Amount</b></td>
+					                <td style="min-width: 100px"><b>Deduction</b></td>
+					            </tr>
+							</thead>
+							<tbody class="field_wrapper">
+								@foreach($receiptfacility as $key=>$value)
+								<tr>
+					                <td>
+					                  {{$value->facility_name}}
+					                  <input type="hidden" name="facility_id[]" value="{{$value->facility_id}}">
+					                </td>
+					                <td>
+										{{$value->booking_rate}}
+										<input type="hidden" name="booking_rate[]" value="{{$value->booking_rate}}"/>
+									</td>
+									<td>
+										{{$value->quantity}}
+										<input type="hidden" name="quantity[]" value="{{$value->quantity}}"/>
+									</td>
+									<td>
+										{{$value->noofdays}}
+										<input class="daysVal" type="hidden" name="no_of_days[]" value="{{$value->noofdays}}"/>
+									</td>
+					                <td>
+										{{$value->quantity*$value->noofdays*$value->booking_rate}}
+										<input type="hidden" name="amount[]" value="{{$value->quantity*$value->noofdays*$value->booking_rate}}"/>
+									</td>
+					                <td>
+									  <div class="form-group">
+										<input type="number" name="deduction[]" class="form-control">
+									  </div>
+									</td>
+					            </tr>
+								@endforeach
+								@if($receipt->misc_amount > 0)
+								<tr>
+					                <td>{{$receipt->misc}}</td>
+					                <td>-</td>
+					                <td>-</td>
+					                <td>-</td>
+					                <td>{{$receipt->misc_amount}}
+									</td>
+					                <td>
+									  <div class="form-group">
+										<input type="number" name="misc_deduction" class="form-control">
+									  </div>
+									</td>
+					            </tr>
+								@endif
+								@if($receipt->others_amount > 0)
+					            <tr>
+					                <td>{{$receipt->others}}</td>
+					                <td>-</td>
+					                <td>-</td>
+					                <td>-</td>
+					                <td>{{$receipt->others_amount}}
+									</td>
+					                <td>
+									  <div class="form-group">
+										<input type="number" name="others_deduction" class="form-control">
+									  </div>
+									</td>
+					            </tr>
+								@endif
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+        </form>
 		</div>
 	</div>
+	@endif 
 </div>
 </div>
 @endsection

@@ -8,56 +8,56 @@
     <tbody>
       <tr>
         <td class="facility-td"><b>Receipt No/Date:</b></td>
-        <td class="facility-td"><?php echo $receipt_data[0]->receipt_no.'/'.date_dfy($receipt_data[0]->created_at); ?></td>
+        <td class="facility-td"><?php echo $receipt[0]->receipt_no.'/'.date_dfy($receipt[0]->created_at); ?></td>
         <td class="facility-td"><b>Booking No/Date:</b></td>
         <td class="facility-td">@if(!empty($receipt[0]->booking_no)) {{ $receipt[0]->booking_no.'/'}} @endif
         {{ date_dfy($receipt[0]->updated_at)}}</td>
       </tr>
       <tr>
-      	@if($receipt_data[0]->receipt_type == '5')
+      	@if($receipt[0]->receipt_type == '5')
       	<td class="facility-td"><b>Party Name:</b></td>
-      	<td class="facility-td"><?php echo $receipt_data[0]->party_name; ?></td>
-      	@elseif($receipt_data[0]->receipt_type == '6')
+      	<td class="facility-td"><?php echo $receipt[0]->party_name; ?></td>
+      	@elseif($receipt[0]->receipt_type == '6')
       	<td class="facility-td"><b>Bank Name:</b></td>
-      	<td class="facility-td"><?php echo $receipt_data[0]->party_name; ?></td>
+      	<td class="facility-td"><?php echo $receipt[0]->party_name; ?></td>
       	@else
       	<td class="facility-td"><b>Membership No/Party Name:</b></td>
-        <td class="facility-td"><?php echo $receipt_data[0]->membership_no.'/'.$receipt_data[0]->party_name; ?></td>
+        <td class="facility-td"><?php echo $receipt[0]->membership_no.'/'.$receipt[0]->party_name; ?></td>
       	@endif
       	
-      	@if($receipt_data[0]->receipt_type == '6')
+      	@if($receipt[0]->receipt_type == '6')
       	<td class="facility-td"><b>Bank GSTIN:</b></td>
       	@else
       	<td class="facility-td"><b>Party GSTIN:</b></td>
       	@endif
-        <td class="facility-td">{{$receipt_data[0]->party_gstin}}</td>
+        <td class="facility-td">{{$receipt[0]->party_gstin}}</td>
       </tr>
       <tr>
         <td class="facility-td"><b>Reverse Charges:</b></td>
-        <td class="facility-td">@if($receipt_data[0]->reverse_charges == '1') Yes @else No @endif</td>
+        <td class="facility-td">@if($receipt[0]->reverse_charges == '1') Yes @else No @endif</td>
         <td class="facility-td"><b>Function Date:</b></td>
-        <td class="facility-td"><?php echo date_dfy($receipt_data[0]->function_date); ?></td>
+        <td class="facility-td"><?php echo date_dfy($receipt[0]->function_date); ?></td>
       </tr>
       <tr>
         <td class="facility-td"><b>Phone:</b></td>
-        <td class="facility-td"><?php echo $receipt_data[0]->phone; ?></td>
+        <td class="facility-td"><?php echo $receipt[0]->phone; ?></td>
         <td class="facility-td"><b>Mobile:</b></td>
-        <td class="facility-td"><?php echo $receipt_data[0]->mobile; ?></td>
+        <td class="facility-td"><?php echo $receipt[0]->mobile; ?></td>
       </tr>
       <tr>
         <td class="facility-td"><b>Address:</b></td>
-        <td class="facility-td"><?php echo $receipt_data[0]->address; ?></td>
+        <td class="facility-td"><?php echo $receipt[0]->address; ?></td>
         <td class="facility-td"><b>Payment Mode:</b></td>
-        @if($receipt_data[0]->payment_mode == 'Cheque' || $receipt_data[0]->payment_mode == 'DD')
-        <td class="facility-td"><?php echo $receipt_data[0]->payment_mode.'/'.$receipt_data[0]->cheque_no.'/'.date_dfy($receipt_data[0]->cheque_date).'/'.$receipt_data[0]->cheque_drawn; ?></td>
+        @if($receipt[0]->payment_mode == 'Cheque' || $receipt[0]->payment_mode == 'DD')
+        <td class="facility-td"><?php echo $receipt[0]->payment_mode.'/'.$receipt[0]->cheque_no.'/'.date_dfy($receipt[0]->cheque_date).'/'.$receipt[0]->cheque_drawn; ?></td>
         @else
-        <td class="facility-td"><?php echo $receipt_data[0]->payment_mode; ?></td>
+        <td class="facility-td"><?php echo $receipt[0]->payment_mode; ?></td>
         @endif
       </tr>
       
       <tr>
         <td class="facility-td"><b>Contractor Name:</b></td>
-        <td class="facility-td"><?php echo $contractor->getContractorName($receipt_data[0]->contractor_id); ?></td>
+        <td class="facility-td"><?php echo $contractor->getContractorName($receipt[0]->contractor_id); ?></td>
       @if(!empty($receipt[0]->comments))
       	<td class="facility-td"><b>Comments:</b></td>
         <td class="facility-td">{{ $receipt[0]->comments }}</td>
@@ -84,43 +84,62 @@
 			<th>Rate (%)</th>
 			<th>Amount</th>
 		</tr>
-		<?php $i = 0;?>
+		@php 
+			$i = $total = 0;
+			$sgst = get_gst('SGST',$receipt[0]->parent_id);
+			$cgst = get_gst('CGST',$receipt[0]->parent_id);
+		@endphp
 		<tr>
-			<td><?php 	echo $i = $i+1;
-						$amount = $receipt_data[0]->tentage_cost;
-						$amount_tax_st = percent_amount($amount,$global_st);
-						$amount_tax_vat = percent_amount($amount,$global_vat);
-						$reverse_charges = $amount_tax_st+$amount_tax_vat;
-				?>
-			</td>
+			<td>{{ ++$i }}</td>
 			<td>Estimated cost of tentage</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($amount)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{slash_decimal($amount_tax_st)}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{slash_decimal($amount_tax_vat)}}</td>
-			<td>{{slash_decimal($amount+$amount_tax_st+$amount_tax_vat)}}</td>
+			<td>{{slash_decimal($receipt[0]->tentage_cost)}}</td>
+			<td>{{slash_decimal($cgst)}}</td>
+			<td>{{slash_decimal(percent_amount($receipt[0]->tentage_cost,$cgst))}}</td>
+			<td>{{slash_decimal($sgst)}}</td>
+			<td>{{slash_decimal(percent_amount($receipt[0]->tentage_cost,$sgst))}}</td>
+			<td>{{slash_decimal($receipt[0]->tentage_cost + percent_amount($receipt[0]->tentage_cost,$cgst+$sgst))}}</td>
 		</tr>
+		@if($receipt[0]->security >0)
+		<tr>
+			<td>{{ ++$i }}</td>
+			<td>Security Deposit</td>
+			<td>00440035</td>
+			<td>{{slash_decimal($receipt[0]->security)}}</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>-</td>
+			<td>{{slash_decimal($receipt[0]->security)}}</td>
+		</tr>
+		@endif
 		<tr>
 	        <td style="border-right: none" colspan="8" class="right-align">Total Amount Before Tax:</td>
-	        <td>{{round($amount)}}</td>
+	        <td>{{round($receipt[0]->tentage_cost + $receipt[0]->security)}}</td>
 		</tr>
 			<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">CGST:</td>
-	        <td style="border-top: none;">{{round($amount_tax_st)}}</td>
+	        <td style="border-top: none;">{{round(percent_amount($receipt[0]->tentage_cost,$cgst))}}</td>
 		</tr>
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">SGST:</td>
-	        <td style="border-top: none;">{{round($amount_tax_vat)}}</td>
+	        <td style="border-top: none;">{{round(percent_amount($receipt[0]->tentage_cost,$sgst))}}</td>
 		</tr>
 			<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Reverse Charges:</td>
-	        <td style="border-top: none;">@if($receipt_data[0]->reverse_charges == '1'){{round($reverse_charges)}}@else 0 @endif</td>
+	        <td style="border-top: none;">
+	        @if($receipt[0]->reverse_charges == '1')
+	        	{{round(percent_amount($receipt[0]->tentage_cost,$cgst+$sgst))}}
+	        @else
+	        	0 
+	        @endif
+	        </td>
 		</tr>
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Total Amount:</td>
-	        <td style="border-top: none;">{{round($amount+$amount_tax_st+$amount_tax_vat)}}</td>
+	        <td style="border-top: none;">
+	        {{round($receipt[0]->tentage_cost + $receipt[0]->security + percent_amount($receipt[0]->tentage_cost,$cgst+$sgst))}}
+	        </td>
 		</tr>
 	</tbody>
   </table>

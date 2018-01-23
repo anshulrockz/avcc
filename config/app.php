@@ -162,7 +162,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+		Barryvdh\Debugbar\ServiceProvider::class,
+		
         /*
          * Package Service Providers...
          */
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Datatables' => 'Yajra\Datatables\Facades\Datatables',
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

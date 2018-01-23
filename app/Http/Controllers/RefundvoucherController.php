@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,7 @@ class RefundvoucherController extends Controller
     }
     public function save(Request $request)
     {
-		$booking_no = $request->input('booking_no');
+		$receipt_id = $request->input('receipt_no');
 		$voucher_date = $request->input('voucher_date');
 		$payment_mode = $request->input('payment_mode');
 		$cheque_no = $request->input('cheque_no');
@@ -41,13 +42,13 @@ class RefundvoucherController extends Controller
 		$refund_type = $request->input('refund_type');
 		
 		$this->validate($request,[
-			'booking_no'=>'required',
 			'voucher_date'=>'required|date',
 			'refund_type'=>'required',
+			'receipt_no'=>'required',
 			'payment_mode'=>'required'
 		]);
 		
-		$result = $this->refundvoucher->refundvoucher_add($refund_type,$booking_no,$voucher_date,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn);
+		$result = $this->refundvoucher->refundvoucher_add($refund_type,$receipt_id,$voucher_date,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn);
 		if($result){
 			$request->session()->flash('success', 'Voucher created successfully!');
 		}
@@ -58,59 +59,53 @@ class RefundvoucherController extends Controller
     }
     public function partialcancel()
     {
-		$booking_no = '';
+		$token = '';
 		if(isset($_GET['token'])){
-			$booking_no = $_GET['token'];
+			$token = $_GET['token'];
 		}
-		$booking = $this->refundvoucher->booking($booking_no);
-		$bookingfacility = $this->refundvoucher->bookingfacility($booking_no);
-		return view('refundvoucher/partialcancel',['bookingfacility'=>$bookingfacility,'booking'=>$booking,'booking_no'=>$booking_no]);
+		
+		$receipt = $this->refundvoucher->receipt($token); 
+		$receiptfacility = $this->refundvoucher->receiptfacility($token);
+		//dd($receiptfacility); die();
+		$refundvoucher = DB::table('refundvoucher')->orderBy('id', 'desc')->first();
+		$refundvoucher_id = 0;
+		if(!empty($refundvoucher)){
+			$refundvoucher_id = $refundvoucher->id;
+		}
+		return view('refundvoucher/partialcancel',['receipt'=>$receipt,'receiptfacility'=>$receiptfacility,'voucher_id'=>$refundvoucher_id]);
     }
     public function partialupdate(Request $request,$id)
     {
-		$facility_checked = $request->input('facility_checked');
-		$facility_hidden = $request->input('facility_hidden');
+		$voucher_date = $request->input('voucher_date');
 		$payment_mode = $request->input('payment_mode');
 		$cheque_no = $request->input('cheque_no');
 		$cheque_date = $request->input('cheque_date');
 		$cheque_drawn = $request->input('cheque_drawn');
-		$receipt_id = $request->input('receipt_id');
 		
-		//echo "<pre>";
-//		print_r($facility_checked);
-//		die;
+		$facility = $request->input('facility_id');
+		$booking_rate = $request->input('booking_rate');
+		$quantity = $request->input('quantity');
+		$no_of_days = $request->input('no_of_days');
+		$amount = $request->input('amount');
+		$deduction = $request->input('deduction');
+		$misc_deduction = $request->input('misc_deduction');
+		$others_deduction = $request->input('others_deduction');
 
-		if(count($facility_hidden) == count($facility_checked)){
-			$request->session()->flash('error', 'For full cancellation, Go to booking section!');
-			return redirect()->back();
-		}
-		elseif(count($facility_checked) == 0){
-			$request->session()->flash('error', 'Something went wrong!');
-			return redirect()->back();
+		$result = $this->refundvoucher->partial_update($id,$voucher_date,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$facility,$booking_rate,$quantity,$no_of_days,$amount,$deduction,$misc_deduction,$others_deduction);
+		
+		if($result){
+			$request->session()->flash('success', 'Voucher created successfully!');
 		}
 		else{
-			$result = $this->refundvoucher->refundvoucher_update($receipt_id,$id,$facility_checked,$facility_hidden,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn);
-			if($result){
-				$request->session()->flash('success', 'Voucher created successfully!');
-			}
-			else{
-				$request->session()->flash('error', 'Something went wrong!');
-			}
-			return redirect()->action('RefundvoucherController@index');
+			$request->session()->flash('error', 'Something went wrong!');
 		}
+		return redirect()->action('RefundvoucherController@index');
     }
 	public function view($id)
     {
 		$refundvoucher = $this->refundvoucher->refundvoucher_view($id);
 		$refund_facility = $this->refundvoucher->refund_facility($id);
-//		print_r($refund_details);
-//		die;
+		$receipt_id = $this->refundvoucher->getReceiptID($id);
 		return view('refundvoucher/view',['voucher'=>$refundvoucher,'refund_facility'=>$refund_facility]);
     }
-    public function bookingdetails_ajax(Request $request)
-    {
-		$booking_no = $request->input('booking_no');
-		$refund_type = $request->input('refund_type');
-		$this->refundvoucher->bookingdetails_ajax($booking_no,$refund_type);
-	}
 }

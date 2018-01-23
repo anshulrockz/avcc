@@ -17,12 +17,14 @@ class Receiptfd extends Model
     
     public function receipt_list()
 	{
-		return DB::table('receipt_fd')
-		->leftJoin('receipt', 'receipt.id', '=', 'receipt_fd.parent_id')
+		return DB::table('receipt')
+		->leftJoin('receipt_fd', 'receipt.id', '=', 'receipt_fd.parent_id')
 		->where([
-		['receipt.status','1'],
+		['receipt.status','!=','0'],
+		['receipt.receipt_type','9'],
 		])
-		->orderBy('receipt_fd.id', 'desc')
+		->groupBy('receipt.id')
+		->orderBy('receipt.id','DESC')
 		->get();
 	}
 	
@@ -32,15 +34,20 @@ class Receiptfd extends Model
 		
 		try{
 			$receipt_id = DB::transaction(function () use ($user_id,$party_name,$party_gstin,$phone,$mobile,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$fd_principal_amt,$fd_interest,$tds,$comments)
-			{
+				{
+				
+				if(!empty($cheque_date)){
+					$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
+				}
+				
 				$receipt_id = DB::table('receipt')->insertGetId(
-					    ['receipt_type' => '9', 'party_name' => $party_name,'party_gstin' => $party_gstin,'phone' => $phone,'mobile' => $mobile,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'updated_at' => $this->date,'created_by' => $user_id,'updated_by' => $user_id]
+					    ['receipt_type' => '9', 'party_name' => $party_name,'party_gstin' => $party_gstin,'phone' => $phone,'mobile' => $mobile,'address' => $address,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'updated_at' => $this->date,'created_by' => $user_id,'updated_by' => $user_id, 'comments' => $comments]
 				);
 				
 				DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
 				
 				$receipt_fd_id = DB::table('receipt_fd')->insertGetId(
-				    ['parent_id' => $receipt_id, 'principal_amount' => $fd_principal_amt,'interest' => $fd_interest,'tds' => $tds, 'comments' => $comments]
+				    ['parent_id' => $receipt_id, 'principal_amount' => $fd_principal_amt,'interest' => $fd_interest,'tds' => $tds]
 				);
 				
 				return $receipt_id;

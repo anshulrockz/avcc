@@ -85,123 +85,88 @@
 			<th>Rate (%)</th>
 			<th>Amount</th>
 		</tr>
-		<?php $total_amount = $i = 0;?>
+		@php 
+			$i = $total = 0;
+			$sgst = get_gst('SGST',$receipt[0]->parent_id);
+			$cgst = get_gst('CGST',$receipt[0]->parent_id);
+		@endphp
+		
 		@if($receipt[0]->safai>0)
 		<tr>
-			<td><?php 	
-					echo $i = $i+1; 
-					$amount_safai = $receipt[0]->safai;
-					$amount_safai_tax_st = ($amount_safai*$global_st)/100;
-					$amount_safai_tax_vat = ($amount_safai*$global_vat)/100;
-					$total_amount_safai = $amount_safai+$amount_safai_tax_st+$amount_safai_tax_vat;
-					$total_amount = $total_amount + $total_amount_safai;
-				?>
-			</td>
+			<td>{{ ++$i }}</td>
 			<td>Rebate on safai</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($amount_safai)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{round($amount_safai_tax_st)}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{round($amount_safai_tax_vat)}}</td>
-			<td>{{round($total_amount_safai)}}</td>
+			<td>{{$total = $total + slash_decimal($receipt[0]->safai)}}</td>
+			<td>{{slash_decimal($cgst)}}</td>
+			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->safai))}}</td>
+			<td>{{slash_decimal($sgst)}}</td>
+			<td>{{slash_decimal(percent_amount($sgst,$receipt[0]->safai))}}</td>
+			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->safai))}}</td>
 		</tr>
 		@endif
 		@if($receipt[0]->tentage>0)
 		<tr>
-			<td><?php 	
-					echo $i = $i+1; 
-					$amount_tentage = $receipt[0]->tentage;
-					$amount_tentage_tax_st = ($amount_tentage*$global_st)/100;
-					$amount_tentage_tax_vat = ($amount_tentage*$global_vat)/100;
-					$total_amount_tentage = $amount_tentage+$amount_tentage_tax_st+$amount_tentage_tax_vat;
-					$total_amount = $total_amount + $total_amount_tentage;
-				?>
-			</td>
+			<td>{{ ++$i }}</td>
 			<td>Rebate on tentage</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($amount_tentage)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{round($amount_tentage_tax_st)}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{round($amount_tentage_tax_vat)}}</td>
-			<td>{{round($total_amount_tentage)}}</td>
+			<td>{{$total = $total + slash_decimal($receipt[0]->tentage)}}</td>
+			<td>{{slash_decimal($cgst)}}</td>
+			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->tentage))}}</td>
+			<td>{{slash_decimal($sgst)}}</td>
+			<td>{{slash_decimal(percent_amount($sgst,$receipt[0]->tentage))}}</td>
+			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->tentage))}}</td>
 		</tr>
 		@endif
 		@if($receipt[0]->catering>0)
 		<tr>
-			<td><?php 	
-					echo $i = $i+1; 
-					$amount_catering = $receipt[0]->catering;
-					$amount_catering_tax_st = ($amount_catering*$global_st)/100;
-					$amount_catering_tax_vat = ($amount_catering*$global_vat)/100;
-					$total_amount_catering = $amount_catering+$amount_catering_tax_st+$amount_catering_tax_vat;
-					$total_amount = $total_amount + $total_amount_catering;
-				?>
-			</td>
+			<td>{{ ++$i }}</td>
 			<td>Rebate on catering</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($amount_catering)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{round($amount_catering_tax_st)}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{round($amount_catering_tax_vat)}}</td>
-			<td>{{round($total_amount_catering)}}</td>
+			<td>{{$total = $total + slash_decimal($receipt[0]->catering)}}</td>
+			<td>{{slash_decimal($cgst)}}</td>
+			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->catering))}}</td>
+			<td>{{slash_decimal($sgst)}}</td>
+			<td>{{slash_decimal(percent_amount($sgst,$receipt[0]->catering))}}</td>
+			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->catering))}}</td>
 		</tr>
 		@endif
 		@if($receipt[0]->food>0)
 		<tr>
-			<td><?php 	
-					echo $i = $i+1; 
-					$amount_food = $receipt[0]->food;
-					$amount_food_tax_st = ($amount_food*$global_st)/100;
-					$amount_food_tax_vat = ($amount_food*$global_vat)/100;
-					$total_amount_food = $amount_food+$amount_food_tax_st+$amount_food_tax_vat;
-					$total_amount = $total_amount + $total_amount_food;
-				?>
-			</td>
+			<td>{{ ++$i }}</td>
 			<td>Rebate on food</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($amount_food)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{round($amount_food_tax_st)}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{round($amount_food_tax_vat)}}</td>
-			<td>{{round($total_amount_food)}}</td>
+			<td>{{$total = $total + slash_decimal($receipt[0]->food)}}</td>
+			<td>{{slash_decimal($cgst)}}</td>
+			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->food))}}</td>
+			<td>{{slash_decimal($sgst)}}</td>
+			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->food))}}</td>
+			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->food))}}</td>
 		</tr>
 		@endif
 		@if($receipt[0]->electricity>0)
 		<tr>
-			<td><?php 	
-					echo $i = $i+1; 
-					$amount_electricity = $receipt[0]->electricity;
-					$amount_electricity_tax_st = ($amount_electricity*$global_st)/100;
-					$amount_electricity_tax_vat = ($amount_electricity*$global_vat)/100;
-					$total_amount_electricity = $amount_electricity+$amount_electricity_tax_st+$amount_electricity_tax_vat;
-					$total_amount = $total_amount+$total_amount_electricity;
-				?>
-			</td>
+			<td>{{ ++$i }}</td>
 			<td>Rebate on electricity</td>
 			<td>00440035</td>
-			<td>{{slash_decimal($amount_electricity)}}</td>
-			<td>{{slash_decimal($global_st)}}</td>
-			<td>{{round($amount_electricity_tax_st)}}</td>
-			<td>{{slash_decimal($global_vat)}}</td>
-			<td>{{round($amount_electricity_tax_vat)}}</td>
-			<td>{{round($total_amount_electricity)}}</td>
+			<td>{{$total = $total + slash_decimal($receipt[0]->electricity)}}</td>
+			<td>{{slash_decimal($cgst)}}</td>
+			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->electricity))}}</td>
+			<td>{{slash_decimal($sgst)}}</td>
+			<td>{{slash_decimal(percent_amount($sgst,$receipt[0]->electricity))}}</td>
+			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->electricity))}}</td>
 		</tr>
 		@endif
 		<tr>
 	        <td style="border-right: none" colspan="8" class="right-align">Total Amount Before Tax:</td>
-	        <td>{{round($receipt[0]->safai+$receipt[0]->tentage+$receipt[0]->catering + $receipt[0]->food + $receipt[0]->electricity)}}</td>
+	        <td>{{round($total)}}</td>
 		</tr>
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">CGST:</td>
-	        <td style="border-top: none;">{{round(($receipt[0]->safai+$receipt[0]->tentage+$receipt[0]->catering + $receipt[0]->food + $receipt[0]->electricity)*$global_st)/100}}</td>
+	        <td style="border-top: none;">{{round(percent_amount($total,$cgst))}}</td>
 		</tr>
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">SGST:</td>
-	        <td style="border-top: none;">{{round(($receipt[0]->safai+$receipt[0]->tentage+$receipt[0]->catering + $receipt[0]->food + $receipt[0]->electricity)*$global_vat)/100}}</td></td>
+	        <td style="border-top: none;">{{round(percent_amount($total,$sgst))}}</td></td>
 		</tr>
 		<!--<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Total Tax:</td>
@@ -212,18 +177,16 @@
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Reverse Charges:</td>
 	        <td style="border-top: none;">
 	        	@if($receipt[0]->reverse_charges == '1')
-	        	{{round(($receipt[0]->safai+$receipt[0]->tentage+$receipt[0]->catering + $receipt[0]->food + $receipt[0]->electricity)*($global_vat+$global_vat))/100}}
-	    			@else 
-	    			0
-	    			@endif
+	        		{{round(percent_amount($total,$cgst+$sgst))}}
+    			@else
+    				0
+    			@endif
 	        </td>
 		</tr>
 		
 		<tr>
 	        <td style="border-top: none;border-right: none" colspan="8" class="right-align">Total Amount:</td>
-	        <td style="border-top: none;">
-	        	{{$total_amount}}
-	        </td>
+	        <td style="border-top: none;">{{round($total + percent_amount($total,$cgst+$sgst))}}</td>
 		</tr>
 	</tbody>
   </table>

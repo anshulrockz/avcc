@@ -61,7 +61,8 @@ $('.input-group.date').datepicker({
 	            <td>{{ am_pm($value->from_time).' - '. am_pm($value->to_time)}}</td>
 	            <td>{{ $value->function_type }}</td>
 	            @if($value->booking_status == '0')
-	            <td><span class="label label-warning">Pending</span></td>
+	            <!--<td><span class="label label-warning">Pending</span></td>-->
+	            <td><span class="label label-warning">Booked</span></td>
 	            @elseif($value->booking_status == '1')
 	            <td><span class="label label-success">Booked</span></td>
 	            @elseif($value->booking_status == '2')
@@ -74,7 +75,8 @@ $('.input-group.date').datepicker({
 	            <a onclick="return confirm('Are you sure you want to Delete?');" href="{{ url('/booking/delete/'.$value->id) }}" data-toggle="tooltip" title="Delete" class="btn btn-danger" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
 	            @endif
 	            @if($value->booking_status == '1')
-	            <a href="{{ url('/booking/partialedit/'.$value->id) }}" title="Edit" class="btn btn-warning" data-original-title="Edit"><i class="fa fa-plus-circle"></i></a>
+	            <!--<a href="{{ url('/booking/partialedit/'.$value->id) }}" title="Edit" class="btn btn-warning" data-original-title="Edit"><i class="fa fa-plus-circle"></i></a>-->
+	            <a href="{{ url('/booking/edit/'.$value->id) }}" data-toggle="tooltip" title="Edit" class="btn btn-primary" data-original-title="Edit"><i class="fa fa-pencil"></i></a>
 	            <a href="javascript:" data-toggle="modal" data-target="#cancelModal{{ $value->id }}" title="Full Cancel" class="btn btn-danger" data-original-title="Full Cancel"><i class="fa fa-times "></i></a>
 	            @endif
 	            <div class="modal fade cancelModal" id="cancelModal{{ $value->id }}" tabindex="-1" role="dialog">
@@ -102,7 +104,7 @@ $('.input-group.date').datepicker({
 							    <input type="number" class="form-control popup_input" placeholder="Enter cancel amount" name="cancel_amount" id="cancel_amount">
 							  </div>-->
 							  <?php if($value->booking_status == '1'){ ?>
-							  <div><b>Note:</b> The associated Receipt ID: {{$value->id}} will be auto cancelled with Booking ID: {{$value->id}}</div>
+							  <div><b>Note:</b> All associated Receipt will be auto cancelled with Booking ID: {{$value->id}}</div>
 							  <?php }?>
 		                  </div>
 		                  <div class="modal-footer">

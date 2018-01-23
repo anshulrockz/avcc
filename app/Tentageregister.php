@@ -19,23 +19,27 @@ class Tentageregister extends Model
 		$booking_details = DB::table('booking')
 		->select('booking.id as booking_id','booking.booking_no','booking.created_at as booking_date','booking.party_name','booking.function_date',DB::raw('SUM(bookingfacility.rebate_tentage) as rebate'))
 		->where([
-		['booking.status','1']
-		])
+			['booking.status','1']
+			])
 		->leftJoin('bookingfacility', 'booking.id', '=', 'bookingfacility.booking_id')
 		->orderBy('booking.id', 'desc')
 		->get();
 		return $booking_details;
 	}
+	
 	public function receipt_list()
 	{
 		$receipt_details = DB::table('receipt')
-		->select('booking_id',DB::raw('SUM(est_tentage) as est_tentage'),DB::raw('SUM(st_tent) as st_tent'),DB::raw('SUM(vat_tent) as vat_tent'))
+		->select('receipt.id as booking_id',	
+					DB::raw('SUM(receipt_tentage.tentage_cost) as est_tentage')
+				)
+		->leftJoin('receipt_tentage', 'receipt.id', '=', 'receipt_tentage.parent_id')
 		->where([
 		['receipt.status','1'],
-		['receipt.est_tentage','>','0']
+		['receipt_tentage.tentage_cost','>','0']
 		])
-		->groupBy('receipt.booking_id')
-		->orderBy('receipt.booking_id', 'desc')
+		->groupBy('receipt.id')
+		->orderBy('receipt.id', 'desc')
 		->get();
 		return $receipt_details;
 	}

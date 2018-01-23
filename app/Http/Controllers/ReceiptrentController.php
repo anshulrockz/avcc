@@ -21,10 +21,8 @@ class ReceiptrentController extends Controller
     {
 		$receipt = $this->receiptrent->receipt_list();
 		$count = $receipt->count();
-		$global_st = $this->receipt->global_st();
-		$global_vat = $this->receipt->global_vat();
-		$tax_check = $this->receiptrent;
-		return view('receipt-rent/list',['receipt'=>$receipt,'count'=>$count,'global_st'=>$global_st,'global_vat'=>$global_vat,'tax_check'=> $tax_check]);
+	
+		return view('receipt-rent/list',['receipt'=>$receipt,'count'=>$count]);
     }
     
     public function add()
@@ -49,6 +47,7 @@ class ReceiptrentController extends Controller
 		$rent_atm = $request->input('rent_atm');
 		$tds = $request->input('tds');
 		$with_tax = $request->input('with_tax');
+		$comments = $request->input('comments');
 		
 		if(empty($booking_no)){
 			$this->validate($request,[
@@ -63,7 +62,7 @@ class ReceiptrentController extends Controller
 			]);
 		}
 		
-		$result = $this->receiptrent->receipt_add($party_name,$party_gstin,$reverse_charges,$phone,$mobile,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$rent_premises,$rent_store,$rent_atm,$tds,$with_tax);
+		$result = $this->receiptrent->receipt_add($party_name,$party_gstin,$reverse_charges,$phone,$mobile,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$rent_premises,$rent_store,$rent_atm,$tds,$with_tax,$comments);
 		if($result){
 			return redirect()->action(
 			    'ReceiptController@view', ['id' => $result]

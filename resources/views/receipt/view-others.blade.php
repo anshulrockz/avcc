@@ -85,7 +85,25 @@
 		<th>Rate (%)</th>
 		<th>Amount</th>
 	</tr>
-	<?php $i = 0; $total = 0; ?>
+	<?php 
+		$i = 0;
+		$misc = $receipt[0]->misc;
+		$sgst = get_gst('SGST',$receipt[0]->parent_id);
+		$cgst = get_gst('CGST',$receipt[0]->parent_id);
+	?>
+	@if($receipt[0]->misc >0)
+	<tr>
+		<td><?php echo $i = $i+1; ?></td>
+		<td>Others</td>
+		<td>00440035</td>
+		<td>{{slash_decimal($misc)}}</td>
+		<td>{{slash_decimal($sgst)}} </td>
+		<td>{{percent_amount($sgst,$misc)}} </td>
+		<td>{{slash_decimal($cgst)}} </td>
+		<td>{{percent_amount($cgst,$misc) }} </td>
+		<td>{{$misc+percent_amount($sgst+$cgst,$misc)}}</td>
+	</tr>
+	@endif
 	@if($receipt[0]->security >0)
 	<tr>
 		<td><?php echo $i = $i+1; ?></td>
@@ -98,50 +116,20 @@
 		<td>-</td>
 		<td>{{slash_decimal($receipt[0]->security)}}</td>
 	</tr>
-	<?php $total = $total+$receipt[0]->security; ?>
 	@endif
-	@if($receipt[0]->corpus_fund >0)
-	<tr>
-		<td><?php echo $i = $i+1; ?></td>
-		<td>Corpus Fund</td>
-		<td>00440035</td>
-		<td>{{slash_decimal($receipt[0]->corpus_fund)}}</td>
-		<td>-</td>
-		<td>-</td>
-		<td>-</td>
-		<td>-</td>
-		<td>{{slash_decimal($receipt[0]->corpus_fund)}}</td>
-	</tr>
-	<?php $total = $total+$receipt[0]->corpus_fund; ?>
-	@endif
-	@if($receipt[0]->misc >0)
-	<tr>
-		<td><?php echo $i = $i+1; ?></td>
-		<td>Misc/Others</td>
-		<td>00440035</td>
-		<td>{{slash_decimal($receipt[0]->misc)}}</td>
-		<td>@if($others_withtax > '0'){{slash_decimal($global_st)}} @else 0 @endif</td>
-		<td>@if($others_withtax > '0'){{percent_amount($global_st,$receipt[0]->misc)}} @else 0 @endif</td>
-		<td>@if($others_withtax > '0'){{slash_decimal($global_vat)}} @else 0 @endif</td>
-		<td>@if($others_withtax > '0'){{ percent_amount($global_vat,$receipt[0]->misc) }} @else 0 @endif</td>
-		<td>@if($others_withtax > '0'){{$receipt[0]->misc+percent_amount($global_st,$receipt[0]->misc)+percent_amount($global_vat,$receipt[0]->misc)}}@else {{slash_decimal($receipt[0]->misc)}} @endif</td>
-	</tr>
-	<?php $total = $total+$receipt[0]->misc; ?>
-	@endif
+	
     <tr>
         <td style="border-right: none" colspan="8" class="right-align">Total Amount Before Tax:</td>
-        <td>{{$total}}</td>
+        <td>{{ round($misc+$receipt[0]->security)}}</td>
 	</tr>
-	@if($others_withtax > '0')
 	<tr>
         <td style="border-top: none;border-right: none" colspan="8" class="right-align">CGST:</td>
-        <td style="border-top: none;">{{percent_amount($global_st,$receipt[0]->misc)}}</td>
+        <td style="border-top: none;">{{round(percent_amount($sgst,$misc))}}</td>
 	</tr>
 	<tr>
         <td style="border-top: none;border-right: none" colspan="8" class="right-align">SGST:</td>
-        <td style="border-top: none;">{{percent_amount($global_vat,$receipt[0]->misc)}}</td>
+        <td style="border-top: none;">{{round(percent_amount($cgst,$misc))}}</td>
 	</tr>
-	@endif
 	<!--<tr>
         <td style="border-top: none;border-right: none" colspan="8" class="right-align">Total Tax:</td>
         <td style="border-top: none;"></td>
@@ -151,7 +139,7 @@
         <td style="border-top: none;border-right: none" colspan="8" class="right-align">Reverse Charges:</td>
         <td style="border-top: none;">
         	@if($receipt[0]->reverse_charges == '1')
-        	{{round(percent_amount($global_st,$receipt[0]->misc)+percent_amount($global_vat,$receipt[0]->misc))}}
+        	{{round(percent_amount($sgst,$misc)+percent_amount($cgst,$misc))}}
         	@else
         	0
         	@endif
@@ -159,10 +147,7 @@
 	</tr>
 	<tr>
         <td style="border-top: none;border-right: none" colspan="8" class="right-align">Total Amount:</td>
-        <td style="border-top: none;">
-        	@if($others_withtax > '0')
-        	{{round($total+percent_amount($global_st,$receipt[0]->misc)+percent_amount($global_vat,$receipt[0]->misc))}}
-        	@else {{$total}} @endif
+        <td style="border-top: none;"> {{round(percent_amount($sgst,$misc)+percent_amount($cgst,$misc)+$misc+$receipt[0]->security)}}
         </td>
 	</tr>
 </tbody>

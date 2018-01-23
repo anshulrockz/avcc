@@ -44,7 +44,6 @@ class ReceiptothersController extends Controller
 		$cheque_date = $request->input('cheque_date');
 		$cheque_drawn = $request->input('cheque_drawn');
 		$function_date = $request->input('function_date');
-		
 		$security_deposit = $request->input('security_deposit');
 		$corpus_fund = $request->input('corpus_fund');
 		$others = $request->input('misc');
@@ -63,7 +62,6 @@ class ReceiptothersController extends Controller
 				'payment_mode'=>'required'
 			]);
 		}
-		
 		$result = $this->receiptothers->receipt_add($booking_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$security_deposit,$corpus_fund,$others,$withtax,$comments);
 		if($result){
 			return redirect()->action(

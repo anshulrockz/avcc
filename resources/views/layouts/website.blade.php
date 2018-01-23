@@ -115,21 +115,21 @@
                     <ul class="children">
                     	<li><a href="{{ url('/receipt') }}">All Receipts</a></li>
                     	<li><a href="{{ url('/receipt-booking') }}">Booking Receipts</a></li>
-                    	<li><a href="{{ url('/receipt-tentage-old') }}">Old T&C Receipts</a></li>
                     	<li><a href="{{ url('/receipt-tentage') }}">Tentage Receipts</a></li>
                     	<li><a href="{{ url('/receipt-catering') }}">Catering Receipts</a></li>
                     	<li><a href="{{ url('/receipt-rent') }}">Rent Receipts</a></li>
+                    	<li><a href="{{ url('/receipt-corpusfund') }}">Corpus Fund Receipts</a></li>
                     	<li><a href="{{ url('/receipt-fd') }}">FD Receipts</a></li>
                     	<li><a href="{{ url('/receipt-rebate') }}">Rebate Receipts</a></li>
                     	<li><a href="{{ url('/receipt-others') }}">Other Receipts</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ url('/calendar') }}"><i class="fa fa-calendar"></i> <span>Booking Calendar</span></a></li>
-                <li class="parent"><a href=""><i class="fa fa-file-excel-o"></i> <span>Voucher</span></a>
-                    <ul class="children">
-                        <li><a href="{{ url('/refund-voucher') }}">Refund Voucher</a></li>
+                <li><a href="{{ url('/refund-voucher') }}"><i class="fa fa-file-excel-o"></i> <span>Refund Voucher</span></a>
+                    <!--class="parent" <ul class="children"> 
+                        <li><a href="{{ url('/refund-voucher') }}"> Voucher</a></li>
                         <li><a href="{{ url('/debit-voucher') }}">Debit Voucher</a></li>
-                    </ul>
+                    </ul> -->
                 </li>
                 <li class="parent"><a href=""><i class="fa fa-file-word-o"></i> <span>Reports</span></a>
                     <ul class="children" style="margin-bottom: 20px">

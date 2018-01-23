@@ -1,5 +1,15 @@
 @extends('layouts.website')
 @section('content')
+<?php
+$booking_amount = $voucher->booking_facility_amount+$voucher->misc_amount+$voucher->others_amount;
+$safai = $voucher->total_safai;
+$generator = $voucher->total_generator;
+$ac = $voucher->total_ac;
+$tax = ($voucher->total_cgst+$voucher->total_sgst)*($voucher->booking_facility_amount+$voucher->misc_amount+$voucher->others_amount)/100;
+$security = $voucher->total_security;
+$deduction = $voucher->booking_facility_deduction+$voucher->misc_deduction+$voucher->others_deduction;
+$final_amount = $booking_amount+$safai+$generator+$ac+$tax+$security-$deduction;
+?>
 <script>
 	function printPage(){
 		window.print();
@@ -37,7 +47,7 @@
             </thead>
             <tbody>
               <tr>
-                <td class="facility-td"><b>Receipt Voucher:</b></td>
+                <td class="facility-td"><b>Receipt No:</b></td>
                 <td class="facility-td">{{$voucher->receipt_id}}</td>
                 <td class="facility-td"><b>Voucher ID:</b></td>
                 <td class="facility-td">{{$voucher->id}}</td>
@@ -45,12 +55,6 @@
               <tr>
                 <td class="facility-td"><b>Voucher Date:</b></td>
                 <td class="facility-td">{{date_dfy($voucher->voucher_date)}}</td>
-                <td class="facility-td"><b>Membership No:</b></td>
-                <td class="facility-td">{{$voucher->membership_no}}</td>
-              </tr>
-              <tr>
-                <td class="facility-td"><b>Booking No:</b></td>
-                <td class="facility-td">{{$voucher->booking_no}}</td>
                 <td class="facility-td"><b>Payment Mode:</b></td>
                 <td class="facility-td">{{$voucher->payment_mode}}</td>
               </tr>
@@ -74,50 +78,60 @@
                 <th class="facility-th" colspan="4">Particular Details</th>
               </tr>
             </thead>
-            @if($voucher->refund_type!='2')
             <tbody>
+              @if($voucher->refund_type!='2')
               <tr>
-                <td class="facility-td"><b>Amount (Without Tax)</b></td>
-                <td class="facility-td">{{slash_decimal($voucher->amount)}}</td>
+                <td class="facility-td"><b>Booking Amount</b></td>
+                <td class="facility-td">{{$booking_amount}}</td>
               </tr>
               <tr>
-                <td class="facility-td"><b>Deduction</b></td>
-                <td class="facility-td">(-) {{slash_decimal($voucher->deduction)}}</td>
+                <td class="facility-td"><b>Safai</b></td>
+                <td class="facility-td">(+) {{slash_decimal($voucher->total_safai)}}</td>
               </tr>
               <tr>
-                <td class="facility-td"><b>After Deduction</b></td>
-                <td class="facility-td">{{slash_decimal($voucher->amount)-slash_decimal($voucher->deduction)}}</td>
+                <td class="facility-td"><b>Generator</b></td>
+                <td class="facility-td">(+) {{slash_decimal($voucher->total_generator)}}</td>
+              </tr>
+              <tr>
+                <td class="facility-td"><b>AC</b></td>
+                <td class="facility-td">(+) {{slash_decimal($voucher->total_ac)}}</td>
+              </tr>
+              <tr>
+                <td class="facility-td"><b>Tax</b></td>
+                <td class="facility-td">(+) {{$tax}}</td>
               </tr>
               <tr>
                 <td class="facility-td"><b>Security</b></td>
-                <td class="facility-td">(+) {{slash_decimal($voucher->security)}}</td>
-              </tr>
-              <tr>
-                <td class="facility-td"><b>Refunded Amount:</b></td>
-                <td class="facility-td">{{slash_decimal($voucher->security)+slash_decimal($voucher->amount)-slash_decimal($voucher->deduction)}}</td>
-              </tr>
-            </tbody>
-            @endif
-            @if($voucher->refund_type=='2')
-            <tbody>
-              <tr>
-                <td class="facility-td"><b>Security</b></td>
-                <td class="facility-td">{{slash_decimal($voucher->security)}}</td>
+                <td class="facility-td">(+) {{slash_decimal($voucher->total_security)}}</td>
               </tr>
               <tr>
                 <td class="facility-td"><b>Deduction</b></td>
-                <td class="facility-td">(-) 0</td>
+                <td class="facility-td">(-) {{$deduction}}</td>
               </tr>
               <tr>
-                <td class="facility-td"><b>Refunded Amount:</b></td>
-                <td class="facility-td">{{slash_decimal($voucher->security)-slash_decimal($voucher->deduction)}}</td>
+                <td class="facility-td"><b>Toatl Amount</b></td>
+                <td class="facility-td">{{$final_amount}}</td>
               </tr>
+              @endif
+              @if($voucher->refund_type=='2')
+              <tr>
+                <td class="facility-td"><b>Security</b></td>
+                <td class="facility-td">{{ $voucher->security_refund }}</td>
+              </tr>
+              <tr>
+                <td class="facility-td"><b>Deduction</b></td>
+                <td class="facility-td">0.00</td>
+              </tr>
+              <tr>
+                <td class="facility-td"><b>Total Amount</b></td>
+                <td class="facility-td">{{ $voucher->security_refund }}</td>
+              </tr>
+              @endif
             </tbody>
-            @endif
           </table>
       </div>
-      @if(count($refund_facility)>0)
-	  <div class="col-md-12 table-responsive" style="overflow-x: scroll">
+	  @if($voucher->refund_type!='2')
+	  	<div class="col-md-12 table-responsive">
           <table class="table mb30">
             <thead>
               <tr>
@@ -125,34 +139,46 @@
               </tr>
             </thead>
             <tbody>
+              @if(count($refund_facility)>0)
               <tr>
                 <td style="min-width: 100px" class="left-align"><b>Facility</b></td>
+                <td style="min-width: 100px" class="left-align"><b>Price</b></td>
                 <td style="min-width: 100px" class="left-align"><b>Quantity</b></td>
-                <td style="min-width: 100px" class="left-align"><b>No of Days</b></td>
-                <td style="min-width: 150px" class="left-align"><b>From Date</b></td>
-                <td style="min-width: 150px" class="left-align"><b>To Date</b></td>
-                <td style="min-width: 100px" class="left-align"><b>Booking Rate</b></td>
-                <td style="min-width: 100px" class="left-align"><b>Safai &amp; General</b></td>
-                <td style="min-width: 100px" class="left-align"><b>Generator</b></td>
-                <td style="min-width: 100px" class="left-align"><b>AC</b></td>
-                <td style="min-width: 100px" class="left-align"><b>Security</b></td>
+                <td style="min-width: 150px" class="left-align"><b>No of Days</b></td>
+                <td style="min-width: 150px" class="left-align"><b>Amount</b></td>
+                <td style="min-width: 100px" class="left-align"><b>Deduction</b></td>
               </tr>
-              <?php if(count($refund_facility)>0){?>
               @foreach ($refund_facility as $value)
               <tr>
                 <td class="left-align">{{ $value->facility_name }}</td>
+                <td class="left-align">{{ $value->price }}</td>
                 <td class="left-align">{{ $value->quantity }}</td>
                 <td class="left-align">{{ slash_decimal($value->noofdays) }}</td>
-                <td class="left-align">{{ date_dfy($value->from_date) }}</td>
-                <td class="left-align">{{ date_dfy($value->to_date) }}</td>
-                <td class="left-align">{{ $value->booking_rate }}</td>
-                <td class="left-align">{{ $value->safai_general }}</td>
-                <td class="left-align">{{ $value->generator_charges }}</td>
-                <td class="left-align">{{ $value->ac_charges }}</td>
-                <td class="left-align">{{ $value->security_charges }}</td>
+                <td class="left-align">{{ $value->price*$value->quantity*$value->noofdays }}</td>
+                <td class="left-align">{{ $value->deduction }}</td>
               </tr>
               @endforeach
-			  <?php }?>
+			  @endif
+			  @if($voucher->misc_amount > 0)
+			  <tr>
+                <td class="left-align">{{ $voucher->misc }}</td>
+                <td class="left-align">-</td>
+                <td class="left-align">-</td>
+                <td class="left-align">-</td>
+                <td class="left-align">{{ $voucher->misc_amount }}</td>
+                <td class="left-align">{{ $voucher->misc_deduction }}</td>
+              </tr>
+              @endif
+              @if($voucher->others_amount > 0)
+              <tr>
+                <td class="left-align">{{ $voucher->others }}</td>
+                <td class="left-align">-</td>
+                <td class="left-align">-</td>
+                <td class="left-align">-</td>
+                <td class="left-align">{{ $voucher->others_amount }}</td>
+                <td class="left-align">{{ $voucher->others_deduction }}</td>
+              </tr>
+			  @endif
             </tbody>
           </table>
       </div>

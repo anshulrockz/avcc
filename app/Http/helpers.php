@@ -57,6 +57,25 @@ if (! function_exists('facility_sgst')) {
 		}
 	}
 }
+if (! function_exists('get_gst')) {
+    function get_gst($taxName,$parent_id){
+		$record = DB::table('receipt_tax')
+			->where([
+			['tax_name',$taxName],
+			['parent_id',$parent_id],
+			])
+			->get();
+			
+        $count = count($record);
+        if($count == 0){
+			return '0';
+		}
+		else{
+			return $record[0]->tax_percentage;
+		}
+	}
+}
+
 if (! function_exists('post_api')) {
     function post_api($data){
 		$data_string = json_encode($data);

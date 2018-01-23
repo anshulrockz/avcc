@@ -254,21 +254,6 @@ $('.input-group.date').datepicker({
 					</div>
 				</div>
 			</div>
-			<h5 style="text-decoration: underline;font-weight: bold;margin-bottom: 20px;"><span>Others</span></h5>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-					    <label>Security Deposit:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="security_deposit" id="security_deposit">
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-					    <label>Corpus Fund:</label>
-					    <input type="number" class="form-control" placeholder="Enter amount" name="corpus_fund" id="corpus_fund">
-					</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -279,6 +264,12 @@ $('.input-group.date').datepicker({
 					
 				</div>
 				<div class="col-sm-6">
+					<div class="form-group">
+					    <label>Security Deposit:</label>
+					    <input type="number" class="form-control" placeholder="Enter amount" name="security_deposit" id="security_deposit">
+					</div>
+				</div>
+				<div class="col-sm-12">
 					<div class="form-group">
 					    <label>Comments:</label>
 					    <textarea class="form-control" placeholder="Enter comments" name="comments" id="comments"></textarea>

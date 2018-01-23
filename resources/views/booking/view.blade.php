@@ -70,7 +70,9 @@
             <i style="padding: 10px 0 0 0;" class="fa fa-book"></i>
         </div>
 		<div class="pull-right">
+			@if($booking[0]->booking_status==0||$booking[0]->booking_status==1)
 			<a href="javascript:" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary"><i class="fa fa-edit"></i> Create Receipt</a>
+			@endif
 			<div class="modal fade paymentModal" id="paymentModal" tabindex="-1" role="dialog">
 		            <div class="modal-dialog">
 		              <div class="modal-content">
@@ -106,6 +108,10 @@
 							      <label>Drawn On:</label>
 							      <input type="text" class="form-control" placeholder="Enter Drawn on" name="cheque_drawn" id="cheque_drawn">
 							  </div>
+								@if(count($receipt_status)>0)
+								<div><b>Note:</b>
+										{{ $receipt_status }}- Receipt will be auto cancelled with Booking ID: {{$booking[0]->id}}</div>
+								@endif
 			                </div>
 			            	<div class="modal-footer">
 						    	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -46,13 +46,14 @@ class ReceiptrebateController extends Controller
 		$catering = $request->input('catering');
 		$food = $request->input('food');
 		$electricity = $request->input('electricity');
+		$comments = $request->input('comments');
 		
 		$this->validate($request,[
 			'receipt_no'=>'required',
 			'payment_mode'=>'required',
 		]);
 		
-		$result = $this->receipt->receipt_add($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity);
+		$result = $this->receipt->receipt_add($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity,$comments);
 		if($result){
 			return redirect()->action(
 			    'ReceiptController@view', ['id' => $result]

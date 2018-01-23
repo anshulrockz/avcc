@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//Member - List
 	Route::get('member', ['uses'=>'MemberController@index']);
 	Route::get('member/list', ['as'=>'datatable.getMembers','uses'=>'MemberController@members']);
+	
 	// Download Excel
 	Route::get('downloadMember/{type}', 'MemberController@downloadMember');
 	//Member - create
@@ -151,6 +152,12 @@ Route::group(['middleware' => 'auth'], function () {
 	//Receipt Booking
 	Route::get('/receipt-booking','ReceiptbookingController@index');
 	
+	//Receipt Corpus Fund
+	Route::get('/receipt-corpusfund','ReceiptcorpusfundController@index');
+	//Receipt Corpus Fund - Create
+	Route::get('/receipt-corpusfund/add','ReceiptcorpusfundController@add');
+	Route::post('/receipt-corpusfund/save','ReceiptcorpusfundController@save');
+		
 	//Receipt Tentage
 	Route::get('/receipt-tentage','ReceipttentageController@index');
 	//Old Tentage Receipt - List
@@ -215,19 +222,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/refund-voucher/partialupdate/{id}','RefundvoucherController@partialupdate');
 	//Refund voucher Booking Details - Ajax
 	Route::get('/refund-voucher/ajax','RefundvoucherController@bookingdetails_ajax');
-	
-	//Debitvoucher - List
-	Route::get('/debit-voucher','DebitvoucherController@index');
-	//Debitvoucher - create
-	Route::get('/debit-voucher/add','DebitvoucherController@add');
-	Route::post('/debit-voucher/save','DebitvoucherController@save');
-	//Debitvoucher - View
-	Route::get('/debit-voucher/view/{id}','DebitvoucherController@view');
-	//Debitvoucher - update
-	Route::get('/debit-voucher/edit/{id}','DebitvoucherController@edit');
-	Route::post('/debit-voucher/update/{id}','DebitvoucherController@update');
-	//Debitvoucher - Delete
-	Route::get('/debit-voucher/delete/{id}','DebitvoucherController@delete');
 	
 	//CGST Register
 	Route::get('/servicetax-register','StrController@index');

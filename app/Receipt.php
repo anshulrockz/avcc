@@ -17,7 +17,7 @@ class Receipt extends Model
     
     public function receipt_list()
 	{
-		return DB::table('receipt')->where('status','1')->orderBy('id', 'desc')->get();
+		return DB::table('receipt')->where('status','!=','0')->orderBy('id', 'desc')->get();
 	}
 	
     public function receipt_add($booking_no,$party_name,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$contractor,$est_cof,$vat_supplier,$est_catering,$vat_caterer,$st_caterer,$est_tentage,$vat_tent,$st_tent)
@@ -96,10 +96,9 @@ class Receipt extends Model
 	public function receipt_booking($id)
 	{
 		return DB::table('receipt')
-			->select('receipt.*','receipt_booking.*','receipt_bookingfacility.*','member.name as member_name','membertype.name as member_type')
+			->select('receipt.*','receipt_booking.*','member.name as member_name','membertype.name as member_type')
 			->where('receipt.id',$id)
             ->leftJoin('receipt_booking', 'receipt_booking.parent_id', '=', 'receipt.id')
-            ->leftJoin('receipt_bookingfacility', 'receipt_bookingfacility.parent_id', '=', 'receipt.id')
             ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
             ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
             ->get();
@@ -107,9 +106,13 @@ class Receipt extends Model
 	
 	public function facility($id)
 	{
-		return DB::table('receipt_bookingfacility')
+		return DB::table('receipt')
 			->select('receipt_bookingfacility.*','facility.name','facility.sac_code')
-			->where('parent_id',$id)
+			->where([
+				['receipt.id',$id],
+				['receipt.receipt_type',1]
+				])
+			->leftJoin('receipt_bookingfacility', 'receipt_bookingfacility.parent_id','=','receipt.id')
 			->leftJoin('facility', 'receipt_bookingfacility.facility_id','=','facility.id')
 			->get();
 	}
@@ -117,9 +120,10 @@ class Receipt extends Model
 	public function receipt_tentage($id)
 	{
 		return DB::table('receipt')
-			->select('receipt.*','receipt_tentage.*','member.name as member_name','membertype.name as member_type')
+			->select('receipt.*','receipt_tentage.*','receipt_security.security' ,'member.name as member_name','membertype.name as member_type')
 			->where('receipt.id',$id)
             ->leftJoin('receipt_tentage', 'receipt_tentage.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_security', 'receipt_security.parent_id', '=', 'receipt.id')
             ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
             ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
             ->get();
@@ -128,9 +132,10 @@ class Receipt extends Model
 	public function receipt_catering($id)
 	{
 		return DB::table('receipt')
-			->select('receipt.*','receipt_catering.*','member.name as member_name','membertype.name as member_type')
+			->select('receipt.*','receipt_catering.*', 'receipt_security.security','member.name as member_name','membertype.name as member_type')
 			->where('receipt.id',$id)
             ->leftJoin('receipt_catering', 'receipt_catering.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_security', 'receipt_security.parent_id', '=', 'receipt.id')
             ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
             ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
             ->get();
@@ -142,6 +147,16 @@ class Receipt extends Model
 			->select('receipt.*','receipt_rent.*')
 			->where('receipt.id',$id)
             ->leftJoin('receipt_rent', 'receipt_rent.parent_id', '=', 'receipt.id')
+            ->get();
+	}
+	
+	public function receipt_corpusfund($id)
+	{
+		return DB::table('receipt')
+			->select('receipt.*','receipt_corpus_fund.*', 'receipt_security.security')
+			->where('receipt.id',$id)
+            ->leftJoin('receipt_corpus_fund', 'receipt_corpus_fund.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_security', 'receipt_security.parent_id', '=', 'receipt.id')
             ->get();
 	}
 	
@@ -168,19 +183,12 @@ class Receipt extends Model
 	public function receipt_others($id)
 	{
 		return DB::table('receipt')
-			->select('receipt.*','receipt_others.*','receipt_security.security','receipt_corpus_fund.corpus_fund','member.name as member_name','membertype.name as member_type')
+			->select('receipt.*','receipt_others.*','member.name as member_name','membertype.name as member_type')
 			->where('receipt.id',$id)
             ->leftJoin('receipt_others', 'receipt_others.parent_id', '=', 'receipt.id')
-            ->leftJoin('receipt_security', 'receipt_security.parent_id', '=', 'receipt.id')
-            ->leftJoin('receipt_corpus_fund', 'receipt_corpus_fund.parent_id', '=', 'receipt.id')
             ->leftJoin('member', 'member.membership_no', '=', 'receipt.membership_no')
             ->leftJoin('membertype', 'membertype.id', '=', 'member.member_type')
             ->get();
-	}
-	
-	public function with_tax($id)
-	{
-		return DB::table('receipt_tax')->where('parent_id',$id)->count();
 	}
 	
 	public function receipt_cancel($id)

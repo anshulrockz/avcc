@@ -45,8 +45,8 @@
 		    <thead>
 		      <tr>
 		      	<th>Party Name</th>
-		      	<th>Booking No.</th>
-		        <th>Receipt No</th>
+		      	<th>Receipt No.</th>
+		        <th>Booking No</th>
 		        <th>Receipt Date</th>
 		        <th>Payment Mode</th>
 		        <th>Status</th>

@@ -45,9 +45,8 @@
 		    <thead>
 		      <tr>
 		      	<th>Party Name</th>
-		      	<th>Security Deposit</th>
-		      	<th>Corpus Fund</th>
-		        <th>Misc/Others</th>
+		      	<th>Misc/Others</th>
+		      	<th>Security</th>
 		        <th>Comments</th>
 		        <th>Status</th>
 		        <?php if(Auth::user()->user_group == '1'){ ?>
@@ -63,9 +62,8 @@
       		  @endphp
 	          <tr>
 	          	<td>{{ $value->party_name }}</td>
-	          	<td>{{ $value->security }}</td>
-	            <td>{{ $value->corpus_fund }}</td>
-	            <td>{{ $value->misc}}</td>
+	          	<td>{{ $value->misc}}</td>
+	          	<td>{{ $value->security}}</td>
 	            <td>{{ $value->comments }}</td>
 	            <?php if($value->status == '1'){ ?>
 	            <td><span class="label label-success">Active</span></td>

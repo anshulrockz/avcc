@@ -19,6 +19,10 @@ class Receiptrebate extends Model
 	{
 		return DB::table('receipt_rebate')
 		->leftJoin('receipt','receipt_rebate.parent_id', '=','receipt.id')
+		->where([
+		['receipt.status','!=','0'],
+		['receipt.receipt_type','8'],
+		])
 		->orderBy('receipt_rebate.id','DESC')
 		->get();
 	}
@@ -34,9 +38,10 @@ class Receiptrebate extends Model
 		->groupBy('receipt.id')
 		->first();
 	}
-    public function receipt_add($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity)
+	
+    public function receipt_add($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity,$comments)
     {
-		$res = DB::transaction(function () use($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity) {
+		$res = DB::transaction(function () use($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity,$comments) {
 			
 			$receipt = DB::table('receipt')
                 ->where([
@@ -63,18 +68,13 @@ class Receiptrebate extends Model
 				$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
 			}
 			
-			$parent_id = DB::table('receipt')->insertGetId(
-			    ['receipt_type' => '8','booking_id' => $booking_id,'booking_no' => $booking_no,'booking_date' => $booking_date,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'address' => $address,'membership_no' => $membership_no,'function_date' => $function_date,'contractor_id' => $contractor_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
+			$receipt_id = DB::table('receipt')->insertGetId(
+			    ['receipt_type' => '8','booking_id' => $booking_id,'booking_no' => $booking_no,'booking_date' => $booking_date,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'address' => $address,'membership_no' => $membership_no,'function_date' => $function_date,'contractor_id' => $contractor_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id, 'comments' => $comments]
 			);
-			
-			$receipt_id = DB::table('receipt_rebate')->insertGetId(
+			DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
+				
+			DB::table('receipt_rebate')->insertGetId(
 			    ['parent_id' => $parent_id,'receipt_id' => $receipt_no,'safai' => $safai,'tentage' => $tentage,'catering' => $catering,'food' => $food,'electricity' => $electricity]
-			);
-			
-			$rebate_no = DB::table('receipt_rebate')
-			->where('id', $receipt_id)
-			->update(
-			    ['rebate_no' => 'R'.$receipt_id]
 			);
 			
 			return $parent_id;
@@ -86,23 +86,22 @@ class Receiptrebate extends Model
 	public function receiptrebate_ajax($receipt_no)
 	{	
 		$receipt = DB::table('receipt')
-		->where([
-			['id',$receipt_no],
-			])
-		->first();
+					->where([
+						['id',$receipt_no],
+						])->get();
 		if(!empty($receipt)){
-			$booking_id = $receipt->booking_id;
-			$booking_no = $receipt->booking_no;
 			$rebate = DB::table('receipt')
-			->select(DB::raw('SUM(receiptfacility.rebate_safai) as safai'),DB::raw('SUM(receiptfacility.rebate_electricity) as electricity'),DB::raw('SUM(receiptfacility.rebate_catering) as catering'),DB::raw('SUM(receiptfacility.rebate_tentage) as tentage'))
+			->select(DB::raw('SUM(receipt_bookingfacility.rebate_safai) as safai'),
+				DB::raw('SUM(receipt_bookingfacility.rebate_electricity) as electricity'),
+				DB::raw('SUM(receipt_bookingfacility.rebate_catering) as catering'),
+				DB::raw('SUM(receipt_bookingfacility.rebate_tentage) as tentage'))
 			->where([
-				['receipt.booking_no',$booking_no],
+				['receipt.id',$receipt_no],
 				['receipt.receipt_type','1'],
-				['receipt.receipt_status','1'],
 				['receipt.status','1'],
 			])
-			->leftJoin('receiptfacility', 'receipt.id', '=', 'receiptfacility.receipt_id')
-			->groupBy('receipt.booking_no')
+			->leftJoin('receipt_bookingfacility', 'receipt.id', '=', 'receipt_bookingfacility.parent_id')
+			->groupBy('receipt.id')
 	        ->first();
 	        print_r(json_encode( array('receipt'=>$receipt,'rebate'=>$rebate)));
 		}

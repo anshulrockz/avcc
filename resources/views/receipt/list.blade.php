@@ -108,7 +108,7 @@
 				}
 	            ?>
 	            <?php if($receipt_type !=''){ ?>
-	            <span class="label label-{{$label_color}}">{{$receipt_type}}</span>
+	            <h3><span class="badge ">{{$receipt_type}}</span></h3>
 	            <?php }?>
 	            </td>
 	            <?php if($value->status == '1'){ ?>

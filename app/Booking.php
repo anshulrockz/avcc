@@ -87,6 +87,17 @@ class Booking extends Model
 			return FALSE;
 		}
     }
+    public function receipt_status($id)
+    {
+		return DB::table('receipt')
+					->select('receipt_booking.booking_id','receipt.id')
+					->leftJoin('receipt_booking','receipt_booking.parent_id','receipt.id')
+					->where([
+							['receipt.status','1'],
+							['receipt_booking.booking_id',$id]
+							])
+					->first();
+	}
     public function receipt_created($id)
 	{
 		$result = DB::table('booking')
@@ -334,7 +345,7 @@ class Booking extends Model
 				else{
 					//Get cancellation_amount1
 					$booking = DB::table('booking')
-						->select('misc_amount','others_amount','function_date')
+						->select('membership_no','misc_amount','others_amount','function_date')
 						->where([
 						['id',$id],
 						['booking_status','1'],
@@ -342,6 +353,7 @@ class Booking extends Model
 						])
 			            ->get();
 			        foreach($booking as $value){
+						$membership_no = $value->membership_no;
 						$misc_amount = $value->misc_amount;
 						$others_amount = $value->others_amount;
 						$function_date = $value->function_date;
@@ -369,9 +381,23 @@ class Booking extends Model
 				DB::table('booking')
 		            ->where('id', $id)
 		            ->update(['booking_status' => '2','cancel_date' => $cancel_date,'cancel_percentage' => $cancel_percentage,'cancel_amount' => $cancel_amount,'updated_at' => $this->date,'updated_by' => $user_id]);
-		        DB::table('receipt')
-		            ->where('booking_id', $id)
-		            ->update(['receipt_status' => '2','updated_at' => $this->date,'updated_by' => $user_id]);
+		        
+		        $receipt_id = DB::table('receipt')
+		        	->select('receipt_booking.parent_id')
+		        	->leftJoin('receipt_booking','receipt_booking.parent_id','receipt.id')
+		            ->where([
+							['receipt.status','!=','0'],
+							['receipt.receipt_type','1'],
+							['receipt_booking.booking_id',$id],
+							])
+		            ->get();
+		        if(count($receipt_id)>0){
+					foreach($receipt_id as $value){
+						DB::table('receipt')
+						->where('id',$value->parent_id)
+						->update(['status'=>2]);
+					}
+				}
 			});
 			return TRUE;
 		}
@@ -585,12 +611,31 @@ class Booking extends Model
 	public function change_status($id,$with_tax,$with_security,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn)
     {
 		$user_id = Auth::id();
-//		try{
+		try{
 			DB::transaction(function () use ($user_id,$id,$with_tax,$with_security,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn) {
+				$receipt_id = DB::table('receipt')
+		        	->select('receipt_booking.parent_id')
+		        	->leftJoin('receipt_booking','receipt_booking.parent_id','receipt.id')
+		            ->where([
+							['receipt.status','!=','0'],
+							['receipt.receipt_type','1'],
+							['receipt_booking.booking_id',$id],
+							])
+		            ->get();
+		        if(count($receipt_id)>0){
+					foreach($receipt_id as $value){
+						DB::table('receipt')
+						->where('id',$value->parent_id)
+						->update(['status'=>2]);
+					}
+				}
+				
 			    $cheque_date = date_format(date_create($cheque_date),"Y-m-d");
+				
 				$change_status = DB::table('booking')
 		            ->where('id', $id)
 		            ->update(['with_tax' => '1','with_security' => $with_security,'booking_status' => '1','updated_at' => $this->date,'updated_by' => $user_id]);
+		        
 		        $booking_data = DB::table('booking')
 					->where('id',$id)
 		            ->get();
@@ -625,14 +670,17 @@ class Booking extends Model
 				$receipt_id = DB::table('receipt')->insertGetId(
 				    ['receipt_type' => '1','booking_no' => $booking_no,'membership_no' => $membership_no,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'function_date' => $function_date,'from_time' => $from_time,'to_time' => $to_time,'function_type' => $function_type,'party_name' => $party_name,'party_gstin' => $party_gstin,'reverse_charges' => $reverse_charges,'phone' => $phone,'mobile' => $mobile,'address' => $address,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
 				);
-//				DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
-//				$receipt_id = DB::table('receipt_booking')->insertGetId(
-//				    ['parent_id' => $receipt_id, 'booking_id' => $id, 'bill_no' => $bill_no, 'bill_date' => $$bill_date, 'noofpersons' => $noofpersons, 'cancel_date' => $cancel_amount, 'cancel_percentage' => $cancel_percentage, 'cancel_amount' => $cancel_amount, 'with_security' => $with_security, 'misc' => $misc, 'misc_amount' => $misc_amount, 'others' => $others, 'others_amount' => $others_amount]
-//				);
+
+				DB::table('receipt')->where('id', $receipt_id)->update(['receipt_no' => $receipt_id,]);
+
+				DB::table('receipt_booking')->insertGetId(
+					['booking_id' => $id, 'parent_id' => $receipt_id, 'booking_date' => $booking_date, 'bill_no' => $bill_no, 'bill_date' => $bill_date, 'noofpersons' => $noofpersons, 'cancel_date' => $cancel_date, 'cancel_percentage' => $cancel_percentage, 'cancel_amount' => $cancel_amount, 'cancel_against' => $cancel_amount, 'with_tax' => $with_tax, 'with_security' => $with_security, 'misc' => $misc, 'misc_amount' => $misc_amount, 'others' => $others, 'others_amount' => $others_amount]
+					);
 				
 				$receiptfacility_data = DB::table('bookingfacility')
 					->where([['booking_id',$id],['status','1']])
 		            ->get();
+		        
 		        if(count($receiptfacility_data)>0){
 					foreach($receiptfacility_data as $value){
 						$booking_id = $value->booking_id;
@@ -665,16 +713,17 @@ class Booking extends Model
 						DB::table('receipt_bookingfacility')->insert(
 						['parent_id' => $receipt_id,'facility_id' => $facility_id,'quantity' => $quantity,'noofdays' => $noofdays,'from_date' => $from_date,'to_date' => $to_date,'booking_rate' => $booking_rate,'generator_charges' => $generator_charges,'generator_total' => $generator_total,'ac_charges' => $ac_charges,'ac_total' => $ac_total,'safai_general' => $safai_general,'safai_total' => $safai_total,'security_charges' => $security_charges,'security_total' => $security_total,'rebate_safai' => $rebate_safai,'rebate_tentage' => $rebate_tentage,'rebate_catering' => $rebate_catering,'rebate_electricity' => $rebate_electricity,'servicetax_percentage' => $servicetax_percentage,'servicetax_amount' => $servicetax_amount,'servicetax_total' => $servicetax_total,'vat_percentage' => $vat_percentage,'vat_amount' => $vat_amount,'vat_total' => $vat_total,'total_amount' => $total_amount,'created_at' => $this->date,'created_by' => $user_id,'updated_at' => $this->date,'updated_by' => $user_id]
 						);
+						
 					}
 				}
 			});
 			return TRUE;
-//		}
-//		catch ( \Exception $e ){
-//			echo $e->getMessage();
-//			die;
-//			return FALSE;
-//		}
+		}
+		catch ( \Exception $e ){
+			echo $e->getMessage();
+			die;
+			return FALSE;
+		}
     }
     public function is_receiptcreated($id)
 	{

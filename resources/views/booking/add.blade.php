@@ -256,12 +256,12 @@ $('.input-group.date').datepicker({
 				      	  </td>
 						  <td style="max-width: 200px" class="noerror">
 							  <div class="input-group date">
-								<input type="text" name="from_date" id="from_date" class="form-control" placeholder="Enter from date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								<input type="text" name="from_date" id="from_date" class="form-control" placeholder="Enter from date" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							  </div>
 						  </td>
 						  <td style="max-width: 200px" class="noerror">
 							  <div class="input-group date">
-								<input type="text" name="to_date" id="to_date" class="form-control" placeholder="Enter to date"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								<input type="text" name="to_date" id="to_date" class="form-control" placeholder="Enter to date" required=""><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							  </div>
 						  </td>
 						  <td class="noerror"><a onclick="addFacility(document.getElementById('facility').value,document.getElementById('membertype_id').value,document.getElementById('from_date').value,document.getElementById('to_date').value);" class="add_button" href="javascript:void(0);" title="Add field"><img src="{{url('images/add-icon.png')}}"></a></td>

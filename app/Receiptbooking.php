@@ -12,7 +12,10 @@ class Receiptbooking extends Model
 	public function receipt_list()
 	{
 		return DB::table('receipt_booking')
-		->where('receipt.status','1')
+		->where([
+		['receipt.status','!=','0'],
+		['receipt.receipt_type','1'],
+		])
 		->select('receipt.*')
 		->leftjoin('receipt','receipt.id','=','receipt_booking.parent_id')
 		->groupBy('receipt.id')

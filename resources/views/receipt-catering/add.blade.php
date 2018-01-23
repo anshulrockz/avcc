@@ -277,7 +277,7 @@ $('.input-group.date').datepicker({
 					      </select>
 					</div>
 				</div>
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="form-group">
 					    <label>Comments:</label>
 					    <textarea class="form-control" placeholder="Enter comments" name="comments" id="comments"></textarea>

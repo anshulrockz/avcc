@@ -60,37 +60,22 @@
 		    <tbody>
 		      @foreach ($receipt as $value)
 		      @php
-		      $with_tax = $tax_check::tax_check($value->parent_id);
-		      $cgst_percentage = 0;
-			  $sgst_percentage = 0;
-			  if($with_tax >0){
-				$cgst_percentage = $global_st;
-				$sgst_percentage = $global_vat;
-			  }
-		      $tds = $value->tds;
-		      $rent_premises = $value->rent_premises;
-		      $rent_store = $value->rent_store;
-		      $rent_atm = $value->rent_atm;
-		      $total_cgst = round($rent_premises*$cgst_percentage/100+$rent_store*$cgst_percentage/100+$rent_atm*$cgst_percentage/100);
-		      $total_sgst = round($rent_premises*$sgst_percentage/100+$rent_store*$sgst_percentage/100+$rent_atm*$sgst_percentage/100);
-		      $total_before_tax = $rent_premises+$rent_store+$rent_atm;
-		      $tds_amount = $total_before_tax*$tds/100;
-		      
+		      $total = $value->rent_premises + $value->rent_store + $value->rent_atm;
       		  @endphp
 	          <tr>
 	          	<td>{{ $value->party_name }}</td>
 	          	<td>{{ $value->rent_premises }}</td>
 	            <td>{{ $value->rent_atm }}</td>
 	            <td>{{ $value->rent_store }}</td>
-	            <td>{{ $tds_amount }}</td>
-	            <td>{{ $total_cgst }}</td>
-	            <td>{{ $total_sgst }}</td>
-	            <?php if($value->status == '1'){ ?>
+	            <td>{{ $total+percent_amount($total,$value->tds) }}</td>
+	            <td>{{ $total+percent_amount($total,get_gst('CGST',$value->parent_id)) }}</td>
+	            <td>{{ $total+percent_amount($total,get_gst('SGST',$value->parent_id)) }}</td>
+	            @if($value->status == '1')
 	            <td><span class="label label-success">Active</span></td>
-	            <?php }?>
-	            <?php if($value->status == '2'){ ?>
+	            @endif
+	            @if($value->status == '2')
 	            <td><span class="label label-warning">Cancelled</span></td>
-	            <?php }?>
+	            @endif
 	            <?php if(Auth::user()->user_group == '1'){ ?>
 	            <td>
 	            <a href="{{ url('/receipt/view/'.$value->id) }}" data-toggle="tooltip" title="View" class="btn btn-info" data-original-title="View"><i class="fa fa-eye"></i></a>
