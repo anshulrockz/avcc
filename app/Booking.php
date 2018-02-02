@@ -90,13 +90,13 @@ class Booking extends Model
     public function receipt_status($id)
     {
 		return DB::table('receipt')
-					->select('receipt_booking.booking_id','receipt.id')
+					->select('receipt.id')
 					->leftJoin('receipt_booking','receipt_booking.parent_id','receipt.id')
 					->where([
 							['receipt.status','1'],
 							['receipt_booking.booking_id',$id]
 							])
-					->first();
+					->get();
 	}
     public function receipt_created($id)
 	{

@@ -64,13 +64,13 @@
 		});  
 	});
 </script>
-<div class="pageheader">
+<div class="pageheader"> 
 		<div class="media">
 		<div class="pageicon pull-left">
             <i style="padding: 10px 0 0 0;" class="fa fa-book"></i>
         </div>
 		<div class="pull-right">
-			@if($booking[0]->booking_status==0||$booking[0]->booking_status==1)
+			@if($booking[0]->booking_status==1)
 			<a href="javascript:" data-toggle="modal" data-target="#paymentModal" class="btn btn-primary"><i class="fa fa-edit"></i> Create Receipt</a>
 			@endif
 			<div class="modal fade paymentModal" id="paymentModal" tabindex="-1" role="dialog">
@@ -110,7 +110,10 @@
 							  </div>
 								@if(count($receipt_status)>0)
 								<div><b>Note:</b>
-										{{ $receipt_status }}- Receipt will be auto cancelled with Booking ID: {{$booking[0]->id}}</div>
+										@foreach($receipt_status as $receipt_status)
+										{{ $receipt_status->id }}
+										@endforeach
+										- Receipt will be auto cancelled with Booking ID: {{$booking[0]->id}}</div>
 								@endif
 			                </div>
 			            	<div class="modal-footer">
@@ -288,14 +291,14 @@
 		              </tr>
 		          <?php }?>
 	              <?php } else{?>
-		              <?php if($booking[0]->misc != ''){ ?>
+		              @if($booking[0]->misc_amount > 0)
 		              <tr>
 		                <td class="left-align">{{ $booking[0]->misc }}</td>
 		                <td colspan="17"></td>
 		                <td class="left-align">{{ $booking[0]->misc_amount }}</td>
 		              </tr>
-		              <?php }?>
-		              <?php if($booking[0]->others != ''){ ?>
+		              @endif
+		              <?php if($booking[0]->others_amount > 0){ ?>
 			              <tr>
 			                <td class="left-align">{{ $booking[0]->others }}</td>
 			                <td colspan="13"></td>

@@ -449,7 +449,7 @@ class Receipt extends Model
 			['booking_status','2'],
 			['booking.status','1']
 			])
-            ->leftJoin('bookingfacility', 'bookingfacility.booking_no', '=', 'booking.id')
+            ->leftJoin('bookingfacility', 'bookingfacility.booking_id', '=', 'booking.id')
             ->groupBy('booking.id')
             ->get();
 		}
@@ -461,7 +461,7 @@ class Receipt extends Model
 			['booking_status','1'],
 			['booking.status','1']
 			])
-            ->leftJoin('bookingfacility', 'bookingfacility.booking_no', '=', 'booking.id')
+            ->leftJoin('bookingfacility', 'bookingfacility.booking_id', '=', 'booking.id')
             ->groupBy('booking.id')
             ->get();
 		}

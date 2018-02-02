@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="D:\xampp\htdocs\avcc.new\avcc.new.clpprj">
 	<settings><PM_URL><![CDATA[http://localhost/avcc.new/]]></PM_URL><PM_HOME_URL><![CDATA[http://localhost/avcc.new/]]></PM_HOME_URL><PM_LIBS><![CDATA[]]></PM_LIBS><PM_FTP_CONNECTION><![CDATA[]]></PM_FTP_CONNECTION><PM_FTP_DIR><![CDATA[]]></PM_FTP_DIR><PM_FTP_UPLOAD_ON_SAVE><![CDATA[INT:0]]></PM_FTP_UPLOAD_ON_SAVE></settings><removed value=";"/><added value=""/><lastopfiles>
-		<file name="D:\xampp\htdocs\avcc.new\app\Refundvoucher.php"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\RefundvoucherController.php"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\list.blade.php"/>
 	</lastopfiles>
 	<todoblock>
+		<todofile name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Storage\FilesystemStorage.php">
+			<todo name="TODO; error handling" pos="13;44"/>
+		</todofile>
 		<todofile name="D:\xampp\htdocs\avcc.new\vendor\dompdf\dompdf\include\abstract_renderer.cls.php">
 			<todo name="TODO: Solve rendering where one corner is beveled (radius == 0), one corner isn't." pos="5;494"/>
 		</todofile>
@@ -4012,6 +4014,68 @@
 		<file name="D:\xampp\htdocs\avcc.new\vendor\mockery\mockery\.styleci.yml" crc="1482131172"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\mockery\mockery\.scrutinizer.yml" crc="1482131172"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\mockery\mockery\.coveralls.yml" crc="1482131172"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Storage\StorageInterface.php" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Storage\RedisStorage.php" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Storage\PdoStorage.php" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Storage\pdo_storage_schema.sql" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Storage\MemcachedStorage.php" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Storage\FileStorage.php" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets\templates\widget.js" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets\templates\widget.css" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets\sqlqueries\widget.js" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets\sqlqueries\widget.css" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets\mails\widget.js" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets\mails\widget.css" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\vendor\jquery\dist\jquery.min.js" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\vendor\highlightjs\styles\github.css" crc="1516708302"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\vendor\highlightjs\highlight.pack.js" crc="1516708302"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\vendor\font-awesome\css\font-awesome.min.css" crc="1516708299"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets.js" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\widgets.css" crc="1516708303"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\openhandler.js" crc="1516708299"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\openhandler.css" crc="1516708299"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\debugbar.js" crc="1516708298"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Resources\debugbar.css" crc="1516708298"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataFormatter\DataFormatterInterface.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataFormatter\DataFormatter.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\PDO\TracedStatement.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\PDO\TraceablePDOStatement.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\PDO\TraceablePDO.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\PDO\PDOCollector.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\TimeDataCollector.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\RequestDataCollector.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\Renderable.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\PhpInfoCollector.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\MessagesCollector.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\MessagesAggregateInterface.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\MemoryCollector.php" crc="1516708296"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\LocalizationCollector.php" crc="1516708295"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\ExceptionsCollector.php" crc="1516708295"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\DataCollectorInterface.php" crc="1516708295"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\DataCollector.php" crc="1516708295"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\ConfigCollector.php" crc="1516708294"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\AssetProvider.php" crc="1516708294"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DataCollector\AggregatedCollector.php" crc="1516708294"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\Twig\TwigCollector.php" crc="1516708294"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\Twig\TraceableTwigTemplate.php" crc="1516708294"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\Twig\TraceableTwigEnvironment.php" crc="1516708294"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\SwiftMailer\SwiftMailCollector.php" crc="1516708293"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\SwiftMailer\SwiftLogCollector.php" crc="1516708293"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\SlimCollector.php" crc="1516708293"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\PropelCollector.php" crc="1516708293"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\Propel2Collector.php" crc="1516708293"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\MonologCollector.php" crc="1516708292"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\DoctrineCollector.php" crc="1516708292"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\Bridge\CacheCacheCollector.php" crc="1516708292"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\StandardDebugBar.php" crc="1516708304"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\RequestIdGeneratorInterface.php" crc="1516708298"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\RequestIdGenerator.php" crc="1516708298"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\PhpHttpDriver.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\OpenHandler.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\JavascriptRenderer.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\HttpDriverInterface.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DebugBarException.php" crc="1516708297"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\maximebf\debugbar\src\DebugBar\DebugBar.php" crc="1516708297"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\maatwebsite\excel\src\Maatwebsite\Excel\Writers\LaravelExcelWriter.php" crc="1498027073"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\maatwebsite\excel\src\Maatwebsite\Excel\Writers\CellWriter.php" crc="1498027073"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\maatwebsite\excel\src\Maatwebsite\Excel\Readers\LaravelExcelReader.php" crc="1498027073"/>
@@ -5624,13 +5688,13 @@
 		<file name="D:\xampp\htdocs\avcc.new\vendor\doctrine\inflector\.travis.yml" crc="1482131164"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\dnoegel\php-xdg-base-dir\tests\XdgTest.php" crc="1482131156"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\dnoegel\php-xdg-base-dir\src\Xdg.php" crc="1482131156"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\ClassLoader.php" crc="1498027145"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_static.php" crc="1498027145"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_real.php" crc="1498027145"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_psr4.php" crc="1498027145"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_namespaces.php" crc="1498027145"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_files.php" crc="1498027145"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_classmap.php" crc="1498027145"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\ClassLoader.php" crc="1516708636"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_static.php" crc="1516708633"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_real.php" crc="1516708634"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_psr4.php" crc="1516708633"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_namespaces.php" crc="1516708633"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_files.php" crc="1516708633"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\composer\autoload_classmap.php" crc="1516708633"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\classpreloader\classpreloader\src\Parser\StrictTypesVisitor.php" crc="1482131164"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\classpreloader\classpreloader\src\Parser\NodeTraverser.php" crc="1482131164"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\classpreloader\classpreloader\src\Parser\FileVisitor.php" crc="1482131164"/>
@@ -5646,7 +5710,47 @@
 		<file name="D:\xampp\htdocs\avcc.new\vendor\classpreloader\classpreloader\src\ClassNode.php" crc="1482131164"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\classpreloader\classpreloader\src\ClassLoader.php" crc="1482131164"/>
 		<file name="D:\xampp\htdocs\avcc.new\vendor\classpreloader\classpreloader\src\ClassList.php" crc="1482131164"/>
-		<file name="D:\xampp\htdocs\avcc.new\vendor\autoload.php" crc="1498027145"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Twig\TokenParser\StopwatchTokenParser.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Twig\Node\StopwatchNode.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Twig\Extension\Stopwatch.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Twig\Extension\Dump.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Twig\Extension\Debug.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Support\Clockwork\Converter.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Support\Clockwork\ClockworkCollector.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Storage\FilesystemStorage.php" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Resources\vendor\font-awesome\style.css" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Resources\vendor\font-awesome\generator_config.txt" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Resources\sqlqueries\widget.js" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Resources\laravel-debugbar.css" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\migrations\2014_12_01_120000_create_phpdebugbar_storage_table.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Middleware\Debugbar.php" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataFormatter\QueryFormatter.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\ViewCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\SymfonyRequestCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\SessionCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\QueryCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\MultiAuthCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\LogsCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\LaravelCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\IlluminateRouteCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\GateCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\FilesCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\EventCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\DataCollector\AuthCollector.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Controllers\OpenHandlerController.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Controllers\BaseController.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Controllers\AssetController.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Console\PublishCommand.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Console\ClearCommand.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\SymfonyHttpDriver.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\ServiceProvider.php" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\LumenServiceProvider.php" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\LaravelDebugbar.php" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\JavascriptRenderer.php" crc="1516708312"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\helpers.php" crc="1516708313"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\src\Facade.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\barryvdh\laravel-debugbar\config\debugbar.php" crc="1516708311"/>
+		<file name="D:\xampp\htdocs\avcc.new\vendor\autoload.php" crc="1516708633"/>
 		<file name="D:\xampp\htdocs\avcc.new\tests\TestCase.php" crc="1482131076"/>
 		<file name="D:\xampp\htdocs\avcc.new\tests\ExampleTest.php" crc="1482131076"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\ff7a7473cb7d4fb822353a067204f3c70f9143de.php" crc="1511329047"/>
@@ -5660,7 +5764,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f5a9aabc817cc1908f87abed8760126b6820c588.php" crc="1513660973"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f4db6ba7068e61a7cbd374af778fafb369b8c1fe.php" crc="1513660973"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f4a0dc40d3da49e39a1d99f89442bcb4c92a8169.php" crc="1515847101"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f2f1c53b4374b07de08b063cd384562ee257fbc3.php" crc="1515564198"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f2f1c53b4374b07de08b063cd384562ee257fbc3.php" crc="1517209642"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f2b1dfab2f4fc07ec936ff35e77016e4608ca4ab.php" crc="1503908847"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f25ba4b247ccdf15828b09f4777d758513ce0c73.php" crc="1503923897"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\f0407e09a67942f2514d77f1aa886e51b0d8e348.php" crc="1507974116"/>
@@ -5669,6 +5773,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\e4cd3bb2c812c4a0b2e1ac157bb9ed3fbdc3f8e2.php" crc="1515401297"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\e2f07296b46d469bea06fa411ffbece501e7f24e.php" crc="1515494710"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\df0a5ef0c2624e43fc37e0d38960ea85611ff204.php" crc="1506330801"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\dcce8ed1d957749070c5e01b35d0e7f9d3af48fe.php" crc="1516617121"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\d70d208f5282ce2f5fb46d6b68168a0736869714.php" crc="1506343250"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\d556270e50666a43bd6ecb05a10947abbc8bbf00.php" crc="1502865776"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\d3daf65d88b4f3694772ffd556d80c532f1c4d9d.php" crc="1502865586"/>
@@ -5684,14 +5789,15 @@
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b867439314d0aa7251b19e56bd6f5b389d73a32f.php" crc="1513838326"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b80934bb82d7050c7e1233146324b812fe7a4f18.php" crc="1515838279"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b50cdc5ac9c046f262189c678f61fcf85b39ce13.php" crc="1516189272"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b33bedc03ddb810337af9dd9797d9e2c370b2804.php" crc="1515490940"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b33bedc03ddb810337af9dd9797d9e2c370b2804.php" crc="1517205178"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b3155cbfeae7c6dd61c54218753338e00f4ec5d6.php" crc="1503492324"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b23f1145428c5121b95dfa14b80a92287701dcd9.php" crc="1502865774"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b1f1c83ca77aa1f1102d4081af5c8fa917eee103.php" crc="1514463443"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\b1f1c83ca77aa1f1102d4081af5c8fa917eee103.php" crc="1516782731"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\af9ea43fabd67b9525be999412c3729e821e7830.php" crc="1515499200"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\af49195b418c9b024a3810f44601f0ce7122483b.php" crc="1513684365"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\af0f449367b261ceef1639bab52cddb44f82460b.php" crc="1511943491"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\aaeb76e93c1cb01b43026cde076a7561dc2ffabe.php" crc="1515577000"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\aad1452ac3e0c27413b59b182681a8bb1f595933.php" crc="1516775652"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\a5002fd82869b231448ae32da73bd6bab301a4f4.php" crc="1513684438"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\a44b3f5e670502abee2169d5c431496c4307aac7.php" crc="1507973985"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\a425e84327f570f9bfc95d694a4205261546e5b6.php" crc="1515838174"/>
@@ -5713,7 +5819,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\851b9ed1f34495134bef8b0533f52f363204ed35.php" crc="1513685605"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\7c98a01f08cebc859678c48ea80dc80b40403ff1.php" crc="1515243575"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\789a2c8346f66539cd80a6b93a63af5bea83dc52.php" crc="1503922747"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\77ae9447d3a27617d25edb651d995805c781721c.php" crc="1515563060"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\77ae9447d3a27617d25edb651d995805c781721c.php" crc="1516863309"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\77505b21863a6e8d321e7a0699debfbc0b196074.php" crc="1513667280"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\74db6d0e8b8ffa26d7b23e350b7ba410fa87b892.php" crc="1515845278"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\727e36d90733b7b9878ddf23fa62998f80212032.php" crc="1509347495"/>
@@ -5741,6 +5847,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\3fc208813efa27c1ce0f21bdb2c4a85462dd0321.php" crc="1513663496"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\3f768760bca5b22ee78ec5c7e6934dfe843c6e75.php" crc="1513663654"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\3c4a73d396b1fbe6053f6f0d2907a2ec10e955dd.php" crc="1515415420"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\3b489731b868eb4f19ad8448939fce494b55b7de.php" crc="1517224414"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\3b3a6ab158159de5328cc9a9f0d50fade41ac390.php" crc="1514958416"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\38d72cfad19a4ea2d992037cf9560bfa8ee02279.php" crc="1503900792"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\381fae9d32654442c70b777231ea56f3d5827e09.php" crc="1513669757"/>
@@ -5755,26 +5862,28 @@
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\24fa06f9ac25cb1167875d7d9e386b64a8f53aed.php" crc="1515843999"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\245392d06d094245da528d0020e1e33ec4bd1efe.php" crc="1504087894"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\2318e1f2171ed90839a813e713422fa02c28d4aa.php" crc="1503902100"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\21577d334b193b8f0b8b15ca1e774b787582a006.php" crc="1517401681"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\1f71cdfdbbcbb092e8b6f5e9fc9040852b8167b5.php" crc="1515838308"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\1f318969ff81089b151491319c13b9bc4d4ff3e7.php" crc="1515494505"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\1dfb3b2d947b1fef1034b36489f59059bed8f6c8.php" crc="1516191548"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\1bac922d3419f5fb34cd9d0e6dbeeb79c1b5f68a.php" crc="1515478962"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\1a180b396f0bc4137c63da692534d25cdb4d2740.php" crc="1513684359"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\19b8c200957976d2e8d6c7df6acfaebea31b2704.php" crc="1506678725"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\139c4aadad14b6e2ede9fd1add0c61353d278df6.php" crc="1502865587"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\123a0c78212456dea9bbe2606447b8d180711c22.php" crc="1515498927"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\11374ca77a711be40cbcacceaa160561f873eb12.php" crc="1515576580"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\11374ca77a711be40cbcacceaa160561f873eb12.php" crc="1517205143"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\10161ab90397188fd2fe4b997c3bef7f05d73067.php" crc="1513663482"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0cf41ae753fe69d6e52b27b3219a01b1eb2e1283.php" crc="1516000135"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0cf41ae753fe69d6e52b27b3219a01b1eb2e1283.php" crc="1516786061"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0c98163e79d1ccb78adf94fdec1261e9551df812.php" crc="1505801442"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0c705ce4a55b511a2dea9f16a92c96e22e18122c.php" crc="1515838294"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0b4ad1267bc59d23762313b00da8ff5e493a4dcb.php" crc="1503911125"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0606b965f4d984d6d007a0270df198ce8f190fac.php" crc="1507016197"/>
-		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\05df7fada8ee2cd8a5fd35bd2345a63a8cc72eb7.php" crc="1515573649"/>
+		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\05df7fada8ee2cd8a5fd35bd2345a63a8cc72eb7.php" crc="1517214165"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\054db1e0120a1046ee46cb9fb5ff869db82fbf27.php" crc="1509354928"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\04c8a17e04f8504afbc9969adc2da2ffaa194e57.php" crc="1506333276"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\03d2ce55422fb7ea0c328784cb088795599bfa3f.php" crc="1507975404"/>
 		<file name="D:\xampp\htdocs\avcc.new\storage\framework\views\0382a46b577a4c712cd6b94d8e487a252eb31ea1.php" crc="1513667292"/>
-		<file name="D:\xampp\htdocs\avcc.new\routes\web.php" crc="1515760814"/>
+		<file name="D:\xampp\htdocs\avcc.new\routes\web.php" crc="1516616744"/>
 		<file name="D:\xampp\htdocs\avcc.new\routes\console.php" crc="1482131076"/>
 		<file name="D:\xampp\htdocs\avcc.new\routes\api.php" crc="1482131076"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\vendor\pagination\simple-default.blade.php" crc="1498035912"/>
@@ -5800,20 +5909,19 @@
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\tax\add.blade.php" crc="1488957048"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\str\list.blade.php" crc="1507974113"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\securityamountregister\list.blade.php" crc="1495704736"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\view.blade.php" crc="1502361111"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\view.blade - Copy.php" crc="1499774666"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\partialcancel.blade.php" crc="1502345784"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\list.blade.php" crc="1502354372"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\add.blade.php" crc="1502354072"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\view.blade.php" crc="1516443894"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\partialcancel.blade.php" crc="1517401671"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\list.blade.php" crc="1513596281"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\refundvoucher\add.blade.php" crc="1516181951"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-tentage\list_old.blade.php" crc="1513837272"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-tentage\list.blade.php" crc="1513838574"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-tentage\add.blade.php" crc="1515564144"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-tentage\add.blade.php" crc="1517207814"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-stl\view.blade.php" crc="1499777329"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-stl\list.blade.php" crc="1499776917"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-rent\list.blade.php" crc="1515415415"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-rent\add.blade.php" crc="1515564368"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-rebate\list.blade.php" crc="1513838322"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-rebate\add.blade.php" crc="1515573643"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-rebate\add.blade.php" crc="1517214158"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-others\list.blade.php" crc="1515402110"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-others\add.blade.php" crc="1515401293"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-fd\list.blade.php" crc="1513838215"/>
@@ -5822,15 +5930,15 @@
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-corpusfund\add.blade.php" crc="1515494490"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-catering\list_old.blade.php" crc="1513837272"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-catering\list.blade.php" crc="1515221615"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-catering\add.blade.php" crc="1515564170"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-catering\add.blade.php" crc="1517209619"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt-booking\list.blade.php" crc="1515478952"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view_old.blade.php" crc="1504087424"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view.blade.php" crc="1514442966"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-tentage_old.blade.php" crc="1500546442"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-tentage.blade.php" crc="1515563055"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-tentage.blade.php" crc="1516782490"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-stl.blade.php" crc="1499774666"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-rent.blade.php" crc="1515499191"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-rebate.blade.php" crc="1515490935"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-rebate.blade.php" crc="1516867807"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-others.blade.php" crc="1515503906"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-fd.blade.php" crc="1514454521"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-corpus-fund.blade.php" crc="1515494705"/>
@@ -5838,7 +5946,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\view-booking.blade.php" crc="1515836291"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\list.blade.php" crc="1515576996"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\receipt\add.blade.php" crc="1499774666"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\rebateregister\list.blade.php" crc="1506336570"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\rebateregister\list.blade.php" crc="1517224409"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\partybill\list.blade.php" crc="1491892320"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\openingstock\list.blade.php" crc="1489061376"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\openingstock\edit.blade.php" crc="1489064412"/>
@@ -5851,7 +5959,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\member\edit.blade.php" crc="1496998726"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\member\add.blade.php" crc="1496998684"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\ledgerreport\list.blade.php" crc="1491892364"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\layouts\website.blade.php" crc="1515573834"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\layouts\website.blade.php" crc="1517205138"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\item\list.blade.php" crc="1488971460"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\item\edit.blade.php" crc="1488976630"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\item\add.blade.php" crc="1488964090"/>
@@ -5864,10 +5972,6 @@
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\facility\add.blade.php" crc="1500986120"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\errors\503.blade.php" crc="1481611720"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\errors\404.blade.php" crc="1481694044"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\debitvoucher\view.blade.php" crc="1494658306"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\debitvoucher\list.blade.php" crc="1491565054"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\debitvoucher\edit.blade.php" crc="1494658296"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\debitvoucher\add.blade.php" crc="1494658272"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\contractor\list.blade.php" crc="1495092242"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\contractor\edit.blade.php" crc="1496997852"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\contractor\add.blade.php" crc="1496997818"/>
@@ -5887,7 +5991,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\bookingregister\list.blade.php" crc="1499774666"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\bookingdetails\list.blade.php" crc="1492494112"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\bookingcancellation\list.blade.php" crc="1499774458"/>
-		<file name="D:\xampp\htdocs\avcc.new\resources\views\booking\view.blade.php" crc="1516000131"/>
+		<file name="D:\xampp\htdocs\avcc.new\resources\views\booking\view.blade.php" crc="1516786056"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\booking\partialedit.blade.php" crc="1505990302"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\booking\list.blade.php" crc="1516000580"/>
 		<file name="D:\xampp\htdocs\avcc.new\resources\views\booking\edit.blade.php" crc="1505990281"/>
@@ -6317,14 +6421,15 @@
 		<file name="D:\xampp\htdocs\avcc.new\config\mail.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\filesystems.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\excel.php" crc="1498039069"/>
+		<file name="D:\xampp\htdocs\avcc.new\config\debugbar.php" crc="1516708785"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\datatables.php" crc="1498035912"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\database.php" crc="1489645832"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\compile.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\cache.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\broadcasting.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\config\auth.php" crc="1482131074"/>
-		<file name="D:\xampp\htdocs\avcc.new\config\app.php" crc="1498035893"/>
-		<file name="D:\xampp\htdocs\avcc.new\bootstrap\cache\services.php" crc="1498035911"/>
+		<file name="D:\xampp\htdocs\avcc.new\config\app.php" crc="1516708749"/>
+		<file name="D:\xampp\htdocs\avcc.new\bootstrap\cache\services.php" crc="1516708781"/>
 		<file name="D:\xampp\htdocs\avcc.new\bootstrap\autoload.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\bootstrap\app.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Providers\RouteServiceProvider.php" crc="1482131074"/>
@@ -6350,14 +6455,14 @@
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\StrController.php" crc="1495704196"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\StlController.php" crc="1499777247"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\SecurityamountregisterController.php" crc="1492064028"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\RefundvoucherController.php" crc="1516196477"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\RefundvoucherController.php" crc="1517402787"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceipttentageController.php" crc="1513850237"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptrentController.php" crc="1515565510"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptrebateController.php" crc="1515572109"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptrebateController.php" crc="1516864777"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptothersController.php" crc="1515413356"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptfdController.php" crc="1515413047"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptcorpusfundController.php" crc="1515488454"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptController.php" crc="1515652677"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptController.php" crc="1516863958"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptcateringController.php" crc="1513861618"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ReceiptbookingController.php" crc="1515141015"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\RebateregisterController.php" crc="1502865331"/>
@@ -6372,7 +6477,6 @@
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\FacilitytypeController.php" crc="1495435112"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\FacilityController.php" crc="1500985948"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\EditprofileController.php" crc="1481799766"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\DebitvoucherController.php" crc="1491565664"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\Controller.php" crc="1482131074"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\ContractorController.php" crc="1496997780"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\CompanyController.php" crc="1488863178"/>
@@ -6384,7 +6488,7 @@
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\CalendarController.php" crc="1491025306"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\BookingregisterController.php" crc="1495705586"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\BookingdetailsController.php" crc="1492424734"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\BookingController.php" crc="1516174503"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\BookingController.php" crc="1516784332"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\BookingcancellationController.php" crc="1491993478"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\BankController.php" crc="1496997508"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Http\Controllers\AccountheadController.php" crc="1496997472"/>
@@ -6402,17 +6506,17 @@
 		<file name="D:\xampp\htdocs\avcc.new\app\Str.php" crc="1515848098"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Stl.php" crc="1495696494"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Securityamountregister.php" crc="1495706152"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Refundvoucher.php" crc="1516196403"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Refundvoucher.php" crc="1517401659"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Receipttentage.php" crc="1515836422"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Receiptrent.php" crc="1515836537"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Receiptrebate.php" crc="1515837027"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Receiptrebate.php" crc="1517219988"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Receiptothers.php" crc="1515837089"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Receiptfd.php" crc="1515836937"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Receiptcorpusfund.php" crc="1515836586"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Receiptcatering.php" crc="1515836485"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Receiptcatering.php" crc="1517209632"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Receiptbooking.php" crc="1515577330"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Receipt.php" crc="1515651679"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Rebateregister.php" crc="1506336791"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Receipt.php" crc="1516792712"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Rebateregister.php" crc="1517224544"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Partybill.php" crc="1491892286"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Membertype.php" crc="1492071452"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Memberlistreport.php" crc="1491980440"/>
@@ -6420,15 +6524,14 @@
 		<file name="D:\xampp\htdocs\avcc.new\app\Ledgerreport.php" crc="1491892344"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Facilitytype.php" crc="1492071342"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Facility.php" crc="1500986060"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Debitvoucher.php" crc="1491566462"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Contractor.php" crc="1514353749"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Contractor.php" crc="1517222536"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Cateringregister.php" crc="1515844018"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Category.php" crc="1492071040"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Calendar.php" crc="1495707182"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Bookingregister.php" crc="1495706290"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Bookingdetails.php" crc="1495707034"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Bookingcancellation.php" crc="1495698176"/>
-		<file name="D:\xampp\htdocs\avcc.new\app\Booking.php" crc="1516174146"/>
+		<file name="D:\xampp\htdocs\avcc.new\app\Booking.php" crc="1516785329"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Bank.php" crc="1492070778"/>
 		<file name="D:\xampp\htdocs\avcc.new\app\Accounthead.php" crc="1492070726"/>
 		<file name="D:\xampp\htdocs\avcc.new\server.php" crc="1482131076"/>

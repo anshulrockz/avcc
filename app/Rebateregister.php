@@ -17,14 +17,13 @@ class Rebateregister extends Model
 	public function rebate_list()
 	{
 		return DB::table('receipt')
-		->select('receipt.*','contractor.name as contractor_name','receipt_rebate.rebate_no','receipt_rebate.safai','receipt_rebate.tentage','receipt_rebate.catering','receipt_rebate.food','receipt_rebate.electricity')
+		->select('receipt.*','contractor.name as contractor_name','receipt_rebate.safai','receipt_rebate.tentage','receipt_rebate.catering','receipt_rebate.food','receipt_rebate.electricity')
 		->where([
 			['receipt.status','1'],
 			['receipt.receipt_type','8'],
-			['receipt.receipt_status','1'],
 			])
 		->leftJoin('receipt_rebate','receipt_rebate.parent_id','receipt.id')
-		->leftJoin('contractor', 'contractor.id', '=', 'receipt.contractor_id')
+		->leftJoin('contractor', 'contractor.id', '=', 'receipt_rebate.contractor_id')
 		->groupBy('receipt.id')
 		->orderBy('receipt.id','DESC')
 		->get();

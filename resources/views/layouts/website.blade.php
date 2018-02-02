@@ -110,7 +110,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ url('/booking') }}"><i class="fa fa-book"></i> <span>Booking</span></a></li>
-                <li><a href="{{ url('/receipt-stl') }}"><i class="fa fa-tint"></i> <span>Tax Liability</span></a></li>
+                <!--<li><a href="{{ url('/receipt-stl') }}"><i class="fa fa-tint"></i> <span>Tax Liability</span></a></li>-->
                 <li class="parent"><a href="{{ url('/receipt') }}"><i class="fa fa-file-text-o"></i> <span>Receipt</span></a>
                     <ul class="children">
                     	<li><a href="{{ url('/receipt') }}">All Receipts</a></li>

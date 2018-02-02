@@ -13,11 +13,11 @@ class ReceiptrebateController extends Controller
 {
     public function __construct()
     {
-		$this->receipt = new Receiptrebate();
+		$this->receiptrebate = new Receiptrebate();
     }
     public function index()
     {
-		$receipt = $this->receipt->receipt_list();
+		$receipt = $this->receiptrebate->receipt_list();
 		$count = $receipt->count();
 		return view('receipt-rebate/list',['receipt'=>$receipt,'count'=>$count]);
     }
@@ -44,7 +44,6 @@ class ReceiptrebateController extends Controller
 		$safai = $request->input('safai');
 		$tentage = $request->input('tentage');
 		$catering = $request->input('catering');
-		$food = $request->input('food');
 		$electricity = $request->input('electricity');
 		$comments = $request->input('comments');
 		
@@ -53,11 +52,9 @@ class ReceiptrebateController extends Controller
 			'payment_mode'=>'required',
 		]);
 		
-		$result = $this->receipt->receipt_add($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$food,$electricity,$comments);
+		$result = $this->receiptrebate->receipt_add($receipt_no,$party_name,$party_gstin,$reverse_charges,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$safai,$tentage,$catering,$electricity,$comments);
 		if($result){
-			return redirect()->action(
-			    'ReceiptController@view', ['id' => $result]
-			);
+			return redirect()->action('ReceiptController@view', ['id' => $result]);
 		}
 		else{
 			$request->session()->flash('failed', 'Something went wrong!');
@@ -67,6 +64,6 @@ class ReceiptrebateController extends Controller
 	public function ajax(Request $request)
     {
 		$receipt_no = $request->input('receipt_no');
-		$this->receipt->receiptrebate_ajax($receipt_no);
+		$this->receiptrebate->receiptrebate_ajax($receipt_no);
 	}
 }

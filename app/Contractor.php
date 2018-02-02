@@ -60,6 +60,11 @@ class Contractor extends Model
 	public function getContractorName($id)
 	{
 		$contractor = DB::table('contractor')->where('id',$id)->first();
-		return $contractor->name;
+		
+		if(!empty($contractor)) $name = $contractor->name;
+		
+		else $name = "NA";
+		
+		return $name;
 	}
 }

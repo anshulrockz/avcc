@@ -97,7 +97,7 @@ function printPage(){
 			      <?php $i=1; foreach ($rebate as $value){ ?>
 		          <tr>
 		          	<td>{{$i}}</td>
-		            <td>{{ $value->rebate_no }}</td>
+		            <td>{{ $value->id }}</td>
 		            <td>{{ date_dfy($value->function_date) }}</td>
 		            <td>{{round($value->safai)}}</td>
 		            <td>{{round($value->tentage)}}</td>

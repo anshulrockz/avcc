@@ -130,19 +130,6 @@
 			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->catering))}}</td>
 		</tr>
 		@endif
-		@if($receipt[0]->food>0)
-		<tr>
-			<td>{{ ++$i }}</td>
-			<td>Rebate on food</td>
-			<td>00440035</td>
-			<td>{{$total = $total + slash_decimal($receipt[0]->food)}}</td>
-			<td>{{slash_decimal($cgst)}}</td>
-			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->food))}}</td>
-			<td>{{slash_decimal($sgst)}}</td>
-			<td>{{slash_decimal(percent_amount($cgst,$receipt[0]->food))}}</td>
-			<td>{{slash_decimal(percent_amount($cgst+$sgst,$receipt[0]->food))}}</td>
-		</tr>
-		@endif
 		@if($receipt[0]->electricity>0)
 		<tr>
 			<td>{{ ++$i }}</td>

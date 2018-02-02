@@ -82,7 +82,7 @@ class ReceiptController extends Controller
 			]);
 		}
 		
-		$result = $this->receipt->receipt_add($booking_no,$party_name,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$contractor,$est_cof,$vat_supplier,$est_catering,$vat_caterer,$st_caterer,$est_tentage,$vat_tent,$st_tent);
+		$result = $this->receiptrebate->receipt_add($booking_no,$party_name,$phone,$mobile,$membership_no,$address,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$function_date,$contractor,$est_cof,$vat_supplier,$est_catering,$vat_caterer,$st_caterer,$est_tentage,$vat_tent,$st_tent);
 		
 		if($result){
 			return redirect()->action(

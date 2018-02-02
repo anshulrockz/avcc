@@ -103,7 +103,7 @@ $('.input-group.date').datepicker({
         <ul class="breadcrumb">
             <li><a href="{{ url('/') }}"><i class="glyphicon glyphicon-home"></i></a></li>
             <li><a href="{{ url('/receipt') }}">Receipt</a></li>
-            <li>Tentage &amp; Catering</li>
+            <li>Tentage</li>
         </ul>
     	</div>
     </div>

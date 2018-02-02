@@ -75,7 +75,7 @@ class RefundvoucherController extends Controller
 		return view('refundvoucher/partialcancel',['receipt'=>$receipt,'receiptfacility'=>$receiptfacility,'voucher_id'=>$refundvoucher_id]);
     }
     public function partialupdate(Request $request,$id)
-    {
+    { 	
 		$voucher_date = $request->input('voucher_date');
 		$payment_mode = $request->input('payment_mode');
 		$cheque_no = $request->input('cheque_no');
@@ -90,7 +90,10 @@ class RefundvoucherController extends Controller
 		$deduction = $request->input('deduction');
 		$misc_deduction = $request->input('misc_deduction');
 		$others_deduction = $request->input('others_deduction');
-
+		$this->validate($request,[
+			'voucher_date'=>'required|date',
+			'payment_mode'=>'required'
+		]);
 		$result = $this->refundvoucher->partial_update($id,$voucher_date,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn,$facility,$booking_rate,$quantity,$no_of_days,$amount,$deduction,$misc_deduction,$others_deduction);
 		
 		if($result){
@@ -106,6 +109,7 @@ class RefundvoucherController extends Controller
 		$refundvoucher = $this->refundvoucher->refundvoucher_view($id);
 		$refund_facility = $this->refundvoucher->refund_facility($id);
 		$receipt_id = $this->refundvoucher->getReceiptID($id);
+		
 		return view('refundvoucher/view',['voucher'=>$refundvoucher,'refund_facility'=>$refund_facility]);
     }
 }

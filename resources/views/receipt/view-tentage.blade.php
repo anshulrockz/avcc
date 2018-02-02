@@ -57,7 +57,7 @@
       
       <tr>
         <td class="facility-td"><b>Contractor Name:</b></td>
-        <td class="facility-td"><?php echo $contractor->getContractorName($receipt[0]->contractor_id); ?></td>
+        <td class="facility-td">{{ $contractor->getContractorName($receipt[0]->contractor_id) }}</td>
       @if(!empty($receipt[0]->comments))
       	<td class="facility-td"><b>Comments:</b></td>
         <td class="facility-td">{{ $receipt[0]->comments }}</td>

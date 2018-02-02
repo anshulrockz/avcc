@@ -30,13 +30,13 @@ class Refundvoucher extends Model
 	public function refundvoucher_view($id)
 	{       
         $refundvoucher = DB::table('refundvoucher')
-			->select('refundvoucher.*','receipt.misc','receipt.misc_amount','receipt.others','receipt.others_amount',DB::raw('SUM(refundvoucherfacility.price*refundvoucherfacility.quantity*refundvoucherfacility.noofdays) as booking_facility_amount'),DB::raw('SUM(refundvoucherfacility.safai) as total_safai'),DB::raw('SUM(refundvoucherfacility.generator) as total_generator'),DB::raw('SUM(refundvoucherfacility.ac) as total_ac'),DB::raw('SUM(refundvoucherfacility.cgst) as total_cgst'),DB::raw('SUM(refundvoucherfacility.sgst) as total_sgst'),DB::raw('SUM(refundvoucherfacility.security*refundvoucherfacility.quantity) as total_security'),DB::raw('SUM(refundvoucherfacility.deduction) as booking_facility_deduction'))
+			->select('refundvoucher.*','receipt_booking.misc','receipt_booking.misc_amount','receipt_booking.others','receipt_booking.others_amount',DB::raw('SUM(refundvoucherfacility.price*refundvoucherfacility.quantity*refundvoucherfacility.noofdays) as booking_facility_amount'),DB::raw('SUM(refundvoucherfacility.safai) as total_safai'),DB::raw('SUM(refundvoucherfacility.generator) as total_generator'),DB::raw('SUM(refundvoucherfacility.ac) as total_ac'),DB::raw('SUM(refundvoucherfacility.cgst) as total_cgst'),DB::raw('SUM(refundvoucherfacility.sgst) as total_sgst'),DB::raw('SUM(refundvoucherfacility.security*refundvoucherfacility.quantity) as total_security'),DB::raw('SUM(refundvoucherfacility.deduction) as booking_facility_deduction'))
 			->where([
 			['refundvoucher.id',$id],
 			['refundvoucher.status','1'],
 			])
             ->leftJoin('refundvoucherfacility', 'refundvoucherfacility.refundvoucher_id', '=', 'refundvoucher.id')
-            ->leftJoin('receipt', 'refundvoucher.parent_id', '=', 'receipt.id')
+            ->leftJoin('receipt_booking', 'refundvoucher.receipt_id', '=', 'receipt_booking.id')
             ->groupBy('refundvoucher.id')
             ->first();
 
@@ -52,110 +52,141 @@ class Refundvoucher extends Model
 	}
 	public function refundvoucher_add($refund_type,$receipt_id,$voucher_date,$payment_mode,$cheque_no,$cheque_date,$cheque_drawn)
     {
-		$user_id = Auth::id();
-		$misc_deduction = 0;
-		$others_deduction = 0;
-		
-		if(!empty($cheque_date)){
-			$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
-		}
-		if(!empty($voucher_date)){
-			$voucher_date = date_format(date_create($voucher_date),"Y-m-d");
-		}
-		
-		if($refund_type == '1'){
+    	try{
 			
-			$receipt = DB::table('receipt')
-				->where([
-				['status','1'],
-				//['receipt_status','1'],
-				['id',$receipt_id],
-				])
-	            ->first();
-            $receipt_facility = DB::table('receipt')
-				->select('receipt_bookingfacility.*')
-				->where([
-				['receipt.status','1'],
-				////['receipt.receipt_status','1'],
-				['receipt.id',$receipt_id],
-				])
-	            ->leftJoin('receipt_bookingfacility', 'receipt_bookingfacility.parent_id', '=', 'receipt.id')
-	            ->get();
-	            
-	        $function_date = $receipt->function_date;
-            $misc_amount = $receipt->misc_amount;
-            $others_amount = $receipt->others_amount;
-	        
-	        $cancel_percentage = 5;
-			$cancel_date = date_format(date_create($this->date),"Y-m-d");
-			$month = Refundvoucher::getMonth($cancel_date,$function_date);
-			$diff_in_days = Refundvoucher::getDateDifference($cancel_date,$function_date);
+			$user_id = Auth::id();
+			$misc_deduction = 0;
+			$others_deduction = 0;
 			
-            if(!empty($misc_amount)){
-				$misc_deduction = $misc_amount*$cancel_percentage*$month/100;
+			if(!empty($cheque_date)){
+				$cheque_date = date_format(date_create($cheque_date),"Y-m-d");
 			}
-			if(!empty($others_amount)){
-				$others_deduction = $others_amount*$cancel_percentage*$month/100;
+			if(!empty($voucher_date)){
+				$voucher_date = date_format(date_create($voucher_date),"Y-m-d");
 			}
-
-			$refundvoucher_id = DB::table('refundvoucher')->insertGetId(
-				    ['refund_type' => $refund_type,'voucher_date' => $voucher_date,'receipt_id' => $receipt_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'misc_deduction' => $misc_deduction,'others_deduction' => $others_deduction,'created_at' => $this->date,'created_by' => $user_id]
-			);
 			
-			foreach($receipt_facility as $value){
-				$facility_id = $value->facility_id;
-				$price = $value->booking_rate;
-				$quantity = $value->quantity;
-				$noofdays = $value->noofdays;
-				$safai = $value->safai_general;
-				$generator = $value->generator_charges;
-				$ac = $value->ac_charges;
-				$cgst = $value->servicetax_percentage;
-				$sgst = $value->vat_percentage;
-				$security = $value->security_charges;
-				$deduction = Refundvoucher::getFacilityCancelAmount($facility_id,$cancel_percentage,$month,$diff_in_days);
-				DB::table('refundvoucherfacility')->insert(
-					    ['refundvoucher_id' => $refundvoucher_id,'facility_id' => $facility_id,'price' => $price,'quantity' => $quantity,'noofdays' => $noofdays,'safai' => $safai,'generator' => $generator,'ac' => $ac,'cgst' => $cgst,'sgst' => $sgst,'deduction' => $deduction]);
-				}
-		}
-
-		if($refund_type == '2'){
-			$receipt = DB::table('receipt')
-				->where([
-				['receipt.status','1'],
-				////['receipt.receipt_status','1'],
-				['receipt.id',$receipt_id]
-				])
-				->first();
+			if($refund_type == '1'){
 				
-			if($receipt->receipt_type == '1'){
 				$receipt = DB::table('receipt')
-					->select(DB::raw('SUM(receipt_bookingfacility.security_total) as security_deposit'))
-					->leftJoin('receipt_bookingfacility','receipt_bookingfacility.parent_id','receipt.id')
+					->select('receipt.receipt_type','receipt.function_date','receipt_booking.misc_amount','receipt_booking.others_amount')
+					->leftJoin('receipt_booking','receipt_booking.parent_id','receipt.id')
+					->where([
+							['receipt.status','1'],
+							['receipt.id',$receipt_id],
+							])
+		            ->first();
+	            $receipt_facility = DB::table('receipt')
+					->select('receipt_bookingfacility.*')
 					->where([
 					['receipt.status','1'],
-					//['receipt.receipt_status','1'],
-					['receipt.id',$receipt_id]
+					['receipt.id',$receipt_id],
 					])
-					->first();
+		            ->leftJoin('receipt_bookingfacility', 'receipt_bookingfacility.parent_id', '=', 'receipt.id')
+		            ->get();
+		            
+		        $function_date = $receipt->function_date;
+	            $misc_amount = $receipt->misc_amount;
+	            $others_amount = $receipt->others_amount;
+		        
+		        $cancel_percentage = 5;
+				$cancel_date = date_format(date_create($this->date),"Y-m-d");
+				$month = Refundvoucher::getMonth($cancel_date,$function_date);
+				$diff_in_days = Refundvoucher::getDateDifference($cancel_date,$function_date);
+				
+	            if(!empty($misc_amount)){
+					$misc_deduction = $misc_amount*$cancel_percentage*$month/100;
+				}
+				if(!empty($others_amount)){
+					$others_deduction = $others_amount*$cancel_percentage*$month/100;
+				}
+
+				$refundvoucher_id = DB::table('refundvoucher')->insertGetId(
+					    ['refund_type' => $refund_type,'voucher_date' => $voucher_date,'receipt_id' => $receipt_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'misc_deduction' => $misc_deduction,'others_deduction' => $others_deduction,'created_at' => $this->date,'created_by' => $user_id]
+				);
+				
+				foreach($receipt_facility as $value){
+					$facility_id = $value->facility_id;
+					$price = $value->booking_rate;
+					$quantity = $value->quantity;
+					$noofdays = $value->noofdays;
+					$safai = $value->safai_general;
+					$generator = $value->generator_charges;
+					$ac = $value->ac_charges;
+					$cgst = $value->servicetax_percentage;
+					$sgst = $value->vat_percentage;
+					$security = $value->security_charges;
+					$booking_amount = $price;
+					if($facility_id == '1'){
+						if($diff_in_days > 3){
+							$cancel_percentage = 50;
+						}
+						else{
+							$cancel_percentage = 75;
+						}
+						$cancellation_amount = $booking_amount*$cancel_percentage/100;
+					}
+					else{
+						$cancellation_amount = $booking_amount*$cancel_percentage/100;
+					}
+					$deduction = $cancellation_amount;	//$facility_id,$cancel_percentage,$month,$diff_in_days;
+					DB::table('refundvoucherfacility')->insert(
+						    ['refundvoucher_id' => $refundvoucher_id,'facility_id' => $facility_id,'price' => $price,'quantity' => $quantity,'noofdays' => $noofdays,'safai' => $safai,'generator' => $generator,'ac' => $ac,'cgst' => $cgst,'sgst' => $sgst,'deduction' => $deduction]);
+				}
 			}
-			else{
+
+			if($refund_type == '2'){
 				$receipt = DB::table('receipt')
 					->where([
 					['receipt.status','1'],
-					//['receipt.receipt_status','1'],
 					['receipt.id',$receipt_id]
 					])
 					->first();
+					
+				if($receipt->receipt_type == '1') //Booking
+				{
+					$receipt = DB::table('receipt')
+						->select(DB::raw('SUM(receipt_bookingfacility.security_total) as security'))
+						->leftJoin('receipt_bookingfacility','receipt_bookingfacility.parent_id','receipt.id')
+						->where([
+						['receipt.status','1'],
+						['receipt.id',$receipt_id]
+						])
+						->first();
+				}
+				elseif($receipt->receipt_type == '10') //Others
+				{
+					$receipt = DB::table('receipt')
+						->select('receipt_others.security')
+						->leftJoin('receipt_others','receipt_others.parent_id','receipt.id')
+						->where([
+						['receipt.status','1'],
+						['receipt.id',$receipt_id]
+						])
+						->first();
+				}
+				else //Security
+				{
+					$receipt = DB::table('receipt')
+						->select('receipt_security.security')
+						->where([
+						['receipt.status','1'],
+						['receipt.id',$receipt_id]
+						])
+						->leftJoin('receipt_security','receipt_security.parent_id','receipt.id')
+						->first();
+				}
+				
+				$security_refund = $receipt->security;
+				$refundvoucher_id = DB::table('refundvoucher')->insert(
+					    ['refund_type' => $refund_type,'security_refund' => $security_refund,'voucher_date' => $voucher_date,'receipt_id' => $receipt_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'misc_deduction' => $misc_deduction,'others_deduction' => $others_deduction,'created_at' => $this->date,'created_by' => $user_id]
+				);
 			}
 			
-			$security_refund = $receipt->security_deposit;
-			$refundvoucher_id = DB::table('refundvoucher')->insert(
-				    ['refund_type' => $refund_type,'security_refund' => $security_refund,'voucher_date' => $voucher_date,'receipt_id' => $receipt_id,'payment_mode' => $payment_mode,'cheque_no' => $cheque_no,'cheque_date' => $cheque_date,'cheque_drawn' => $cheque_drawn,'misc_deduction' => $misc_deduction,'others_deduction' => $others_deduction,'created_at' => $this->date,'created_by' => $user_id]
-			);
+			return $refundvoucher_id;
 		}
-		
-		return $refundvoucher_id;
+		catch ( \Exception $e ){
+			return FALSE;
+		}
     }
 	function getFacilityCancelAmount($bookingfacility_id,$cancel_percentage,$month,$diff_in_days){
 		
@@ -172,6 +203,7 @@ class Refundvoucher extends Model
 			$quantity = $value->quantity;
 			$noofdays = $value->noofdays;
 			$booking_amount = $booking_rate*$quantity*$noofdays;
+			
 			if($facility_id == '1'){
 				if($diff_in_days > 3){
 					$cancel_percentage = 50;
@@ -187,6 +219,7 @@ class Refundvoucher extends Model
 		}
 		return $cancellation_amount;
 	}
+	
 	function getMonth($cancel_date,$function_date){
 		$cancel_date = Carbon::createFromFormat('Y-m-d', $cancel_date);
 		$function_date = Carbon::createFromFormat('Y-m-d', $function_date);
@@ -206,12 +239,12 @@ class Refundvoucher extends Model
 	public function receipt($token)
 	{
 		return DB::table('receipt')
-		->select('receipt_booking.misc_amount','receipt_booking.others_amount','receipt.*')
+		->select('receipt_booking.misc_amount','receipt_booking.misc','receipt_booking.others','receipt_booking.others_amount','receipt.*')
 		->where([
-		['receipt.id',$token],
-		['receipt.status','1']
-		])
-        ->leftJoin('receipt_booking', 'receipt_booking.parent_id', '=', 'receipt.id')
+				['receipt.id',$token],
+				['receipt.status','1']
+				])
+        ->leftJoin('receipt_booking', 'receipt_booking.parent_id', 'receipt.id')
         ->first();
 	}
 	public function receiptfacility($token)

@@ -38,7 +38,7 @@ $(".search").click(function(){
 			success: function(data){
 				var obj = JSON.parse(data);
 				var receiptObj = obj.receipt;
-				var rebateObj = obj.rebate;
+				var cateringcostObj = obj.cateringcost;
 				if(receiptObj != ''){
 					var party_name = receiptObj.party_name;
 					var phone = receiptObj.phone;
@@ -46,18 +46,16 @@ $(".search").click(function(){
 					var address = receiptObj.address;
 					var function_date = receiptObj.function_date;
 					var membership_no = receiptObj.membership_no;
-					var est_catering = receiptObj.est_catering;
-					var est_cof = receiptObj.est_cof;
 					var time_period = receiptObj.time_period;
 					var reverse_charges = receiptObj.reverse_charges;
 					var party_gstin = receiptObj.party_gstin;
+					var safai = receiptObj.safai;
+					var tentage = receiptObj.tentage;
+					var catering = receiptObj.catering;
+					var est_catering = cateringcostObj.catering_cost;
 					
-					var safai = rebateObj.safai;
-					var tentage = rebateObj.tentage;
-					var catering = rebateObj.catering;
-
 					if(time_period=='1'){
-						electricity = rebateObj.electricity;
+						electricity = receiptObj.electricity;
 					}
 					else{
 						electricity = 0;
@@ -73,7 +71,7 @@ $(".search").click(function(){
 					$('#safai').val(Math.round(safai));
 					$('#tentage').val(Math.round(tentage));
 					$('#catering').val(est_catering*catering/100);
-					$('#food').val(est_cof*catering/100);
+//					$('#food').val(est_cof*catering/100);
 					$('#electricity').val(Math.round(electricity));
 					$('#party_gstin').val(party_gstin);
 					$('#reverse_charges option[value="'+reverse_charges+'"]').prop('selected', true);
@@ -263,14 +261,14 @@ $('.input-group.date').datepicker({
 					    <input type="number" class="form-control" placeholder="Enter Amount" name="catering" id="catering">
 					</div>
 				</div>
-				<div class="col-sm-6">
+				<!--<div class="col-sm-6">
 					<div class="form-group">
 					    <label>Food:</label>
 					    <input type="number" class="form-control" placeholder="Enter Amount" name="food" id="food">
 					</div>
-				</div>
-			</div>
-			<div class="row">
+				</div>-->
+			<!--</div>
+			<div class="row">-->
 				<div class="col-sm-6">
 					<div class="form-group">
 					    <label>Electricity:</label>
